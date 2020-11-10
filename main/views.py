@@ -89,9 +89,6 @@ def upload(request):
 
 
 def upload_db(request):
-    import pandas as pd
-    from sklearn import preprocessing
-    import tensorflow as tf
     if request.user.is_authenticated:
         if request.method =='POST':
             f = request.FILES['Project Data'].temporary_file_path()
@@ -163,9 +160,6 @@ def set_list(request):
 
 
 def view(request):
-    import pandas as pd
-    from sklearn import preprocessing
-    import tensorflow as tf
     if request.user.is_authenticated:
         if request.method=="POST":
 
