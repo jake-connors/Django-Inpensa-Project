@@ -60,7 +60,13 @@ def forgot(request):
 
 def dash(request):
     if request.user.is_authenticated:
-        return render(request, 'dashboard.html')
+        print(request.user.id)
+        sets = dataset.objects.all().filter(user = request.user).values()
+        sets2 = dataset.objects.all().filter(user = request.user).values()
+        return render(request, 'dashboard.html',{
+            'sets': sets,
+            'sets2': sets2
+        })
     else:
         return redirect('login')
 
@@ -168,7 +174,10 @@ def view(request):
             return render(request, 'view_dataset.html')
         else:
             sets = data.objects.all().filter(dsid = request.GET['dataset']).values()
-            models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 4)).values()
+            df = pd.DataFrame(sets)
+            df = df.fillna("")
+            sets = df.to_dict('records')
+            models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
             return render(request, 'view_dataset.html',{
                 'sets':sets,
                 'dataset' : request.GET['dataset'],
@@ -214,6 +223,7 @@ def predict(request):
 
             df2 =  pd.DataFrame(prediction.objects.all().filter(mid = modelid, dsid = dsetid).values())
             df['score'] = df2['score']
+            df = df.fillna("")
 
             df = df.sort_values(by = ['score'], ascending = False)
             df_records = df.to_dict('records')
@@ -233,7 +243,7 @@ def predict(request):
 
 def models(request):
     if request.user.is_authenticated:
-        sets = model.objects.all().filter(Q(user = request.user) | Q(user_id = 4)).values()
+        sets = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
         return render(request, 'view_models.html',{
             'sets': sets
         })
