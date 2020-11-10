@@ -4,10 +4,8 @@ __pycache__/
 *.log
 *.manifest
 *.spec
-#db.sqlite3
+db.sqlite3
 
-#   #
-# #
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
