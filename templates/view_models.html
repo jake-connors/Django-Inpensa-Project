@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>model List</h2>
+<tab class="table">
+    <thread>
+        <tr>
+            <th>Name</th>
+            <th>Download</th>
+        </tr>
+    </thread>
+    <tbody>
+        {% for data in sets %}
+            <tr>
+                <td>{{data.name}}</td>
+                <td>{{data.created_at}}</td>
+                <td>{{data.id}}</td>
+                <td>{{data.kfile}}</td>
+                       
+
+
+                    
+                
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Set List{% endblock%}
+{% block content %}
+<h2>Set List</h2>
+<tab class="table">
+    <thread>
+        <tr>
+            <th>Name</th>
+            <th>Download</th>
+        </tr>
+    </thread>
+    <tbody>
+        {% for data in sets %}
+            <tr>
+                <td>{{data.name}}</td>
+                <td>
+                    <form action="view" method= "get">
+                        <a>
+                            {{data.created_at}}
+                            {{data.id}}
+                            <button name ="dataset" type ="submit" value={{data.id}}>View data</button>
+                        </a>
+
+
+                    </form>
+                    
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+

@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Forgot Password</title>
+	
+<link href="{% static 'css\styles.css' %}" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="content">
+
+	<img src="{% static 'media\Inpensa_1.png' %}" alt="Inpensa Software" class="responsive" width="827" height="284">
+	<h1>Reset Password</h1>
+	
+</div>
+
+<form action="/action_page.php" method="post">
+	<div class="container">
+		<label for="uname"><b>Username</b></label>
+		<input type="text" placeholder="Enter Username" name="uname" required>
+		
+		<label for="email"><b>Email</b></label>
+		<input type="email" placeholder="Enter Email" name="email" required>
+		
+		<a href="login"><button type="button">Register</button></a> <!--See register.html comment-->
+
+</body>
+</html>

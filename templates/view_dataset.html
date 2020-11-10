@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Dataset{% endblock%}
+{% block content %}
+
+<h2>View Dataset</h2>
+{% for model in models %}
+
+<div class="content2">
+<form action= "predict/" method= "post">
+  {% csrf_token %}
+  <a> 
+    
+    <input type="hidden" name="model" value={{model.id}}>
+    <input type="hidden" name="dataset" value={{dataset}}>
+    <button name ="submit" value="1" type="submit">rank data using {{model.name}} model</button>
+      
+  </a>
+</form>
+</div>
+{% endfor %}
+<div class="table-responsive text-nowrap">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">ID</th>
+          <th scope="col">TCO</th>
+          <th scope="col">TVO</th>
+          <th scope="col">NET</th>
+          <th scope="col">PP</th>
+          <th scope="col">ROI</th>
+          <th scope="col">CapEx</th>
+          <th scope="col">OneTime</th>
+          <th scope="col">OnGoing</th>
+          <th scope="col">Revenue</th>
+          <th scope="col">Saving</th>
+          <th scope="col">Avoid</th>
+          <th scope="col">Cost Grade</th>
+          <th scope="col">Value Score</th>
+          <th scope="col">Risk Score</th>
+          <th scope="col">Blended Score</th>
+          <th scope="col">Calc Priority</th>
+          <th scope="col">Overrided Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in sets %}
+        <tr>
+          <th scope="row">1</th>
+          <td>{{data.name}}</td>
+          <td>{{data.TCO}}</td>
+          <td>{{data.TVO}}</td>
+          <td>{{data.NET}}</td>
+          <td>{{data.PP}}</td>
+          <td>{{data.ROI}}</td>
+          <td>{{data.CapEx}}</td>
+          <td>{{data.OneTime}}</td>
+          <td>{{data.OnGoing}}</td>
+          <td>{{data.Revenue}}</td>
+          <td>{{data.Saving}}</td>
+          <td>{{data.Avoid}}</td>
+          <td>{{data.CostGrade}}</td>
+          <td>{{data.ValueScore}}</td>
+          <td>{{data.RiskScore}}</td>
+          <td>{{data.BlendedScore}}</td>
+          <td>{{data.CalcPriority}}</td>
+          <td>{{data.OverridedPriority}}</td>
+        </tr>
+        {% endfor %}
+        
+      </tbody>
+    </table>
+  
+  </div>
+
+  {% endblock %}

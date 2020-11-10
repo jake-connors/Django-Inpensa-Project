@@ -1,0 +1,69 @@
+body {
+	background: LightGray;
+}
+.content{
+	margin:auto;
+	width: 50%;
+	padding:10px;
+	text-align: center;
+	margin-top: 100px;
+}
+.content2{
+    width: 50%;
+    margin:auto;
+    padding:10px;
+    text-align: center;
+}
+.responsive{
+	width:35%;
+	height:auto;
+}
+
+h1 {
+	font-size: 40px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	color: DarkCyan;
+}
+
+form {border: 3px solid #f1f1f1;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	margin-left: 20%;
+	margin-right: 20%;
+	padding: 10px;
+}
+.div transbox {
+	margin: 50px;
+	background-color: #ffffff;
+	opacity: 0.0;
+}
+input[type=text], input[type=password], input[type=email]{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	width: 100%;
+	padding: 12px 20px;
+	margin: 5px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+button {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	background-color: #008B8B;
+	color: white;
+	padding: 14px 20px;
+	margin: 10px, 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+}
+
+submit {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	background-color: #008B8B;
+	color: white;
+	padding: 14px 20px;
+	margin: 10px, 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+}

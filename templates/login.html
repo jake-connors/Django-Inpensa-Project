@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inpensa Login</title>
+
+<link href="{% static 'css\styles.css' %}" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="content">
+<!--
+    <img src="{% static 'media\Inpensa_1.png' %}" alt="Inpensa Software" class="responsive" width="827" height="284">
+-->
+    <h1>Sign In</h1>
+    
+</div>
+<div>
+    {% for message in messages %}
+    <h3>
+        
+        {{message}}
+        
+    </h3>
+    {% endfor %}
+</div>
+
+
+
+
+
+<form  method="post">
+    {% csrf_token %}
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="uname" required>
+        
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+        <p></p>
+        <a href="login"><button type="submit">Login</button></a> <!-- use Submit input type -->
+        <label>
+            <input type="checkbox" name="remember"> Remember Me
+        </label>
+    </div>
+    
+    <div class="container">
+        <a href="register"><button type="button">Register</button></a>
+        <span class="psw">Forgot <a href="forgot">password?</a></span>
+    </div>
+</form>
+
+</body>
+</html>

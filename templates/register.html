@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registration</title>
+	
+<link href="{% static 'css\styles.css' %}" rel="stylesheet">
+
+</head>
+<body>
+	<script>
+
+		var check = function(){ 
+			if (document.getElementById('psw').value == document.getElementById('pswcheck').value) {
+				document.getElementById("submit").disabled=false;
+				document.getElementById('message').style.color = 'green';
+				document.getElementById('message').innerHTML = 'Passwords match.';
+			} else {
+				document.getElementById("submit").disabled=true;
+				document.getElementById('message').style.color = 'red';
+				document.getElementById('message').innerHTML = 'Passwords do not match.';
+			}
+		}
+
+	</script>
+
+<div class="content">
+
+	<img src="{% static 'media\Inpensa_1.png' %}" alt="Inpensa Software" class="responsive" width="827" height="284">
+	<h1>Register</h1>
+	
+</div>
+
+<form method="post">
+	{% csrf_token %}
+	<div class="container">
+
+		<label for="email"><b>Email</b></label>
+		<input type="email" placeholder="Enter Email" name="email" required>		
+	
+		<label for="fname"><b>First Name</b></label>
+		<input type="text" placeholder="Enter First Name" name="fname" required>
+		
+		<label for="lname"><b>Last Name</b></label>
+		<input type="text" placeholder="Enter Last Name" name="lname" required>
+	
+		<label for="uname"><b>Username</b></label>
+		<input type="text" placeholder="Enter Username" name="uname" required>
+		
+		<label><b>Password</b>
+		<input type="password" placeholder="Enter Password" name="psw" id="psw" onkeyup='check();' required/>
+		</label>
+
+		<label><b>Confirm Password</b>
+		<input type="password" placeholder="Enter Password Again" name="pswcheck" id="pswcheck" onkeyup='check();' required/>
+		<span id='message'></span>
+		</label>
+
+		<p></p>
+		<a href="login"><button type="submit" id="submit">Register</button></a>
+	</div>
+	
+</form>
+
+</body>
+</html>

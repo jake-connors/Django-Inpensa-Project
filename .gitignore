@@ -1,0 +1,15 @@
+
+__pycache__/
+*.py[cod]
+*.log
+*.manifest
+*.spec
+#db.sqlite3
+
+#   #
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
