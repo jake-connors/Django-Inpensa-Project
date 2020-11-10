@@ -5,7 +5,7 @@ __pycache__/
 *.manifest
 *.spec
 db.sqlite3
-#
+  ##
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
