@@ -1,23 +1,45 @@
 {% extends 'base.html' %}
 {% block title %}Dataset{% endblock%}
 {% block content %}
+<style>
+  table{
+    counter-reset: tableCount;
+    border-collapse: collapse;
+  }
+  .counterCell:before {
+    content: counter(tableCount);
+    counter-increment: tableCount;
+  }
+  th, td {
+    border: 2px solid #636363;
+  }
+  thead {
+    background-color: #b6b6b6;
+    border: 2px solid #636363
+  }
+  tr:nth-child(even) {background-color: #e6e6e6}
+</style>
 
-<h2>View Dataset</h2>
+<div class="content2">
+  <h2>View Dataset</h2>
+</div>
 {% for model in models %}
 
 <div class="content2">
-<form action= "predict/" method= "post">
+<form action= "predict/" method="post" style="width:50%; margin:auto; margin-bottom:10px">
   {% csrf_token %}
   <a> 
-    
+
     <input type="hidden" name="model" value={{model.id}}>
     <input type="hidden" name="dataset" value={{dataset}}>
-    <button name ="submit" value="1" type="submit">rank data using {{model.name}} model</button>
-      
+    <!--{{dataset}}-->
+    <button name ="submit" value="1" type="submit">Rank Data Using {{model.name}} Model</button>
+
   </a>
 </form>
 </div>
 {% endfor %}
+
 <div class="table-responsive text-nowrap">
 
     <table class="table">
@@ -47,7 +69,7 @@
       <tbody>
         {% for data in sets %}
         <tr>
-          <th scope="row">1</th>
+          <td class="counterCell"></td>
           <td>{{data.name}}</td>
           <td>{{data.TCO}}</td>
           <td>{{data.TVO}}</td>
