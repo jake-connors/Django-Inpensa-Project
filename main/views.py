@@ -62,7 +62,7 @@ def dash(request):
     if request.user.is_authenticated:
         print(request.user.id)
         sets = dataset.objects.all().filter(user = request.user).values()
-        sets2 = model.objects.all().filter(user = request.user).values()
+        sets2 =  model.objects.all().filter(Q(user = request.user) | Q(user_id = 4)).values()
         return render(request, 'dashboard.html',{
             'sets': sets,
             'sets2': sets2
