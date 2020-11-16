@@ -9,6 +9,12 @@ body {
 	text-align: center;
 	margin-top: 100px;
 }
+    form {
+	border: 3px solid #ccc;
+	margin-left: 42%;
+	margin-right: 42%;
+	padding: 10px;
+}
 .content2{
     margin:auto;
     padding:10px;
