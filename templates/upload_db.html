@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 {% block title %}Set List{% endblock%}
 {% block content %}
+<style>
+    form{
+        margin: 0 auto;
+        width: 30%;
+    }
+    input{
+        padding-top: 4px;
+    }
+    input[type=submit]{
+        margin-top: 5px;
+        line-height: 13px
+    }
+</style>
 
 <div class="content2">
     <h1>Upload to db</h1>
@@ -11,7 +24,6 @@
     {{ form }}
     <input type="file" id="dataFile" name="Project Data" accept=".csv, .xlsx" style="float: left;">
     <input type="submit" value="Submit File" style="float: right;">
-    <p></p>
-    <p></p>
+    <p style="opacity: 0">bock</p>
 </form>
 {% endblock %}
