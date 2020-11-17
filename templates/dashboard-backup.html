@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock%}
+{% block content %}
+<style>
+    form{
+        float: left;
+        width: 60%;
+        margin: 0%;
+        padding: 10px;
+        font-size: 0;
+    }
+    .datasets{
+        float: left;
+    }
+    p{
+        font-size: 20px;
+        padding: 0px;
+        margin: 0px;
+    }
+    button{
+        font-size: 16px;
+        text-align: center;
+        width: 30%;
+        padding: 6px;
+        float: right;
+    }
+    span{
+        display: inline-block;
+    }
+</style>
+<span>
+    <div class="content2" style="text-align: left; margin-left: 10px; padding-top: 16px; padding-left: 0px; padding-right: 0px">
+        <h1>Set List<a href="/sets/upload"><button type="button" style="margin-top:16px">Upload Data</button></a></h1>
+    </div>
+    <tab class="table">
+        <div class = "datasets" style="width: 1000px">
+        <tbody style="display: inline-block">
+            {% for data in sets %}
+                <tr>
+                    <td>
+                        <form action="/view" method="get">
+                            <a>
+                                <p>Name: {{data.name}}</p>
+                                <p>Creation Date: {{data.created_at}}</p>
+                                <p>Data Points:</p>
+                                <p>Last Edited: <button name ="dataset" type ="submit" value={{data.id}}>View Data</button></p>
+                                <!--{{data.id}}-->
+                                
+                            </a>
+                        </form> 
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </div>
+    </table>
+    </span>
+    
+    <span style="float:right">
+    <div class="content2" style="text-align: right; margin-right: 10px; padding-top: 16px; padding-right: 0px">
+        <h1>Model List</h1>
+    </div>
+    <tab class="table">
+        <div class = "datasets" style="float:right; width:1000px">
+        <tbody>
+            {% for data in sets2 %}
+                <tr>
+                <td>
+                <form action="view" method="get" style="float:right">
+                <a>
+                    <p>Model Name: {{data.name}}</p>
+                    <p>Creation Date: {{data.created_at}}</p>
+                    <p>List Configurations: </p>
+                    <p>Accuracy: </p>
+                </a>
+                </form>
+                </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </div>
+    </table>
+    </span>
+{% endblock %}
