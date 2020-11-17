@@ -21,7 +21,6 @@
 
   .dropbtn {
     border-radius:8px;
-    margin: auto;
     background-color: #00c5d3;
     color: black;
     padding: 16px;
@@ -36,11 +35,10 @@
 
   .dropdown {
     position: relative;
-    left: 600px;
+    left: 88%;
     bottom: 33px;
     display: inline-block;
     min-width: 160px;
-    vertical-align: center;
   }
 
   .dropdown-content {
@@ -65,7 +63,7 @@
     display: block;
   }
 
-  .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover {
+  .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover, #createNewModel:hover {
     background-color: #338ac4;
   }
 
@@ -79,6 +77,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #02d0df;
+    color: black;
   }
 
   button[name="submit"] {
@@ -98,10 +98,32 @@
     bottom: 3px;
   }
 
+  .form-popup {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 39%;
+    border: 3px solid #66666696;
+    z-index: 9;
+  }
+
+  .form-container {
+    padding: 12px;
+    background-color: white;
+    margin: auto;
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+  .btn, .cancel {
+    padding: 5px;
+    margin-bottom: 3px;
+  }
+
 </style>
 
 <div class="content2">
-  <h2>View Dataset</h2>
+  <h2 style="text-align:center">View Dataset</h2>
 </div>
 
 <div class="content2">
@@ -119,8 +141,26 @@
           </form>
 
           {% endfor %}
-        <a href=#createNewModel class=button id="createNewModel">Create New Model</a>
+        <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
       </div>
+    </div>
+
+    <div class="form-popup" id="newModelForm">
+      <form action="" method="post" class="form-container">
+        <h3>Create a New Model</h3><br>
+
+        <label for="modname"><b>Model Name</b></label>
+        <input type="text" placeholder="Model Name" name="modname" required>
+
+        <p>
+          <br><b>model config settings:</b><br><br>etc ...
+          <br><br> etc ... <br><br> etc ... <br><br><br><br><br><br>
+        </p>
+
+        <button type="submit" class="btn">Submit</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+
+      </form>
     </div>
     
     <script>
@@ -140,6 +180,15 @@
         }
       }
     }
+    </script>
+    <script>
+      function openForm() {
+        document.getElementById("newModelForm").style.display = "flex";
+      }
+              
+      function closeForm() {
+        document.getElementById("newModelForm").style.display = "none";
+      }
     </script>
 </div>
 
