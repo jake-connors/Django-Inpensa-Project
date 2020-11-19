@@ -190,7 +190,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Set List</h6>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" style="overflow-y: scroll">
                                 {% for data in sets %}
                                     <form action = "/view" method="get" style="width:100%; margin:0; padding:0; border:0; overflow-y:auto">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
