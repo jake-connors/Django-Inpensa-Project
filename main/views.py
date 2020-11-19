@@ -137,7 +137,7 @@ def upload_db(request):
 
 
             
-            return redirect('set_list')
+            return redirect('dash')
                 
 
         else:
