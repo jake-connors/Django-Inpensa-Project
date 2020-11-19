@@ -1,0 +1,640 @@
+{% extends 'base.html' %}
+{% block title %}Dataset{% endblock%}
+{% block content %}
+<style>
+  table{
+    counter-reset: tableCount;
+    border-collapse: collapse;
+  }
+  .counterCell:before {
+    content: counter(tableCount);
+    counter-increment: tableCount;
+  }
+  th, td {
+    border: 2px solid #b6b6b6;
+  }
+  thead {
+    background-color: #b6b6b6;
+    border: 2px solid #636363
+  }
+  tr:nth-child(even) {background-color: #e6e6e6}
+
+  .dropbtn {
+    border-radius:8px;
+    background-color: #e6e6e6;
+    color: black;
+    padding: 16px;
+    font-size: 16px;
+    border: 3px solid #ccc;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    position: relative;
+    left: 88%;
+    bottom: 33px;
+    display: inline-block;
+    min-width: 160px;
+  }
+
+  .dropdown-content {
+    border-radius:3px;
+    display: none;
+    position: absolute;
+    background-color: #e6e6e6;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .show {
+    display: block;
+  }
+
+  .dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover, #createNewModel:hover {
+    background-color: #b6b6b6;
+  }
+
+  #ddForm, #createNewModel {
+    width: 100%;
+    margin: auto;
+    margin-bottom: 2px;
+    padding: 0px;
+    border: 3px solid #ccc;
+    height: 54.83px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e6e6e6;
+    color: black;
+  }
+
+  button[name="submit"] {
+    background-color: #00000000;
+    color: black;
+  }
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    position: relative;
+    left: 6px;
+    bottom: 3px;
+  }
+
+  .form-popup {
+    display: none;
+    position: fixed;
+    border: 3px solid #66666696;
+    z-index: 9;
+    height: 646px;
+    width: 800px;
+    top: 53%;
+    left: 50%;
+    margin-top: -319px; /* Negative half of height. */
+    margin-left: -400px; /* Negative half of width. */
+    overflow: hidden;
+  }
+
+  .form-container {
+    padding: 12px;
+    background-color: white;
+    margin: auto;
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+  .btn, .cancel {
+    padding: 5px;
+    margin-bottom: 8px;
+    background-color: #e6e6e6;
+    color: black;
+    height: 30px;
+  }
+
+  .btn:hover, .cancel:hover {
+    background-color: #b6b6b6;
+  }
+
+  #t1 .hidden_col { 
+    /*display: none; */
+  }
+
+  .configSettings {
+    height: 363px;
+    overflow: auto;
+    font-size: 110%;
+  }
+
+  .slider-rangeHighlight.category1 {
+    background: #b6b6b6;
+    left: -16.667% !important;
+    width: 40% !important;
+  }
+
+  .slider-rangeHighlight.category2 {
+    background: #0025ff;
+  }
+
+  .slider-rangeHighlight.category3 {
+    background: #F6E8B1;
+  }
+
+  .slider-rangeHighlight.category4 {
+    background: #26e600 !important;
+    width: 33% !important;
+  }
+
+  .slider {
+    left: 225px;
+    position: sticky !important;
+  }
+
+  .slider.slider-horizontal {
+    width: 385px !important;
+  }
+
+  .slider.slider-horizontal .slider-track {
+    height: 13px !important;
+  }
+
+  .slider-handle {
+    width: 25px !important;
+    height: 25px !important;
+  }
+
+  .greyed {
+    /*background-color:rgba(87, 87, 87, 0.87) !important;*/
+  }
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.css" integrity="sha512-SZgE3m1he0aEF3tIxxnz/3mXu/u/wlMNxQSnE0Cni9j/O8Gs+TjM9tm1NX34nRQ7GiLwUEzwuE3Wv2FLz2667w==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
+
+<div class="content2" style="font-size:110%">
+  <h2 style="text-align:center">View Dataset</h2>
+</div>
+
+<div class="content2" style="font-size:110%">
+  <div class="dropdown">
+    <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
+    <div id="myDropdown" class="dropdown-content">
+        {% for model in models %}
+
+        <form action="predict/" method="post" id="ddForm">
+        {% csrf_token %}
+        <input type="hidden" name="model" value={{model.id}}>
+        <input type="hidden" name="dataset" value={{dataset}}>
+        <!--{{dataset}}-->
+        <button name ="submit" value="1" type="submit">{{model.name}}</button>
+        </form>
+
+        {% endfor %}
+      <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
+<div class="content2">
+    <div class="dropdown">
+      <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
+      <div id="myDropdown" class="dropdown-content">
+          {% for model in models %}
+
+          <form action="/view/predict/" method="post" id="ddForm">
+          {% csrf_token %}
+          <input type="hidden" name="model" value={{model.id}}>
+          <input type="hidden" name="dataset" value={{dataset}}>
+          <!--{{dataset}}-->
+          <button name ="submit" value="1" type="submit">{{model.name}}</button>
+          </form>
+
+          {% endfor %}
+        <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-popup" id="newModelForm">
+    <form action="" method="post" class="form-container">
+      <h3 style="margin-bottom:-20px; font-size:200%">Create a New Model</h3><br>
+
+      <label for="modname"><b>Model Name</b></label>
+      <input type="text" placeholder="Model Name" name="modname" required style="margin-top:-1px;display:block;padding:3px 20px;line-height:20px">
+
+      <label for="description" style="margin-top:0px"><b>Description</b></label>
+      <textarea type="textarea" placeholder="Description (Optional)" name="description"
+        style="height:43px;width:100%;padding:6px 20px;margin:-3px 0;margin-bottom:3px;display:inline-block;border:1px solid #ccc;box-sizing:border-box;resize:none"></textarea>
+      <b>Configuration settings:</b>
+      <div class="configSettings"> 
+        <p style="line-height:22px">
+          <label for="Exclude" style="padding-left:11em">Exclude</label>
+          <label for="Low" style="padding-left:74px">Low</label>
+          <label for="Default" style="padding-left:73px">Default</label>
+          <label for="High" style="padding-left:73px">High</label>
+          <br>
+          <label for="TCO" style="padding-left:105px;padding-bottom:5px">TCO</label>
+          <input class="sliders" id="tcoSlider" type="text"
+          data-slider-id="sliderTCO"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="TVO" style="padding-left:106px;padding-bottom:5px">TVO</label>
+          <input class="sliders" id="tvoSlider" type="text"
+          data-slider-id="sliderTVO"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="NET" style="padding-left:107px;padding-bottom:5px">NET</label>
+          <input class="sliders" id="netSlider" type="text"
+          data-slider-id="sliderNET"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+ 
+          <br>
+          <label for="PP" style="padding-left:120px;padding-bottom:5px">PP</label>
+          <input class="sliders" id="ppSlider" type="text"
+          data-slider-id="sliderPP"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="ROI" style="padding-left:108px;padding-bottom:5px">ROI</label>
+          <input class="sliders" id="roiSlider" type="text"
+          data-slider-id="sliderROI"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="CapEx" style="padding-left:88px;padding-bottom:5px">CapEx</label>
+          <input class="sliders" id="capexSlider" type="text"
+          data-slider-id="sliderCapEx"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="OneTime" style="padding-left:63px;padding-bottom:5px">OneTime</label>
+          <input class="sliders" id="onetimeSlider" type="text"
+          data-slider-id="sliderOneTime"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="OnGoing" style="padding-left:66px;padding-bottom:5px">OnGoing</label>
+          <input class="sliders" id="ongoingSlider" type="text"
+          data-slider-id="sliderOnGoing"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="Revenue" style="padding-left:68px;padding-bottom:5px">Revenue</label>
+          <input class="sliders" id="revenueSlider" type="text"
+          data-slider-id="sliderRevenue"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="Saving" style="padding-left:84px;padding-bottom:5px">Saving</label>
+          <input class="sliders" id="savingSlider" type="text"
+          data-slider-id="sliderSaving"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+
+          <br>
+          <label for="Avoid" style="padding-left:91px;padding-bottom:5px;">Avoid</label>
+          <input class="sliders" id="avoidSlider" type="text"
+          data-slider-id="sliderAvoid"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="CostGrade" style="padding-left:45px;padding-bottom:5px">Cost Grade</label>
+          <input class="sliders" id="costgradeSlider" type="text"
+          data-slider-id="sliderCostGrade"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+
+          <br>
+          <label for="ValueScore" style="padding-left:40px;padding-bottom:5px">Value Score</label>
+          <input class="sliders" id="valuescoreSlider" type="text"
+          data-slider-id="sliderValueScore"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="RiskScore" style="padding-left:51px;padding-bottom:5px">Risk Score</label>
+          <input class="sliders" id="riskscoreSlider" type="text"
+          data-slider-id="sliderRiskScore"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+
+          <br>
+          <label for="BlendedScore" style="padding-left:18px;padding-bottom:5px">Blended Score</label>
+          <input class="sliders" id="blendedscoreSlider" type="text"
+          data-slider-id="sliderBlendedScore"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="CalcPriority" style="padding-left:35px;padding-bottom:5px">Calc Priority</label>
+          <input class="sliders" id="calcprioritySlider" type="text"
+          data-slider-id="sliderCalcPriority"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+          <label for="OverridedPriority" style="padding-left:0;padding-bottom:5px">Overrided Priority</label>
+          <input class="sliders" id="overridedprioritySlider" type="text"
+          data-slider-id="sliderOverridedPriority"
+          data-slider-min="0"
+          data-slider-max="30"
+          data-slider-step="10"
+          data-slider-value="20"
+          data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
+                                        { "start": 5, "end": 15, "class": "category2" ,
+                                        { "start": 15, "end": 25, "class": "category3"},
+                                        { "start": 25, "end": 30, "class": "category4"},
+                                        { "start": 30, "end": 35 }, //not visible -  out of slider range
+                                        { "start": -3, "end":  32}]' />
+          <br>
+        </p>
+      </div>
+      <button type="submit" class="btn" font-size="110%">Submit</button>
+      <button type="button" class="btn cancel" font-size="110%" onclick="closeForm()">Close</button>
+    </form>
+  </div>
+    
+  <script>
+  function dropFunc() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+  </script>
+  <script>
+    function openForm() {
+      document.getElementById("newModelForm").style.display = "flex";
+    }
+            
+    function closeForm() {
+      document.getElementById("newModelForm").style.display = "none";
+    }
+  </script>
+  <script>
+    var slider = new Slider("#tcoSlider", {id: 'sliderTCO',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#tvoSlider", {id: 'sliderTVO',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#netSlider", {id: 'sliderNET',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#ppSlider", {id: 'sliderPP',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#roiSlider", {id: 'sliderROI',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#capexSlider", {id: 'sliderCapEx',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#onetimeSlider", {id: 'sliderOneTime',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#ongoingSlider", {id: 'sliderOnGoing',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#revenueSlider", {id: 'sliderRevenue',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#savingSlider", {id: 'sliderSavings',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#avoidSlider", {id: 'sliderAvoid',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#costgradeSlider", {id: 'sliderCostGrade',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#valuescoreSlider", {id: 'sliderValueScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#riskscoreSlider", {id: 'sliderRiskScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#blendedscoreSlider", {id: 'sliderBlendedScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#calcprioritySlider", {id: 'sliderCalcPriority',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+    var slider = new Slider("#overridedprioritySlider", {id: 'sliderOverridedPriority',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+    });
+  </script>
+  <script>
+    var slide = document.getElementsById("tcoSlider").data-value
+    if (slide == 10) {
+      document.getElementById("t1")
+    }
+  </script>
+</div>
+
+<div class="table-responsive text-nowrap">
+  <table class="table" id="t1">
+    <colgroup>
+      <col class="greyed" span="1">
+      <col class="normal" span="1">
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">ID</th>
+        <th scope="col">TCO</th>
+        <th scope="col">TVO</th>
+        <th scope="col">NET</th>
+        <th scope="col">PP</th>
+        <th scope="col">ROI</th>
+        <th scope="col">CapEx</th>
+        <th scope="col">OneTime</th>
+        <th scope="col">OnGoing</th>
+        <th scope="col">Revenue</th>
+        <th scope="col">Saving</th>
+        <th scope="col">Avoid</th>
+        <th scope="col">Cost Grade</th>
+        <th scope="col">Value Score</th>
+        <th scope="col">Risk Score</th>
+        <th scope="col">Blended Score</th>
+        <th scope="col">Calc Priority</th>
+        <th scope="col">Overrided Priority</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for data in sets %}
+      <tr>
+        <td class="counterCell"></td>
+        <td>{{data.name}}</td>
+        <td>{{data.TCO}}</td>
+        <td>{{data.TVO}}</td>
+        <td>{{data.NET}}</td>
+        <td>{{data.PP}}</td>
+        <td>{{data.ROI}}</td>
+        <td>{{data.CapEx}}</td>
+        <td>{{data.OneTime}}</td>
+        <td>{{data.OnGoing}}</td>
+        <td>{{data.Revenue}}</td>
+        <td>{{data.Saving}}</td>
+        <td>{{data.Avoid}}</td>
+        <td>{{data.CostGrade}}</td>
+        <td>{{data.ValueScore}}</td>
+        <td>{{data.RiskScore}}</td>
+        <td>{{data.BlendedScore}}</td>
+        <td>{{data.CalcPriority}}</td>
+        <td>{{data.OverridedPriority}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
