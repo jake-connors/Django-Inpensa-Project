@@ -132,7 +132,7 @@
       <div id="myDropdown" class="dropdown-content">
           {% for model in models %}
 
-          <form action="predict/" method="post" id="ddForm">
+          <form action="/view/predict/" method="post" id="ddForm">
           {% csrf_token %}
           <input type="hidden" name="model" value={{model.id}}>
           <input type="hidden" name="dataset" value={{dataset}}>
