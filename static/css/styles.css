@@ -17,7 +17,7 @@ body {
 }
 .content2{
     margin:auto;
-    padding:10px;
+	padding:10px;
 }
 h1 {
 	font-size: 40px;
@@ -30,12 +30,6 @@ h3 {
 	margin: 0px;
 	font-size: 26px;
 	color: #636363;
-}
-
-.div transbox {
-	margin: 90px;
-	background-color: #ffffff;
-	opacity: 0.0;
 }
 input[type=text], input[type=password], input[type=email]{
 	width: 100%;
