@@ -186,19 +186,21 @@
                         <div class="col-lg-6 mb-4">
 
                             <!-- Set List -->
-                            <div class="card shadow mb-4" style="height:72%">
+                            <div class="card shadow mb-4" style="height:72%; width:100%">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Set List</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Set List also add upload dataset button</h6>
+                                    
                                 </div>
-                                <div class="card-body" style="overflow-y: scroll">
+                                <div class="card-body" style="overflow-y: auto">
                                 {% for data in sets %}
-                                    <form action = "/view" method="get" style="width:100%; margin:0; padding:0; border:0; overflow-y:auto">
+                                    <form action = "/view" method="get" style="width:100%; margin:0; padding:0; border:0">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
-                                        <h4 class="small font-weight-bold">Data Points: </h4>
+                                        <h4 class="small font-weight-bold">Size: </h4>
                                         <h4 class="small font-weight-bold">Last Edited: </h4>
-                                        <div class="progress mb-4" style="height:25px">
-                                        <button type ="submit" name="dataset" style="background-color: #36b9cc" value={{data.id}}>View Data</button> </div>
+                                        <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">
+                                        <button type ="submit" name="dataset" style="background-color: #36b9cc; text-align:center; padding: 2px 0" value={{data.id}}>View Data</button>
+                                        </div>
                                     </form>                                    
                                 {% endfor %}                                
                                 </div>
@@ -281,18 +283,18 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Model List</h6>
                                 </div>
-                                <div class="card-body" style="overflow-y:scroll">
+                                <div class="card-body" style="overflow-y:auto">
                                     {% for data in sets2 %}
-                                    <table>
+                                    <table style="border-bottom: 2px;">
                                         <form action = "/view" method="get" style="width:100%; margin:0; padding:0; border:2px">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
-                                        <h4 class="small font-weight-bold">Data Points: </h4>
+                                        <h4 class="small font-weight-bold">Size: </h4>
                                         <h4 class="small font-weight-bold">Last Edited: </h4>
-                                        <br><br>
+                                        <br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br>
                                         </form>
-                                        </table>
-                                        {% endfor %}
+                                    </table>
+                                    {% endfor %}
                                 </div>
                             </div>
 
