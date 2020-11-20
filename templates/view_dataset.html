@@ -15,7 +15,7 @@
   }
   thead {
     background-color: #b6b6b6;
-    border: 2px solid #636363
+    border: 2px solid #636363;
   }
   tr:nth-child(even) {background-color: #e6e6e6}
 
@@ -30,8 +30,8 @@
   }
   .dropdown {
     position: relative;
-    left: 88%;
-    bottom: 33px;
+    left: 1350%;
+    bottom: 24px;
     display: inline-block;
     min-width: 160px;
   }
@@ -125,7 +125,7 @@
   
 
   .configSettings {
-    height: 363px;
+    height: 333px;
     overflow: auto;
     font-size: 110%;
   }
@@ -159,6 +159,13 @@
     width: 25px !important;
     height: 25px !important;
   }
+
+  #ex7-enabled {
+    margin-top:250px !important;
+    font-size: 10% !important;
+    height: 10% !important;
+    width: 10% !important;
+  }
   
 </style>
 
@@ -167,12 +174,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.css" integrity="sha512-SZgE3m1he0aEF3tIxxnz/3mXu/u/wlMNxQSnE0Cni9j/O8Gs+TjM9tm1NX34nRQ7GiLwUEzwuE3Wv2FLz2667w==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
 
-<div class="content2" style="font-size:110%">
+<div class="content2" style="font-size:110%;padding-top:50px">
   <div class="dropdown">
     <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
     <div id="myDropdown" class="dropdown-content">
         {% for model in models %}
-
         <form action="predict/" method="post" id="ddForm">
         {% csrf_token %}
         <input type="hidden" name="model" value={{model.id}}>
@@ -182,6 +188,7 @@
         </form>
         {% endfor %}
       <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
+      <button class="open-button" onclick="openForm2()" id="createNewModel2">Create New Model 2</button>
     </div>
   </div>
 </div>
@@ -218,21 +225,6 @@
                                       { "start": 30, "end": 35 }, //not visible -  out of slider range
                                       { "start": -3, "end":  32}]' />
         <br>
-
-
-        <span id="ex18-label-1" class="sr-only">Example slider label</span>
-        <input id="ex19" type="text"
-              data-provide="slider"
-              data-slider-ticks="[1, 2, 3]"
-              data-slider-ticks-labels='["Low", "Default", "High"]'
-              data-slider-min="1"
-              data-slider-max="3"
-              data-slider-step="1"
-              data-slider-value="2"
-              data-slider-tooltip="hide" />
-
-
-
         <label for="TVO" style="padding-left:106px;padding-bottom:5px">TVO</label>
         <input class="sliders" id="tvoSlider" type="text"
         data-slider-id="sliderTVO"
@@ -467,8 +459,57 @@
     <button type="button" class="btn cancel" font-size="110%" onclick="closeForm()">Close</button>
   </form>
 </div>
+
+
+<div class="form-popup" id="newModelForm2">
+  <form action="" method="post" class="form-container">
+    <h3 style="margin-bottom:-20px; font-size:200%">Create a New Model</h3><br>
+
+    <label for="modname"><b>Model Name</b></label>
+    <input type="text" placeholder="Model Name" name="modname" required style="margin-top:-1px;display:block;padding:3px 20px;line-height:20px">
+
+    <label for="description" style="margin-top:0px"><b>Description</b></label>
+    <textarea type="textarea" placeholder="Description (Optional)" name="description"
+      style="height:43px;width:100%;padding:6px 20px;margin:-3px 0;margin-bottom:3px;display:inline-block;border:1px solid #ccc;box-sizing:border-box;resize:none"></textarea>
+    <b>Configuration settings:</b>
+    <div class="configSettings">
+      
+      <input id="ex7" type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="5" data-slider-enabled="true"/>
+
+      <input id="ex7-enabled" type="checkbox"/> Enabled
+      
+      <!--
+      <input id="ex13" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-value="2" data-slider-enabled="true"/>
+      <br>
+      <input id="ex13-enabled" type="checkbox"/> Disabled
+      -->
+
+
+
+    </div>
+    <button type="submit" class="btn" font-size="110%">Submit</button>
+    <button type="button" class="btn cancel" font-size="110%" onclick="closeForm2()">Close</button>
+  </form>
+</div>
+
+<script>
+
+  var slider = new Slider("#ex7");
+  var check = document.getElementsById("ex7").data-slider-enabled
+
+  $("#ex7-enabled").click(function() {
+	  if(this.checked) {
+      check = false;
+    }
+    else {
+      check = true;
+    }
+  });
+</script>
+
+
     
-  <script>
+<script>
   function dropFunc() {
     document.getElementById("myDropdown").classList.toggle("show");
   }
@@ -485,78 +526,89 @@
       }
     }
   }
-  </script>
-  <script>
-    function openForm() {
-      document.getElementById("newModelForm").style.display = "flex";
-    }
-            
-    function closeForm() {
-      document.getElementById("newModelForm").style.display = "none";
-    }
-  </script>
-  <script>
-    var slider = new Slider("#tcoSlider", {id: 'sliderTCO',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#tvoSlider", {id: 'sliderTVO',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#netSlider", {id: 'sliderNET',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#ppSlider", {id: 'sliderPP',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#roiSlider", {id: 'sliderROI',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#capexSlider", {id: 'sliderCapEx',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#onetimeSlider", {id: 'sliderOneTime',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#ongoingSlider", {id: 'sliderOnGoing',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#revenueSlider", {id: 'sliderRevenue',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#savingSlider", {id: 'sliderSavings',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#avoidSlider", {id: 'sliderAvoid',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#costgradeSlider", {id: 'sliderCostGrade',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#valuescoreSlider", {id: 'sliderValueScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#riskscoreSlider", {id: 'sliderRiskScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#blendedscoreSlider", {id: 'sliderBlendedScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#calcprioritySlider", {id: 'sliderCalcPriority',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-    var slider = new Slider("#overridedprioritySlider", {id: 'sliderOverridedPriority',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-      [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-    });
-  </script>
-  <script>
-    var slide = document.getElementsById("tcoSlider").data-value
-    if (slide == 10) {
-      document.getElementById("t1")
-    }
-  </script>
+</script>
+<script>
+  function openForm() {
+    document.getElementById("newModelForm").style.display = "flex";
+  }
+          
+  function closeForm() {
+    document.getElementById("newModelForm").style.display = "none";
+  }
+</script>
+
+<script>
+  function openForm2() {
+    document.getElementById("newModelForm2").style.display = "flex";
+  }
+          
+  function closeForm2() {
+    document.getElementById("newModelForm2").style.display = "none";
+  }
+</script>
+
+<script>
+  var slider = new Slider("#tcoSlider", {id: 'sliderTCO',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#tvoSlider", {id: 'sliderTVO',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#netSlider", {id: 'sliderNET',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#ppSlider", {id: 'sliderPP',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#roiSlider", {id: 'sliderROI',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#capexSlider", {id: 'sliderCapEx',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#onetimeSlider", {id: 'sliderOneTime',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#ongoingSlider", {id: 'sliderOnGoing',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#revenueSlider", {id: 'sliderRevenue',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#savingSlider", {id: 'sliderSavings',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#avoidSlider", {id: 'sliderAvoid',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#costgradeSlider", {id: 'sliderCostGrade',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#valuescoreSlider", {id: 'sliderValueScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#riskscoreSlider", {id: 'sliderRiskScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#blendedscoreSlider", {id: 'sliderBlendedScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#calcprioritySlider", {id: 'sliderCalcPriority',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+  var slider = new Slider("#overridedprioritySlider", {id: 'sliderOverridedPriority',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
+    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
+  });
+</script>
+<script>
+  var slide = document.getElementsById("tcoSlider").data-value
+  if (slide == 10) {
+    document.getElementById("t1")
+  }
+</script>
 </div>
 
-<div class="table-responsive text-nowrap">
+<div class="table-responsive text-nowrap" style="padding-top:110px;margin-left:-125px">
   <table class="table" id="t1">
     <thead>
       <tr>
