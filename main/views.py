@@ -104,6 +104,7 @@ def upload_db(request):
                 df = pd.read_csv(f)
             form = SetForm(request.POST)
             if form.is_valid():
+                df['accepted'] = 0
                 instance = form.save(commit=False)
                 instance.user = request.user
                 instance = form.save()
@@ -130,14 +131,18 @@ def upload_db(request):
                     CalcPriority =record['Calc Priority'],
                     OverridedPriority =record['Overrided Priority'],
                     dsid = instance,
+                    accepted = record['accepted']
                     
                 ) for record in df_records]
                 data.objects.bulk_create(model_instances)
 
+                count = data.objects.filter(dsid = instance).count()
+                instance.size = count
+                instance.save()
 
 
             
-            return redirect('set_list')
+            return redirect('dash')
                 
 
         else:
