@@ -9,6 +9,8 @@ class dataset(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     #docfile = models.FileField(default=None)
+    budget = models.FloatField(null = True)
+    size = models.IntegerField(null= True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
@@ -35,6 +37,7 @@ class data(models.Model):
     BlendedScore =models.FloatField(null = True)
     CalcPriority =models.FloatField(null = True)
     OverridedPriority =models.IntegerField()
+    accepted = models.IntegerField(1)
 
     def __dataset__(self):
         return self.dsid
@@ -44,6 +47,24 @@ class model(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name =  models.CharField(max_length=50)
     kfile = models.FileField()
+    numOfFeatures = models.IntegerField(2)
+    TCO = models.IntegerField(1)
+    TVO = models.IntegerField(1)
+    NET =models.IntegerField(1)
+    PP =models.IntegerField(1)
+    ROI =models.IntegerField(1)
+    CapEx =models.IntegerField(1)
+    OneTime =models.IntegerField(1)
+    OnGoing =models.IntegerField(1)
+    Revenue =models.IntegerField(1)
+    Saving =models.IntegerField(1)
+    Avoid =models.IntegerField(1)
+    CostGrade =models.IntegerField(1)
+    ValueScore =models.IntegerField(1)
+    RiskScore =models.IntegerField(1)
+    BlendedScore =models.IntegerField(1)
+    CalcPriority =models.IntegerField(1)
+    OverridedPriority =models.IntegerField(1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
