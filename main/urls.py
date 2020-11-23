@@ -16,7 +16,11 @@ urlpatterns = [
     url(r'^view/$', views.view, name='view'),
     url(r'^view/predict/$', views.predict, name='predict'),
     url(r'^models/$', views.models, name='models'),
-    url(r'^models/create$', views.modelcreate, name='create_model')
+    url(r'^models/create$', views.modelcreate, name='create_model'),
+    url(r'^delete_dataset/$', views.delete_dataset, name='delete_dataset'),
+    url(r'^delete_model/$', views.delete_model, name='delete_models'),
+    url(r'^add_data/$', views.add_data, name='add_data'),
+    url(r'^edit_data/$', views.edit_data, name='edit_data'),
 
 
     
