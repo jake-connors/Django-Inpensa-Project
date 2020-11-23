@@ -288,6 +288,15 @@ def delete_dataset(request):
     else:
         return redirect('login')
 
+def delete_data(request):
+    if request.user.is_authenticated:
+        if request.method =='POST':
+            dsid = request.POST['dsid']
+            did = request.POST['dataid']
+            data.objects.filter(id = did).delete()
+    else:
+        return redirect('login')
+
 def delete_model(request):
     if request.user.is_authenticated:
         if request.method =='POST':
@@ -300,7 +309,7 @@ def edit_data(request):
     if request.user.is_authenticated:
         if request.method =='POST':
             dsid = request.POST['dsid']
-            did = request.POST['id']
+            did = request.POST['dataid']
             instance = data.objects.filter(id = did)
             instance.name = request.POST['NAME']
             instance.TCO = request.POST['TCO']
