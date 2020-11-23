@@ -279,3 +279,6 @@ def modelcreate(request):
             return render(request,'create_model.html',{'form': form})
     else:
         return redirect('login')
+
+def test(request):
+    return render(request, 'test.html')
