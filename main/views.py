@@ -292,8 +292,8 @@ def delete_data(request):
     if request.user.is_authenticated:
         if request.method =='POST':
             dsid = request.POST['dsid']
-            did = request.POST['dataid']
-            data.objects.filter(id = did).delete()
+            dataid = request.POST['dataid']
+            data.objects.filter(id = dataid).delete()
     else:
         return redirect('login')
 
