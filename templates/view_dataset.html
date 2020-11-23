@@ -169,10 +169,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
 
-<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
 <div class="content2" style="font-size:110%;padding-top:50px">
   <div class="dropdown">
     <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
@@ -189,18 +185,6 @@
       <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
     </div>
   </div>
-
-  <div class="dropdown2">
-    <button onclick="dropFunc2()" class="dropbtn">Choose Columns to Hide<i class="arrow down"></i></button>
-    <div id="myDropdown2" class="dropdown-content">
-        <form action="predict/" method="post" id="ddForm">
-          <button name ="submit" value="1" type="submit">{{model.name}}</button>
-        </form>
-      <button class="open-button" onclick="openForm2()" id="createNewModel2">Create New Model</button>
-    </div>
-  </div>
-
-
 </div>
 
 <div class="form-popup" id="newModelForm">
@@ -216,6 +200,7 @@
       <b>Configuration settings:</b><br>
       <label for="Exclude" style="padding-left:153px;color:rgb(77, 77, 77)"><b>Exclude</b></label><br>
       <div class="configSettings2">
+        
         <label for="TCO" style="padding-left:0px;padding-bottom:5px">TCO</label>
         <input id="ex1" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex1-enabled" class="excludeBtn" style="position: relative;right:259px;" type="checkbox"/><br>
@@ -272,8 +257,6 @@
     <button type="button" class="btn cancel" font-size="110%" onclick="closeForm()">Close</button>
   </form>
 </div>
-
-
 
 <script>
   $("#ex1").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
@@ -361,7 +344,6 @@
     if(this.checked) { $("#ex17").slider("disable"); }
     else { $("#ex17").slider("enable");}
   });
-  
   /*
   var i;
   for(i=1; i<4; i++) {
@@ -381,6 +363,7 @@
   }
   */
 </script>
+
 <script>
   function dropFunc() {
     document.getElementById("myDropdown").classList.toggle("show");
@@ -400,6 +383,7 @@
   }
 </script>
 <script>
+  
   function openForm() {
     document.getElementById("newModelForm").style.display = "flex";
 
@@ -413,19 +397,13 @@
     document.getElementById("newModelForm").style.display = "none";
   }
 </script>
-
-<script>
-  function openForm2() {
-    document.getElementById("newModelForm2").style.display = "flex";
-  }
-
-  function closeForm2() {
-    document.getElementById("newModelForm2").style.display = "none";
-  }
-</script>
 </div>
 
-<div class="table-responsive text-nowrap" style="padding-top:110px;margin-left:-250px">
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<div class="table-responsive text-nowrap" style="padding-top:110px;margin-left:-180px">
   <div data-role="main" class="ui-content">
     <table data-role="table" data-mode="columntoggle" class="ui-responsive" id="myTable">
     <thead>
