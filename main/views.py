@@ -153,7 +153,7 @@ def upload_db(request):
 
 
 def test(request):
-    return render(request, 'table.html')
+    return render(request, 'test.html')
 
 
 
@@ -280,5 +280,88 @@ def modelcreate(request):
     else:
         return redirect('login')
 
-def test(request):
-    return render(request, 'test.html')
+def delete_dataset(request):
+    if request.user.is_authenticated:
+        if request.method =='POST':
+            dsid = request.POST['dsid']
+            dataset.objects.filter(id = dsid).delete()
+    else:
+        return redirect('login')
+
+def delete_data(request):
+    if request.user.is_authenticated:
+        if request.method =='POST':
+            dsid = request.POST['dsid']
+            dataid = request.POST['dataid']
+            data.objects.filter(id = dataid).delete()
+    else:
+        return redirect('login')
+
+def delete_model(request):
+    if request.user.is_authenticated:
+        if request.method =='POST':
+            mid = request.POST['model']
+            dataset.objects.filter(id = mid).delete()
+    else:
+        return redirect('login')
+
+def edit_data(request):
+    if request.user.is_authenticated:
+        if request.method =='POST':
+            dsid = request.POST['dsid']
+            did = request.POST['dataid']
+            instance = data.objects.filter(id = did)
+            instance.name = request.POST['NAME']
+            instance.TCO = request.POST['TCO']
+            instance.TVO =request.POST['TVO']
+            instance.NET =request.POST['NET']
+            instance.PP =request.POST['PP']
+            instance.ROI =request.POST['ROI']
+            instance.CapEx =request.POST['CapEx']
+            instance.OneTime =request.POST['OneTime']
+            instance.OnGoing =request.POST['OnGoing']
+            instance.Revenue =request.POST['Revenue']
+            instance.Saving =request.POST['Saving']
+            instance.Avoid =request.POST['Avoid']
+            instance.CostGrade =request.POST['Cost Grade']
+            instance.ValueScore =request.POST['Value Score']
+            instance.RiskScore =request.POST['Risk Score']
+            instance.BlendedScore =request.POST['Blended Score']
+            instance.CalcPriority =request.POST['Calc Priority']
+            instance.OverridedPriority =request.POST['Overrided Priority']
+            instance.accepted = request.POST['accepted']
+            instance.save()
+
+
+            test = dataset.objects.get(id = dsid)
+            test.save()
+    else:
+        return redirect('login')
+
+
+def add_data(request):
+    if request.user.is_authenticated:
+        if request.method =='POST':
+            dsid = request.POST['dsid']
+            instance = data(dsid = dsid, 
+            name = request.POST['NAME'],
+            TCO = request.POST['TCO'],
+            TVO =request.POST['TVO'],
+            NET =request.POST['NET'],
+            PP =request.POST['PP'],
+            ROI =request.POST['ROI'],
+            CapEx =request.POST['CapEx'],
+            OneTime =request.POST['OneTime'],
+            OnGoing =request.POST['OnGoing'],
+            Revenue =request.POST['Revenue'],
+            Saving =request.POST['Saving'],
+            Avoid =request.POST['Avoid'],
+            CostGrade =request.POST['Cost Grade'],
+            ValueScore =request.POST['Value Score'],
+            RiskScore =request.POST['Risk Score'],
+            BlendedScore =request.POST['Blended Score'],
+            CalcPriority =request.POST['Calc Priority'],
+            OverridedPriority =request.POST['Overrided Priority'],
+            accepted = request.POST['accepted'])
+    else:
+        return redirect('login')
