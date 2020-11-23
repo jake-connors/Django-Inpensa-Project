@@ -30,7 +30,7 @@
   }
   .dropdown {
     position: relative;
-    left: 1350%;
+    /*left: 1350%;*/
     bottom: 24px;
     display: inline-block;
     min-width: 160px;
@@ -118,14 +118,14 @@
     background-color: #b6b6b6;
   }
 
-  
-  #t1 .hidden_col { 
-    display: none;
-  }
-  
-
   .configSettings {
     height: 333px;
+    overflow: auto;
+    font-size: 110%;
+  }
+
+  .configSettings2 {
+    height: 300px;
     overflow: auto;
     font-size: 110%;
   }
@@ -146,8 +146,9 @@
     width: 33% !important;
   }
   .slider {
-    left: 225px;
     position: sticky !important;
+    /*left: 225px; */
+    left: 300px; /**/
   }
   .slider.slider-horizontal {
     width: 385px !important;
@@ -160,19 +161,27 @@
     height: 25px !important;
   }
 
-  #ex7-enabled {
-    margin-top:250px !important;
-    font-size: 10% !important;
-    height: 10% !important;
-    width: 10% !important;
+  .excludeBtn {
+    position: relative;
+    right: 200px;
+    bottom: 5px;
+    height:6%;
+    width:6%;
   }
-  
+
+  /*
+  .slider-tick-label {
+    width: 190px !important;
+  }
+  */
+
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.css" integrity="sha512-SZgE3m1he0aEF3tIxxnz/3mXu/u/wlMNxQSnE0Cni9j/O8Gs+TjM9tm1NX34nRQ7GiLwUEzwuE3Wv2FLz2667w==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
 
 <div class="content2" style="font-size:110%;padding-top:50px">
   <div class="dropdown">
@@ -188,7 +197,6 @@
         </form>
         {% endfor %}
       <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
-      <button class="open-button" onclick="openForm2()" id="createNewModel2">Create New Model 2</button>
     </div>
   </div>
 </div>
@@ -203,312 +211,174 @@
     <label for="description" style="margin-top:0px"><b>Description</b></label>
     <textarea type="textarea" placeholder="Description (Optional)" name="description"
       style="height:43px;width:100%;padding:6px 20px;margin:-3px 0;margin-bottom:3px;display:inline-block;border:1px solid #ccc;box-sizing:border-box;resize:none"></textarea>
-    <b>Configuration settings:</b>
-    <div class="configSettings"> 
-      <p style="line-height:22px">
-        <label for="Exclude" style="padding-left:11em">Exclude</label>
-        <label for="Low" style="padding-left:74px">Low</label>
-        <label for="Default" style="padding-left:73px">Default</label>
-        <label for="High" style="padding-left:73px">High</label>
-        <br>
-        <label for="TCO" style="padding-left:105px;padding-bottom:5px">TCO</label>
-        <input class="sliders" id="tcoSlider" type="text"
-        data-slider-id="sliderTCO"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="TVO" style="padding-left:106px;padding-bottom:5px">TVO</label>
-        <input class="sliders" id="tvoSlider" type="text"
-        data-slider-id="sliderTVO"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="NET" style="padding-left:107px;padding-bottom:5px">NET</label>
-        <input class="sliders" id="netSlider" type="text"
-        data-slider-id="sliderNET"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-
-        <br>
-        <label for="PP" style="padding-left:120px;padding-bottom:5px">PP</label>
-        <input class="sliders" id="ppSlider" type="text"
-        data-slider-id="sliderPP"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="ROI" style="padding-left:108px;padding-bottom:5px">ROI</label>
-        <input class="sliders" id="roiSlider" type="text"
-        data-slider-id="sliderROI"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="CapEx" style="padding-left:88px;padding-bottom:5px">CapEx</label>
-        <input class="sliders" id="capexSlider" type="text"
-        data-slider-id="sliderCapEx"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="OneTime" style="padding-left:63px;padding-bottom:5px">OneTime</label>
-        <input class="sliders" id="onetimeSlider" type="text"
-        data-slider-id="sliderOneTime"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="OnGoing" style="padding-left:66px;padding-bottom:5px">OnGoing</label>
-        <input class="sliders" id="ongoingSlider" type="text"
-        data-slider-id="sliderOnGoing"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="Revenue" style="padding-left:68px;padding-bottom:5px">Revenue</label>
-        <input class="sliders" id="revenueSlider" type="text"
-        data-slider-id="sliderRevenue"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="Saving" style="padding-left:84px;padding-bottom:5px">Saving</label>
-        <input class="sliders" id="savingSlider" type="text"
-        data-slider-id="sliderSaving"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-
-        <br>
-        <label for="Avoid" style="padding-left:91px;padding-bottom:5px;">Avoid</label>
-        <input class="sliders" id="avoidSlider" type="text"
-        data-slider-id="sliderAvoid"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="CostGrade" style="padding-left:45px;padding-bottom:5px">Cost Grade</label>
-        <input class="sliders" id="costgradeSlider" type="text"
-        data-slider-id="sliderCostGrade"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-
-        <br>
-        <label for="ValueScore" style="padding-left:40px;padding-bottom:5px">Value Score</label>
-        <input class="sliders" id="valuescoreSlider" type="text"
-        data-slider-id="sliderValueScore"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="RiskScore" style="padding-left:51px;padding-bottom:5px">Risk Score</label>
-        <input class="sliders" id="riskscoreSlider" type="text"
-        data-slider-id="sliderRiskScore"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-
-        <br>
-        <label for="BlendedScore" style="padding-left:18px;padding-bottom:5px">Blended Score</label>
-        <input class="sliders" id="blendedscoreSlider" type="text"
-        data-slider-id="sliderBlendedScore"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="CalcPriority" style="padding-left:35px;padding-bottom:5px">Calc Priority</label>
-        <input class="sliders" id="calcprioritySlider" type="text"
-        data-slider-id="sliderCalcPriority"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-        <label for="OverridedPriority" style="padding-left:0;padding-bottom:5px">Overrided Priority</label>
-        <input class="sliders" id="overridedprioritySlider" type="text"
-        data-slider-id="sliderOverridedPriority"
-        data-slider-min="0"
-        data-slider-max="30"
-        data-slider-step="10"
-        data-slider-value="20"
-        data-slider-rangeHighlights='[{ "start": 0, "end": 5, "class": "category1"},
-                                      { "start": 5, "end": 15, "class": "category2" ,
-                                      { "start": 15, "end": 25, "class": "category3"},
-                                      { "start": 25, "end": 30, "class": "category4"},
-                                      { "start": 30, "end": 35 }, //not visible -  out of slider range
-                                      { "start": -3, "end":  32}]' />
-        <br>
-      </p>
-    </div>
+      <b>Configuration settings:</b><br>
+      <label for="Exclude" style="padding-left:197px;color:rgb(77, 77, 77)"><b>Exclude</b></label><br>
+      <div class="configSettings2">
+        <label for="TCO" style="padding-left:0px;padding-bottom:5px">TCO</label>
+        <input id="ex1" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex1-enabled" class="excludeBtn" style="position: relative;right:205px;" type="checkbox"/><br>
+        <label for="TVO" style="padding-left:0px;padding-bottom:5px">TVO</label>
+        <input id="ex2" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex2-enabled" class="excludeBtn" style="position: relative;right:205px;" type="checkbox"/><br>
+        <label for="NET" style="padding-left:0px;padding-bottom:5px">NET</label>
+        <input id="ex3" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex3-enabled" class="excludeBtn" style="position: relative;right:205px;" type="checkbox"/><br>
+        <label for="PP" style="padding-left:0px;padding-bottom:5px">PP</label>
+        <input id="ex4" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2"data-slider-tooltip="hide"  data-slider-enabled="true"/>
+        <input id="ex4-enabled" class="excludeBtn" style="position: relative;right:190px;" type="checkbox"/><br>
+        <label for="ROI" style="padding-left:0px;padding-bottom:5px">ROI</label>
+        <input id="ex5" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex5-enabled" class="excludeBtn" type="checkbox"/><br>
+        <label for="CapEx" style="padding-left:0px;padding-bottom:5px">CapEx</label>
+        <input id="ex6" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex6-enabled" class="excludeBtn" style="position: relative;right:215px;" type="checkbox"/><br>
+        <label for="OneTime" style="padding-left:0px;padding-bottom:5px">OneTime</label>
+        <input id="ex7" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex7-enabled" class="excludeBtn" style="position: relative;right:240px;" type="checkbox"/><br>
+        <label for="OnGoing" style="padding-left:0px;padding-bottom:5px">OnGoing</label>
+        <input id="ex8" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex8-enabled" class="excludeBtn" style="position: relative;right:240px;" type="checkbox"/><br>
+        <label for="Revenue" style="padding-left:0px;padding-bottom:5px">Revenue</label>
+        <input id="ex9" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex9-enabled" class="excludeBtn" style="position: relative;right:230px;"type="checkbox"/><br>
+        <label for="Saving" style="padding-left:0px;padding-bottom:5px">Saving</label>
+        <input id="ex10" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex10-enabled" class="excludeBtn" style="position: relative;right:210px;" type="checkbox"/><br>
+        <label for="Avoid" style="padding-left:0px;padding-bottom:5px;">Avoid</label>
+        <input id="ex11" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex11-enabled" class="excludeBtn" type="checkbox"/><br>
+        <label for="CostGrade" style="padding-left:0px;padding-bottom:5px">Cost Grade</label>
+        <input id="ex12" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex12-enabled" class="excludeBtn" style="position: relative;right:255px;" type="checkbox"/><br>
+        <label for="ValueScore" style="padding-left:0px;padding-bottom:5px">Value Score</label>
+        <input id="ex13" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex13-enabled" class="excludeBtn" style="position: relative;right:260px;" type="checkbox"/><br>
+        <label for="RiskScore" style="padding-left:0px;padding-bottom:5px">Risk Score</label>
+        <input id="ex14" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex14-enabled" class="excludeBtn" style="position: relative;right:245px;" style="position: relative;right:330px;"type="checkbox"/><br>
+        <label for="BlendedScore" style="padding-left:0px;padding-bottom:5px">Blended Score</label>
+        <input id="ex15" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex15-enabled" class="excludeBtn" style="position: relative;right:280px;" type="checkbox"/><br>
+        <label for="CalcPriority" style="padding-left:0px;padding-bottom:5px">Calc Priority</label>
+        <input id="ex16" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex16-enabled" class="excludeBtn" style="position: relative;right:265px;" type="checkbox"/><br>
+        <label for="OverridedPriority" style="padding-left:0;padding-bottom:5px;">Overrided Priority</label>
+        <input id="ex17" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+        <input id="ex17-enabled" class="excludeBtn" style="position: relative;right:310px;" type="checkbox"/><br>
+      </div>
     <button type="submit" class="btn" font-size="110%">Submit</button>
     <button type="button" class="btn cancel" font-size="110%" onclick="closeForm()">Close</button>
   </form>
 </div>
 
 
-<div class="form-popup" id="newModelForm2">
-  <form action="" method="post" class="form-container">
-    <h3 style="margin-bottom:-20px; font-size:200%">Create a New Model</h3><br>
-
-    <label for="modname"><b>Model Name</b></label>
-    <input type="text" placeholder="Model Name" name="modname" required style="margin-top:-1px;display:block;padding:3px 20px;line-height:20px">
-
-    <label for="description" style="margin-top:0px"><b>Description</b></label>
-    <textarea type="textarea" placeholder="Description (Optional)" name="description"
-      style="height:43px;width:100%;padding:6px 20px;margin:-3px 0;margin-bottom:3px;display:inline-block;border:1px solid #ccc;box-sizing:border-box;resize:none"></textarea>
-    <b>Configuration settings:</b>
-    <div class="configSettings">
-      
-      <input id="ex7" type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="5" data-slider-enabled="true"/>
-
-      <input id="ex7-enabled" type="checkbox"/> Enabled
-      
-      <!--
-      <input id="ex13" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-value="2" data-slider-enabled="true"/>
-      <br>
-      <input id="ex13-enabled" type="checkbox"/> Disabled
-      -->
-
-
-
-    </div>
-    <button type="submit" class="btn" font-size="110%">Submit</button>
-    <button type="button" class="btn cancel" font-size="110%" onclick="closeForm2()">Close</button>
-  </form>
-</div>
 
 <script>
-
-  var slider = new Slider("#ex7");
-  var check = document.getElementsById("ex7").data-slider-enabled
-
-  $("#ex7-enabled").click(function() {
-	  if(this.checked) {
-      check = false;
-    }
-    else {
-      check = true;
-    }
+  $("#ex1").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex1-enabled").click(function() {
+    if(this.checked) { $("#ex1").slider("disable"); }
+    else { $("#ex1").slider("enable");}
   });
+  $("#ex2").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex2-enabled").click(function() {
+    if(this.checked) { $("#ex2").slider("disable"); }
+    else { $("#ex2").slider("enable");}
+  });
+  $("#ex3").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex3-enabled").click(function() {
+    if(this.checked) { $("#ex3").slider("disable"); }
+    else { $("#ex3").slider("enable");}
+  });
+  $("#ex4").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex4-enabled").click(function() {
+    if(this.checked) { $("#ex4").slider("disable"); }
+    else { $("#ex4").slider("enable");}
+  });
+  $("#ex5").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex5-enabled").click(function() {
+    if(this.checked) { $("#ex5").slider("disable"); }
+    else { $("#ex5").slider("enable");}
+  });
+  $("#ex6").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex6-enabled").click(function() {
+    if(this.checked) { $("#ex6").slider("disable"); }
+    else { $("#ex6").slider("enable");}
+  });
+  $("#ex7").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex7-enabled").click(function() {
+    if(this.checked) { $("#ex7").slider("disable"); }
+    else { $("#ex7").slider("enable");}
+  });
+  $("#ex8").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex8-enabled").click(function() {
+    if(this.checked) { $("#ex8").slider("disable"); }
+    else { $("#ex8").slider("enable");}
+  });
+  $("#ex9").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex9-enabled").click(function() {
+    if(this.checked) { $("#ex9").slider("disable"); }
+    else { $("#ex9").slider("enable");}
+  });
+  $("#ex10").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex10-enabled").click(function() {
+    if(this.checked) { $("#ex10").slider("disable"); }
+    else { $("#ex10").slider("enable");}
+  });
+  $("#ex11").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex11-enabled").click(function() {
+    if(this.checked) { $("#ex11").slider("disable"); }
+    else { $("#ex11").slider("enable");}
+  });
+  $("#ex12").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex12-enabled").click(function() {
+    if(this.checked) { $("#ex12").slider("disable"); }
+    else { $("#ex12").slider("enable");}
+  });
+  $("#ex13").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex13-enabled").click(function() {
+    if(this.checked) { $("#ex13").slider("disable"); }
+    else { $("#ex13").slider("enable");}
+  });
+  $("#ex14").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex14-enabled").click(function() {
+    if(this.checked) { $("#ex14").slider("disable"); }
+    else { $("#ex14").slider("enable");}
+  });
+  $("#ex15").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex15-enabled").click(function() {
+    if(this.checked) { $("#ex15").slider("disable"); }
+    else { $("#ex15").slider("enable");}
+  });
+  $("#ex16").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex1-enabled").click(function() {
+    if(this.checked) { $("#ex1").slider("disable"); }
+    else { $("#ex1").slider("enable");}
+  });
+  $("#ex17").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+  $("#ex17-enabled").click(function() {
+    if(this.checked) { $("#ex17").slider("disable"); }
+    else { $("#ex17").slider("enable");}
+  });
+  
+  /*
+  var i;
+  for(i=1; i<4; i++) {
+    $("#ex"+i).slider({
+      ticks: [1, 2, 3],
+      ticks_labels: ["Low", "Default", "High"],
+      ticks_snap_bounds: 1
+    });
+    $("#ex"+i+"-enabled").click(function() {
+      if(this.checked) {
+        $("#ex"+i).slider("disable");
+      }
+      else {
+        $("#ex"+i).slider("enable");
+      }
+    }); 
+  }
+  */
 </script>
-
-
-    
 <script>
   function dropFunc() {
     document.getElementById("myDropdown").classList.toggle("show");
@@ -530,6 +400,11 @@
 <script>
   function openForm() {
     document.getElementById("newModelForm").style.display = "flex";
+
+    var i;
+    for(i=0;i<=17;i++) {
+      $("#ex"+i).slider('refresh');
+    }
   }
           
   function closeForm() {
@@ -537,77 +412,7 @@
   }
 </script>
 
-<script>
-  function openForm2() {
-    document.getElementById("newModelForm2").style.display = "flex";
-  }
-          
-  function closeForm2() {
-    document.getElementById("newModelForm2").style.display = "none";
-  }
-</script>
-
-<script>
-  var slider = new Slider("#tcoSlider", {id: 'sliderTCO',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#tvoSlider", {id: 'sliderTVO',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#netSlider", {id: 'sliderNET',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#ppSlider", {id: 'sliderPP',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#roiSlider", {id: 'sliderROI',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#capexSlider", {id: 'sliderCapEx',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#onetimeSlider", {id: 'sliderOneTime',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#ongoingSlider", {id: 'sliderOnGoing',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#revenueSlider", {id: 'sliderRevenue',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#savingSlider", {id: 'sliderSavings',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#avoidSlider", {id: 'sliderAvoid',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#costgradeSlider", {id: 'sliderCostGrade',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#valuescoreSlider", {id: 'sliderValueScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#riskscoreSlider", {id: 'sliderRiskScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#blendedscoreSlider", {id: 'sliderBlendedScore',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#calcprioritySlider", {id: 'sliderCalcPriority',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-  var slider = new Slider("#overridedprioritySlider", {id: 'sliderOverridedPriority',min: 0,max: 30,step: 10,value: 20,rangeHighlights:
-    [{ "start": 0, "end": 5, "class": "category1" }, { "start": 5, "end": 15, "class": "category2" }, { "start": 15, "end": 25 , "class": "category3"}, { "start": 25, "end": 30 , "class": "category4"}, { "start": 30, "end": 35 }, { "start": -3, "end": 32 }]
-  });
-</script>
-<script>
-  var slide = document.getElementsById("tcoSlider").data-value
-  if (slide == 10) {
-    document.getElementById("t1")
-  }
-</script>
 </div>
-
 <div class="table-responsive text-nowrap" style="padding-top:110px;margin-left:-125px">
   <table class="table" id="t1">
     <thead>
