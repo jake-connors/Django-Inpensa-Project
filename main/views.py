@@ -10,7 +10,7 @@ from django.db.models import Q
 import pandas as pd
 from sklearn import preprocessing
 import tensorflow as tf
-
+from json import dumps
 # Create your views here.
 
 def login(request):
@@ -168,7 +168,7 @@ def set_list(request):
     else:
         return redirect('login')
 
-
+'''
 def view(request):
     if request.user.is_authenticated:
         if request.method=="POST":
@@ -194,8 +194,31 @@ def view(request):
     else:
         return redirect('login')
 
+'''
+def view(request):
+    if request.user.is_authenticated:
+        if request.method=="POST":
 
 
+
+            return render(request, 'view_dataset.html')
+        else:
+            sets = data.objects.all().filter(dsid = request.GET['dataset']).values()
+            df = pd.DataFrame(sets)
+            df = df.fillna("")
+            df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
+            df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
+            sets = df.to_dict('records')
+            dataJSON = dumps(sets)
+            models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
+            return render(request, 'view_dataset1.html',{
+                'sets':dataJSON,
+                'dataset' : request.GET['dataset'],
+                'models' : models
+
+            })
+    else:
+        return redirect('login')
 
 def predict(request):
     if request.user.is_authenticated:
@@ -330,6 +353,7 @@ def edit(request):
             df = pd.DataFrame(sets)
             df = df.fillna("")
             sets = df.to_dict('records')
+            sets = dumps(sets)
             return render(request, 'edit.html',{
                 'sets':sets,
                 'dataset' : id
