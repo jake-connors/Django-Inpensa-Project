@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Dataset{% endblock%}
+
 {% block content %}
 <style>
   table{
@@ -434,6 +435,7 @@
     <tbody>
       {% for data in sets %}
       <tr>
+        {{data}}
         <td class="counterCell"></td>
         <td>{{data.name}}</td>
         <td>{{data.TCO}}</td>
