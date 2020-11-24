@@ -3,6 +3,7 @@
 
 {% block content %}
 <style>
+  
   table{
     counter-reset: tableCount;
     border-collapse: collapse;
@@ -159,31 +160,34 @@
     left: 178px !important;
   }
 
-
-  .ui-mini {
-    height: 50%;
-    width: 4%;
-    position: sticky;
-    right: 1024px;
-    top: 45px;
+  .toggleDisplay {
+    display: none;
   }
-
-
-
+  .toggleDisplay.in {
+    display: table-cell;
+  }
 
 </style>
 
+
+<!-- SLIDERS
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.css" integrity="sha512-SZgE3m1he0aEF3tIxxnz/3mXu/u/wlMNxQSnE0Cni9j/O8Gs+TjM9tm1NX34nRQ7GiLwUEzwuE3Wv2FLz2667w==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
+-->
+
+<!--
+
+-->
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 
 <div class="content2" style="font-size:110%;padding-top:50px">
@@ -411,67 +415,71 @@
     document.getElementById("newModelForm").style.display = "none";
   }
 </script>
-<script>
-  $( ".selector" ).table-columntoggle({
-    columnBtnTheme: "b"
-  });
-</script>
 
 </div>
 
-<div class="table-responsive text-nowrap" style="padding-top:110px;margin-left:-160px">
-  <div data-role="main" class="ui-content">
-    <table data-role="table" data-mode="columntoggle" class="ui-responsive" id="myTable" data-column-btn-text="+">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">ID</th>
-        <th data-priority="1" scope="col">TCO</th>
-        <th data-priority="2" scope="col">TVO</th>
-        <th scope="col">NET</th>
-        <th scope="col">PP</th>
-        <th scope="col">ROI</th>
-        <th scope="col">CapEx</th>
-        <th scope="col">OneTime</th>
-        <th scope="col">OnGoing</th>
-        <th scope="col">Revenue</th>
-        <th scope="col">Saving</th>
-        <th scope="col">Avoid</th>
-        <th scope="col">Cost Grade</th>
-        <th scope="col">Value Score</th>
-        <th scope="col">Risk Score</th>
-        <th scope="col">Blended Score</th>
-        <th scope="col">Calc Priority</th>
-        <th scope="col">Overrided Priority</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for data in sets %}
-      <tr>
-        {{data}}
-        <td class="counterCell"></td>
-        <td>{{data.name}}</td>
-        <td>{{data.TCO}}</td>
-        <td>{{data.TVO}}</td>
-        <td>{{data.NET}}</td>
-        <td>{{data.PP}}</td>
-        <td>{{data.ROI}}</td>
-        <td>{{data.CapEx}}</td>
-        <td>{{data.OneTime}}</td>
-        <td>{{data.OnGoing}}</td>
-        <td>{{data.Revenue}}</td>
-        <td>{{data.Saving}}</td>
-        <td>{{data.Avoid}}</td>
-        <td>{{data.CostGrade}}</td>
-        <td>{{data.ValueScore}}</td>
-        <td>{{data.RiskScore}}</td>
-        <td>{{data.BlendedScore}}</td>
-        <td>{{data.CalcPriority}}</td>
-        <td>{{data.OverridedPriority}}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-    </table>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive text-nowrap" style="padding-top:110px;margin-left:-160px">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>NET</th>
+                <th>TVO</th>
+                <th id="click-me">TCO ++</th>
+                <th class="toggleDisplay">CapEx</th>
+                <th class="toggleDisplay">OneTime</th>
+                <th class="toggleDisplay">OnGoing</th>
+                <th class="toggleDisplay">Revenue</th>
+                <th class="toggleDisplay">Saving</th>
+                <th class="toggleDisplay">Avoid</th>
+                <th>PP</th>
+                <th>ROI</th>
+                <th>Cost Grade</th>
+                <th>Value Score</th>
+                <th>Risk Score</th>
+                <th>Blended Score</th>
+                <th>Calc Priority</th>
+                <th>Overrided Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for data in sets %}
+              <tr>
+                <td class="counterCell"></td>
+                <td>{{data.name}}</td>
+                <td>{{data.NET}}</td>
+                <td>{{data.TVO}}</td>
+                <td>{{data.TCO}}</td>
+                <td class="toggleDisplay">{{data.CapEx}}</td>
+                <td class="toggleDisplay">{{data.OneTime}}</td>
+                <td class="toggleDisplay">{{data.OnGoing}}</td>
+                <td class="toggleDisplay">{{data.Revenue}}</td>
+                <td class="toggleDisplay">{{data.Saving}}</td>
+                <td class="toggleDisplay">{{data.Avoid}}</td>
+                <td>{{data.PP}}</td>
+                <td>{{data.ROI}}</td>
+                <td>{{data.CostGrade}}</td>
+                <td>{{data.ValueScore}}</td>
+                <td>{{data.RiskScore}}</td>
+                <td>{{data.BlendedScore}}</td>
+                <td>{{data.CalcPriority}}</td>
+                <td>{{data.OverridedPriority}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      </div>
+    </div>
   </div>
 </div>
+<script type="text/javascript">
+  $("#click-me").click(function() {
+      $(".table .toggleDisplay").toggleClass("in");
+  });
+</script>
 {% endblock %}
