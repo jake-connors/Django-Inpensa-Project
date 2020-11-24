@@ -296,6 +296,23 @@ def delete_data(request):
             dsid = request.POST['dsid']
             dataid = request.POST['dataid']
             data.objects.filter(id = dataid).delete()
+            print('this is annoying')
+            instance = dataset.objects.get(id = dsid)
+            print(dsid)
+            count = data.objects.filter(dsid = instance).count()
+            print(count)
+            instance.size = count
+            print(instance.size)
+            instance.save()
+            sets = data.objects.all().filter(dsid = dsid).values()
+            df = pd.DataFrame(sets)
+            df = df.fillna("")
+            sets = df.to_dict('records')
+            return render(request, 'edit.html',{
+                'sets':sets,
+                'dataset' : dsid
+
+            })
         return redirect('dash')
     else:
         return redirect('login')
@@ -314,13 +331,14 @@ def edit(request):
         if request.method=="POST":
             return redirect('dash')
         else:
-            sets = data.objects.all().filter(dsid = request.GET['dsid']).values()
+            id = request.GET['dsid']
+            sets = data.objects.all().filter(dsid = id).values()
             df = pd.DataFrame(sets)
             df = df.fillna("")
             sets = df.to_dict('records')
             return render(request, 'edit.html',{
                 'sets':sets,
-                'dataset' : request.GET['dsid']
+                'dataset' : id
 
             })
     else:
