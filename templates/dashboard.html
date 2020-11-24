@@ -287,13 +287,26 @@
                                 {% for data in sets %}
                                     <form action = "/view" method="get" style="width:100%; margin:0; padding:0; border:0">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
-                                        <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
                                         <h4 class="small font-weight-bold">Size: {{data.size}}</h4>
-                                        <h4 class="small font-weight-bold">Last Edited: </h4>
+                                        <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
+                                        
+                                        <h4 class="small font-weight-bold">Last Updated: {{data.updated_at}}</h4>
                                         <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">
-                                            <button type ="submit" name="dataset" style="background-color: #36b9cc; text-align:center; padding: 2px 0" value={{data.id}}>View Data</button>
+                                            <button type ="submit" name="dataset" style="background-color: #4e73df; text-align:center; padding: 2px 0" value={{data.id}}>View Data</button>
                                         </div>
-                                    </form>                                    
+                                        
+                                    </form>   
+                                    <form action = "/edit" method="get" style="width:100%; margin:0; padding:0; border:0">
+                                        <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">
+                                            <button type ="submit" name="dsid" style="background-color: #f6c23e; text-align:center; padding: 2px 0" value={{data.id}}>Edit</button>
+                                        </div>   
+                                    </form>    
+                                    <form action = "/delete_dataset/" method="POST" style="width:100%; margin:0; padding:0; border:0">
+                                        {% csrf_token %}
+                                        <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">
+                                            <button type ="submit" name="dsid" style="background-color: #c93325; text-align:center; padding: 2px 0" value={{data.id}}>Delete</button>
+                                        </div>   
+                                    </form>                                     
                                 {% endfor %}                                
                                 </div>
                             </div>
@@ -378,13 +391,17 @@
                                 <div class="card-body" style="overflow-y:auto">
                                     {% for data in sets2 %}
                                     <table style="border-bottom: 2px;">
-                                        <form action = "/view" method="get" style="width:100%; margin:0; padding:0; border:2px">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
                                         <h4 class="small font-weight-bold">Size: </h4>
                                         <h4 class="small font-weight-bold">Last Edited: </h4>
+                                        <form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">
+                                            {% csrf_token %}
+                                            <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">
+                                                <button type ="submit" name="model" style="background-color: #b00c0c; text-align:center; padding: 2px 0" value={{data.id}}>Delete</button>
+                                            </div>   
+                                        </form>   
                                         <br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br>
-                                        </form>
                                     </table>
                                     {% endfor %}
                                 </div>

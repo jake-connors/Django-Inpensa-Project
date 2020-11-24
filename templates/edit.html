@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+.pt-3-half {
+    padding-top: .1rem;
+    border:0;
+    padding:0;
+    
+    }
+
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Editable table -->
+<div class="card">
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Editable table</h3>
+    <div class="card-body">
+      <div id="table" class="table-editable">
+        <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
+              class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+        <table class="table table-bordered table-responsive-md table-striped text-center">
+          <thead>
+            <tr>
+              <th class="text-center">ID</th>
+              <th class="text-center">TCO</th>
+              <th class="text-center">TVO</th>
+              <th class="text-center">NET</th>
+              <th class="text-center">PP</th>
+              <th class="text-center">ROI</th>
+              <th class="text-center">CapEx</th>
+              <th class="text-center">OneTime</th>
+              <th class="text-center">OnGoing</th>
+              <th class="text-center">Revenue</th>
+              <th class="text-center">Saving</th>
+              <th class="text-center">Avoid</th>
+              <th class="text-center">Cost Grade</th>
+              <th class="text-center">Value Score</th>
+              <th class="text-center">Risk Score</th>
+              <th class="text-center">Blended Score</th>
+              <th class="text-center">Calc Priority</th>
+              <th class="text-center">Overrided Priority</th>
+              <th class="text-center">Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+        {% for x in sets %}
+            <tr>
+              <td class="pt-3-half" contenteditable="true">{{x.name}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.TCO}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.TVO}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.NET}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.PP}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.ROI}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.CapEx}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.OneTime}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.OnGoing}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.Revenue}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.Saving}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.Avoid}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.CostGrade}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.ValueScore}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.RiskScore}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.BlendedScore}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.CalcPriority}}</td>
+              <td class="pt-3-half" contenteditable="true">{{x.OverridedPriority}}</td>
+              <td>
+                <form action = "/delete_data/" method="POST"style="padding:0;border:0;">
+                    {% csrf_token %}
+                    <div class="pt-3-half" style="padding:0">
+                        <input type="hidden" name="dsid" value={{dataset}}>
+                        <input type="hidden" name="dataid" value={{x.id}}>
+                        <span style="padding:0"><button type="submit"
+                            class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
+                        </span>
+
+                        <!--<button type="submit" class="btn btn-default btn-sm" style="color:red; width:30%">
+                            <span class="glyphicon glyphicon-trash"> Trash</span> 
+                        </button>-->
+                    </div>
+                
+                </form>
+                <!--<span class="table-remove"><button type="button"
+                    class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>-->
+              </td>
+            </tr>
+        {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Editable table -->
+
+
+
+<script>
+    const $tableID = $('#table');
+ const $BTN = $('#export-btn');
+ const $EXPORT = $('#export');
+
+ const newTr = `
+<tr class="hide">
+  <td class="pt-3-half" contenteditable="true">Example</td>
+  <td class="pt-3-half" contenteditable="true">Example</td>
+  <td class="pt-3-half" contenteditable="true">Example</td>
+  <td class="pt-3-half" contenteditable="true">Example</td>
+  <td class="pt-3-half" contenteditable="true">Example</td>
+  <td class="pt-3-half">
+    <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i></a></span>
+    <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></a></span>
+  </td>
+  <td>
+    <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light">Remove</button></span>
+  </td>
+</tr>`;
+
+ $('.table-add').on('click', 'i', () => {
+
+   const $clone = $tableID.find('tbody tr').last().clone(true).removeClass('hide table-line');
+
+   if ($tableID.find('tbody tr').length === 0) {
+
+     $('tbody').append(newTr);
+   }
+
+   $tableID.find('table').append($clone);
+ });
+
+ $tableID.on('click', '.table-remove', function () {
+
+   $(this).parents('tr').detach();
+ });
+
+ $tableID.on('click', '.table-up', function () {
+
+   const $row = $(this).parents('tr');
+
+   if ($row.index() === 0) {
+     return;
+   }
+
+   $row.prev().before($row.get(0));
+ });
+
+ $tableID.on('click', '.table-down', function () {
+
+   const $row = $(this).parents('tr');
+   $row.next().after($row.get(0));
+ });
+
+ // A few jQuery helpers for exporting only
+ jQuery.fn.pop = [].pop;
+ jQuery.fn.shift = [].shift;
+
+ $BTN.on('click', () => {
+
+   const $rows = $tableID.find('tr:not(:hidden)');
+   const headers = [];
+   const data = [];
+
+   // Get the headers (add special header logic here)
+   $($rows.shift()).find('th:not(:empty)').each(function () {
+
+     headers.push($(this).text().toLowerCase());
+   });
+
+   // Turn all existing rows into a loopable array
+   $rows.each(function () {
+     const $td = $(this).find('td');
+     const h = {};
+
+     // Use the headers from earlier to name our hash keys
+     headers.forEach((header, i) => {
+
+       h[header] = $td.eq(i).text();
+     });
+
+     data.push(h);
+   });
+
+   // Output the result
+   $EXPORT.text(JSON.stringify(data));
+ });
+</script>
+
+  
+{% endblock %}

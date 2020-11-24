@@ -60,7 +60,6 @@ def forgot(request):
 
 def dash(request):
     if request.user.is_authenticated:
-        print(request.user.id)
         sets = dataset.objects.all().filter(user = request.user).values()
         sets2 =  model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
         return render(request, 'dashboard.html',{
@@ -104,6 +103,7 @@ def upload_db(request):
                 df = pd.read_csv(f)
             form = SetForm(request.POST)
             if form.is_valid():
+                df = df.reset_index().groupby("ID", as_index=False).max()
                 df['accepted'] = 0
                 instance = form.save(commit=False)
                 instance.user = request.user
@@ -161,7 +161,6 @@ def test(request):
 
 def set_list(request):
     if request.user.is_authenticated:
-        print(request.user.id)
         sets = dataset.objects.all().filter(user = request.user).values()
         return render(request, 'set_list.html',{
             'sets': sets
@@ -206,8 +205,8 @@ def predict(request):
             datapoints = data.objects.all().filter(dsid = dsetid).values()
             if not prediction.objects.filter(mid = modelid, did = datapoints[0]['id']).exists():
                 df = pd.DataFrame(datapoints)
-                df1 = df.fillna(0)
-                df1 = df1.drop(df.columns[[0, 1, 2]], axis = 1)
+                df1 = df.drop(df.columns[[0, 1, 2, 20]], axis = 1)
+                df1 = df1.fillna(0)
                 x = df1.values #returns a numpy array
                 min_max_scaler = preprocessing.MinMaxScaler()
                 x_scaled = min_max_scaler.fit_transform(x)
@@ -236,11 +235,10 @@ def predict(request):
             df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
 
             df = df.sort_values(by = ['score'], ascending = False)
-            df_records = df.to_dict('records')
-
+            df_records1 = df.to_dict('records')
             models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
             return render(request, 'view_dataset.html',{
-                'sets':df_records,
+                'sets':df_records1,
                 'dataset' : dsetid,
                 'models' : models
 
@@ -285,6 +283,8 @@ def delete_dataset(request):
         if request.method =='POST':
             dsid = request.POST['dsid']
             dataset.objects.filter(id = dsid).delete()
+
+        return redirect('dash')
     else:
         return redirect('login')
 
@@ -294,6 +294,20 @@ def delete_data(request):
             dsid = request.POST['dsid']
             dataid = request.POST['dataid']
             data.objects.filter(id = dataid).delete()
+            instance = dataset.objects.get(id = dsid)
+            count = data.objects.filter(dsid = instance).count()
+            instance.size = count
+            instance.save()
+            sets = data.objects.all().filter(dsid = dsid).values()
+            df = pd.DataFrame(sets)
+            df = df.fillna("")
+            sets = df.to_dict('records')
+            return render(request, 'edit.html',{
+                'sets':sets,
+                'dataset' : dsid
+
+            })
+        return redirect('dash')
     else:
         return redirect('login')
 
@@ -302,8 +316,28 @@ def delete_model(request):
         if request.method =='POST':
             mid = request.POST['model']
             dataset.objects.filter(id = mid).delete()
+        return redirect('dash')
     else:
         return redirect('login')
+
+def edit(request):
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            return redirect('dash')
+        else:
+            id = request.GET['dsid']
+            sets = data.objects.all().filter(dsid = id).values()
+            df = pd.DataFrame(sets)
+            df = df.fillna("")
+            sets = df.to_dict('records')
+            return render(request, 'edit.html',{
+                'sets':sets,
+                'dataset' : id
+
+            })
+    else:
+        return redirect('login')
+
 
 def edit_data(request):
     if request.user.is_authenticated:
