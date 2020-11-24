@@ -10,7 +10,7 @@ from django.db.models import Q
 import pandas as pd
 from sklearn import preprocessing
 import tensorflow as tf
-
+from json import dumps
 # Create your views here.
 
 def login(request):
@@ -168,7 +168,6 @@ def set_list(request):
     else:
         return redirect('login')
 
-
 def view(request):
     if request.user.is_authenticated:
         if request.method=="POST":
@@ -193,8 +192,6 @@ def view(request):
             })
     else:
         return redirect('login')
-
-
 
 
 def predict(request):
@@ -330,6 +327,7 @@ def edit(request):
             df = pd.DataFrame(sets)
             df = df.fillna("")
             sets = df.to_dict('records')
+            sets = dumps(sets)
             return render(request, 'edit.html',{
                 'sets':sets,
                 'dataset' : id
