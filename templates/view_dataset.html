@@ -98,13 +98,13 @@
     position: fixed;
     border: 3px solid #66666696;
     z-index: 9;
-    height: 900px;
-    width: 1200px;
+    height: 85%;
+    width: 75%;
     top: 53%;
     left: 50%;
-    margin-top:-475px;
-    margin-left:-600px;
-    overflow: hidden;
+    margin-top:-28%;
+    margin-left:-35%;
+    overflow: auto;
   }
   .form-container {
     padding: 12px;
@@ -114,20 +114,40 @@
     min-height: 100%;
   }
   .btn, .cancel {
-    padding: 5px;
-    margin-bottom: 8px;
-    background-color: #e6e6e6;
+    border: 3px solid #ccc !important;
+    border-radius:3px !important;
+    margin-bottom: 5px !important;
+    margin-top: 1% !important;
+    background-color: #e6e6e6 !important;
     color: black;
-    height: 40px;
+  }
+  .esc {
+    border: 3px solid #ccc !important;
+    border-radius:3px !important;
+    margin-bottom: 5px !important;
+    background-color: #e6e6e6 !important;
+    height: 8%;
+    width: 5%;
+    position: fixed;
+    right: 155px;
+    top: 25px;
   }
   .btn:hover, .cancel:hover {
     background-color: #b6b6b6;
   }
 
   .configSettings {
-    height: 500px;
+    height: 100%;
     overflow: auto;
     font-size: 115%;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .lbs {
+    margin-bottom: 20px;
+    position: relative;
+    bottom: 10px;
   }
 
   .slider {
@@ -136,10 +156,11 @@
     left: 375px; /**/
   }
   .slider.slider-horizontal {
-    width: 500px !important;
+    width: 50% !important;
   }
   .slider.slider-horizontal .slider-track {
-    height: 18px !important;
+    /*height: 18px !important; */
+    height: 105% !important;
   }
   .slider-handle {
     width: 33px !important;
@@ -151,14 +172,15 @@
   }
   .slider-tick-label {
     margin-top: 12px;
+    margin-bottom: 5px;
   }
 
   .excludeBtn {
-    height:6%;
-    width:6%;
-    position: sticky;
-    margin-top: -77px !important;
-    left: 178px !important;
+    height: 20px;
+    width: 10%;
+    right: 50%;
+    position: relative;
+    bottom: 10px;
   }
 
   .toggleDisplay, .toggleDisplay2 {
@@ -181,19 +203,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" /> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 
-
-<div class="content2" style="font-size:110%">
   <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
   <!-- Begin Page Content -->
   <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">Dashboard</h1>
+      <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">{{datasetname}}</h1>
     </div>
   <!-- Content Row -->
     <div class="row">
@@ -275,92 +295,99 @@
           </div>
         </div>
       </div>
+
+      <!-- Dropdown for Model List -->
+      <div class="col-xl-3 col-mb-6 mb-4">
+        <div class="dropdown">
+          <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
+          <div id="myDropdown" class="dropdown-content">
+              {% for model in models %}
+              <form action="predict/" method="post" id="ddForm">
+              {% csrf_token %}
+                <input type="hidden" name="model" value={{model.id}}>
+                <input type="hidden" name="dataset" value={{dataset}}>
+                <!--{{dataset}}-->
+                <button name ="submit" value="1" type="submit">{{model.name}}</button>
+              </form>
+              {% endfor %}
+            <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  
 </div>
 
-<div class="dropdown">
-  <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
-  <div id="myDropdown" class="dropdown-content">
-      {% for model in models %}
-      <form action="predict/" method="post" id="ddForm">
-      {% csrf_token %}
-        <input type="hidden" name="model" value={{model.id}}>
-        <input type="hidden" name="dataset" value={{dataset}}>
-        <!--{{dataset}}-->
-        <button name ="submit" value="1" type="submit">{{model.name}}</button>
-      </form>
-      {% endfor %}
-    <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
-  </div>
-</div>
+
 
 
 <div class="form-popup" id="newModelForm">
   <form action="" method="post" class="form-container">
-    <h3 style="margin-bottom:-20px; font-size:200%">Create a New Model</h3><br>
+    <h3 style="margin-bottom:-20px; font-size:200%">Create a New Model</h3><button type="button" class="esc" style="font-size:125%" onclick="closeForm()">X</button><br>
     <label for="modname" style="font-size:115%"><b>Model Name</b></label>
-    <input type="text" placeholder="Model Name" name="modname" required style="margin-top:-1px;display:block;padding:3px 20px;line-height:20px">
+    <input type="text" placeholder="Model Name" name="modname" required style="margin-top:-1px;display:block;padding:3px 20px;line-height:20px;width:92%">
     <label for="description" style="margin-top:0px;font-size:115%"><b>Description</b></label>
     <textarea type="textarea" placeholder="Description (Optional)" name="description"
-      style="height:43px;width:100%;padding:6px 20px;margin:-3px 0;margin-bottom:1px;display:inline-block;border:1px solid #ccc;box-sizing:border-box;resize:none"></textarea>
+      style="height:43px;width:92%;padding:6px 20px;margin:-3px 0;margin-bottom:1px;display:inline-block;border:1px solid #ccc;box-sizing:border-box;resize:none"></textarea>
       <label style="font-size:115%"><b>Configuration settings:</b></label><br>
-      <label for="Exclude" style="color:rgb(77, 77, 77);font-size:115%;padding-left:152px"><b>Exclude</b></label>
+      <label for="Exclude" style="color:rgb(77, 77, 77);font-size:115%;padding-left:21%"><b>Exclude</b></label>
       <div class="configSettings">
-        <label for="TCO" style="font-size:115%;position:relative;top:33px">TCO</label>
+        <label class="lbs" for="TCO">TCO</label>
         <input id="ex1" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex1-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="TVO" style="font-size:115%;position:relative;top:33px">TVO</label>
+        <label class="lbs" for="TVO">TVO</label>
         <input id="ex2" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex2-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="NET" style="font-size:115%;position:relative;top:33px">NET</label>
+        <label class="lbs" for="NET">NET</label>
         <input id="ex3" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex3-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="PP" style="font-size:115%;position:relative;top:33px">PP</label>
+        <label class="lbs" for="PP">PP</label>
         <input id="ex4" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2"data-slider-tooltip="hide"  data-slider-enabled="true"/>
         <input id="ex4-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="ROI" style="font-size:115%;position:relative;top:33px">ROI</label>
+        <label class="lbs" for="ROI">ROI</label>
         <input id="ex5" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex5-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="CapEx" style="font-size:115%;position:relative;top:33px">CapEx</label>
+        <label class="lbs" for="CapEx">CapEx</label>
         <input id="ex6" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex6-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="OneTime" style="font-size:115%;position:relative;top:33px">OneTime</label>
+        <label class="lbs" for="OneTime">OneTime</label>
         <input id="ex7" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex7-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="OnGoing" style="font-size:115%;position:relative;top:33px">OnGoing</label>
+        <label class="lbs" for="OnGoing">OnGoing</label>
         <input id="ex8" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex8-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="Revenue" style="font-size:115%;position:relative;top:33px">Revenue</label>
+        <label class="lbs" for="Revenue">Revenue</label>
         <input id="ex9" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex9-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="Saving" style="font-size:115%;position:relative;top:33px">Saving</label>
+        <label class="lbs" for="Saving">Saving</label>
         <input id="ex10" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex10-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="Avoid" style="font-size:115%;position:relative;top:33px">Avoid</label>
+        <label class="lbs" for="Avoid">Avoid</label>
         <input id="ex11" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex11-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="CostGrade" style="font-size:115%;position:relative;top:33px">Cost Grade</label>
+        <label class="lbs" for="CostGrade">Cost Grade</label>
         <input id="ex12" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex12-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="ValueScore" style="font-size:115%;position:relative;top:33px">Value Score</label>
+        <label class="lbs" for="ValueScore">Value Score</label>
         <input id="ex13" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex13-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="RiskScore" style="font-size:115%;position:relative;top:33px">Risk Score</label>
+        <label class="lbs" for="RiskScore">Risk Score</label>
         <input id="ex14" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex14-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="BlendedScore" style="font-size:115%;position:relative;top:33px">Blended Score</label>
+        <label class="lbs" for="BlendedScore">Blended Score</label>
         <input id="ex15" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex15-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="CalcPriority" style="font-size:115%;position:relative;top:33px">Calc Priority</label>
+        <label class="lbs" for="CalcPriority">Calc Priority</label>
         <input id="ex16" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex16-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="OverridedPriority" style="font-size:115%;position:relative;top:35px">Overrided Priority</label>
+        <label class="lbs" for="OverridedPriority">Overrided Priority</label>
         <input id="ex17" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex17-enabled" class="excludeBtn" type="checkbox"/><br>
       </div>
-    <button type="submit" class="btn" font-size="110%">Submit</button>
-    <button type="button" class="btn cancel" font-size="110%" onclick="closeForm()">Close</button>
+    <button type="submit" class="btn" style="font-size:110%">Submit</button>
+    <button type="button" class="btn cancel" style="font-size:110%" onclick="closeForm()">Close</button>
   </form>
 </div>
 
@@ -504,13 +531,11 @@
   }
 </script>
 
-</div>
 
-
-<div class="container">
+<div class="container" style="margin-left:0%">
   <div class="row">
       <div class="col-md-12">
-        <div class="table-responsive text-nowrap" style="width: 135%; padding-top:10%;margin-left:5%">
+        <div class="table-responsive text-nowrap" style="width: 145%; padding-top:5%;overflow:auto">
           <table class="table table-bordered">
             <thead>
               <tr>
