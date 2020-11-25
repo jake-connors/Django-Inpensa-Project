@@ -54,24 +54,24 @@ $(document).ready(function($)
 
 				//loop through ajax row data
 				tbl +='<tr row_id="'+row_id+'">';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="fname">'+val['name']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="lname">'+val['TCO']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['TVO']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['NET']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['PP']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['ROI']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['CapEx']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['OneTime']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['OnGoing']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['Revenue']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['Saving']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['Avoid']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['CostGrade']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['ValueScore']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['RiskScore']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['BlenderScore']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['CalcPriority']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="email">'+val['OverridedPriority']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="id">'+val['name']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+val['TCO']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+val['TVO']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+val['NET']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="CapEx">'+val['CapEx']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="OneTime">'+val['OneTime']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="OnGoing">'+val['OnGoing']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="Revenue">'+val['Revenue']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="Saving">'+val['Saving']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="Avoid">'+val['Avoid']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+val['CostGrade']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="BlenderScore">'+val['BlendedScore']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
 
 					//--->edit options > start
 					tbl +='<td>';
@@ -80,7 +80,8 @@ $(document).ready(function($)
 
 						//only show this button if edit button is clicked
 						tbl +='<span class="btn_save"> <a href="#" class="btn btn-link"  row_id="'+row_id+'"> Save</a> | </span>';
-						tbl +='<span class="btn_cancel"> <a href="#" class="btn btn-link" row_id="'+row_id+'"> Cancel</a> | </span>';
+            tbl +='<span class="btn_cancel"> <a href="#" class="btn btn-link" row_id="'+row_id+'"> Cancel</a> | </span>';
+            tbl +='<span class="btn_cancel"> <a href="#" class="btn btn-link" row_id="'+row_id+'"> Delete</a> | </span>';
 
 					tbl +='</td>';
 					//--->edit options > end
@@ -107,7 +108,8 @@ $(document).ready(function($)
 	$(document).find('.tbl_user_data').html(tbl);
 
 	$(document).find('.btn_save').hide();
-	$(document).find('.btn_cancel').hide(); 
+  $(document).find('.btn_cancel').hide(); 
+  $(document).find('.btn_delete').hide();
 
 
 	//--->make div editable > start
@@ -171,7 +173,8 @@ $(document).ready(function($)
 		var row_id = tbl_row.attr('row_id');
 
 		tbl_row.find('.btn_save').show();
-		tbl_row.find('.btn_cancel').show();
+    tbl_row.find('.btn_cancel').show();
+    tbl_row.find('.btn_delete').show();
 
 		//hide edit button
 		tbl_row.find('.btn_edit').hide(); 
@@ -234,7 +237,7 @@ $(document).ready(function($)
 		var row_id = tbl_row.attr('row_id');
 
 		
-		//hide save and cacel buttons
+		//hide save and cancel buttons
 		tbl_row.find('.btn_save').hide();
 		tbl_row.find('.btn_cancel').hide();
 
@@ -259,8 +262,18 @@ $(document).ready(function($)
 		//--->get row data > end
 
 		//use the "arr"	object for your ajax call
-		$.extend(arr, {row_id:row_id});
+    $.extend(arr, {row_id:row_id});
+    $.ajax({
+      url: './data_update/',
+      type: 'POST',
+      data: arr,
+      success: function(response){ 
+        alert("this did something");
 
+      },
+      complete:function(){}
+    })
+   
 		//out put to show
 		$('.post_msg').html( '<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>')
 		 
@@ -284,7 +297,7 @@ $(document).ready(function($)
 
 </div>
 
- 
+ {% csrf_token %}
 
 <div class="panel panel-default">
   <div class="panel-heading"><b>HTML Table Edits/Upates</b> </div>
