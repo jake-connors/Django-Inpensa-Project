@@ -238,10 +238,12 @@ def predict(request):
             df = df.sort_values(by = ['score'], ascending = False)
             df_records1 = df.to_dict('records')
             models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
+            instance = dataset.objects.get(id = request.GET['dataset'])
             return render(request, 'view_dataset.html',{
                 'sets':df_records1,
                 'dataset' : dsetid,
-                'models' : models
+                'models' : models,
+                'datasetname': instance.name
 
             })
         else:
