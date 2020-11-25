@@ -187,7 +187,6 @@ def view(request):
             sets = df.to_dict('records')
             models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
             instance = dataset.objects.get(id = request.GET['dataset'])
-            print(instance.name)
             return render(request, 'view_dataset.html',{
                 'sets':sets,
                 'dataset' : request.GET['dataset'],
