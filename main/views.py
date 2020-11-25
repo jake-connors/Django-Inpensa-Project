@@ -11,6 +11,8 @@ import pandas as pd
 from sklearn import preprocessing
 import tensorflow as tf
 from json import dumps
+from django.views.generic import View
+from django.http import JsonResponse
 # Create your views here.
 
 def login(request):
@@ -397,3 +399,32 @@ def add_data(request):
             accepted = request.POST['accepted'])
     else:
         return redirect('login')
+
+
+
+        
+def data_update( request):
+    id = request.POST.get('row_id')
+    print(id)
+    x = request.POST.get('col_name')
+    print(x)            
+    instance = data.objects.get(id = id)
+    arr = request.POST.get('arr')
+    print(arr)
+    instance.x = arr[x]
+    print(instance.x)
+    instance.save()
+    return JsonResponse({'data': 'worked'}, status =200)
+
+from time import time
+class AjaxHandlerView(View):
+    def get(self, request):
+        print(request.body)
+        return JsonResponse({'status': True})
+
+
+
+    def post(self, request):
+        print(request.body)
+        return JsonResponse({'status': True})
+        

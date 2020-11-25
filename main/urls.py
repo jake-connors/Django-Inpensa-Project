@@ -23,6 +23,6 @@ urlpatterns = [
     url(r'^edit_data/$', views.edit_data, name='edit_data'),
     url(r'^delete_data/$', views.delete_data, name='delete_data'),
     url(r'^edit/$', views.edit, name='edit'),
-
+    url(r'^ajax$', views.AjaxHandlerView.as_view())
     
 ]
