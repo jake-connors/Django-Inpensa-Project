@@ -180,20 +180,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
 
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 
-
-<div class="content2" style="font-size:110%">
   <!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
   <!-- Begin Page Content -->
   <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">Dashboard</h1>
+      <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">{{datasetname}}</h1>
     </div>
   <!-- Content Row -->
     <div class="row">
@@ -275,25 +271,32 @@
           </div>
         </div>
       </div>
+
+      <!-- Dropdown for Model List -->
+      <div class="col-xl-3 col-mb-6 mb-4">
+        <div class="dropdown">
+          <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
+          <div id="myDropdown" class="dropdown-content">
+              {% for model in models %}
+              <form action="predict/" method="post" id="ddForm">
+              {% csrf_token %}
+                <input type="hidden" name="model" value={{model.id}}>
+                <input type="hidden" name="dataset" value={{dataset}}>
+                <!--{{dataset}}-->
+                <button name ="submit" value="1" type="submit">{{model.name}}</button>
+              </form>
+              {% endfor %}
+            <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  
 </div>
 
-<div class="dropdown">
-  <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
-  <div id="myDropdown" class="dropdown-content">
-      {% for model in models %}
-      <form action="predict/" method="post" id="ddForm">
-      {% csrf_token %}
-        <input type="hidden" name="model" value={{model.id}}>
-        <input type="hidden" name="dataset" value={{dataset}}>
-        <!--{{dataset}}-->
-        <button name ="submit" value="1" type="submit">{{model.name}}</button>
-      </form>
-      {% endfor %}
-    <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
-  </div>
-</div>
+
 
 
 <div class="form-popup" id="newModelForm">
@@ -504,13 +507,11 @@
   }
 </script>
 
-</div>
-
 
 <div class="container">
   <div class="row">
       <div class="col-md-12">
-        <div class="table-responsive text-nowrap" style="width: 135%; padding-top:10%;margin-left:5%">
+        <div class="table-responsive text-nowrap" style="width: 135%; padding-top:10%;margin-left:5%; max-height:4%">
           <table class="table table-bordered">
             <thead>
               <tr>
