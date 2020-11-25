@@ -186,10 +186,13 @@ def view(request):
 
             sets = df.to_dict('records')
             models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
+            instance = dataset.objects.get(id = request.GET['dataset'])
+            print(instance.name)
             return render(request, 'view_dataset.html',{
                 'sets':sets,
                 'dataset' : request.GET['dataset'],
-                'models' : models
+                'models' : models,
+                'datasetname' : instance.name
 
             })
     else:
@@ -416,15 +419,21 @@ def data_update( request):
     instance.save()
     return JsonResponse({'data': 'worked'}, status =200)
 
-from time import time
-class AjaxHandlerView(View):
-    def get(self, request):
-        print(request.body)
-        return JsonResponse({'status': True})
+def edit_single_data(request):
+        dataid = request.POST.get('row_id')
+        datacolumn = list(request.POST.keys())[0]
+        datavalue = request.POST.get(datacolumn)
+        instance = data.objects.get(id = dataid)
+        instance.datacolumn = datavalue
+        instance.save()
+
+        print(dataid, datacolumn, datavalue,instance.datacolumn, instance.TCO)
+        return JsonResponse({'status': True}, status = 200)
 
 
 
-    def post(self, request):
-        print(request.body)
-        return JsonResponse({'status': True})
+def edit_whole_data(request):
+        arr= (request.POST.get('content'))
+        print(arr)
+        return JsonResponse({'status': True}, status = 200)
         
