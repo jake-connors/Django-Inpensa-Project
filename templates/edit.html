@@ -10,7 +10,7 @@
 <script type="text/javascript">
 $(document).ready(function($)
 { var ajax_data =JSON.parse("{{sets|escapejs}}");
-
+  var token = '{{csrf_token}}';
 
 	//--->create data table > start
 	var tbl = '';
@@ -19,7 +19,7 @@ $(document).ready(function($)
 		//--->create table header > start
 		tbl +='<thead>';
 			tbl +='<tr>';
-			tbl +='<th>name</th>';
+			tbl +='<th>ID</th>';
       tbl +='<th>TCO</th>';
       tbl +='<th>TVO</th>';
       tbl +='<th>NET</th>';
@@ -54,7 +54,7 @@ $(document).ready(function($)
 
 				//loop through ajax row data
 				tbl +='<tr row_id="'+row_id+'">';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="id">'+val['name']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+val['TCO']+'</div></td>';
           tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+val['TVO']+'</div></td>';
           tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+val['NET']+'</div></td>';
@@ -156,6 +156,20 @@ $(document).ready(function($)
 
 		//use the "arr"	object for your ajax call
 		$.extend(arr, {row_id:row_id});
+		
+		$.ajax({
+			headers: { "X-CSRFToken": token},
+			type: 'post',
+			url: "/ajax/edit_single_data",
+			dataType: "application/json",
+			data: arr,
+    	});
+
+
+
+
+
+
 
 		//out put to show
 		$('.post_msg').html( '<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>');
@@ -262,18 +276,15 @@ $(document).ready(function($)
 		//--->get row data > end
 
 		//use the "arr"	object for your ajax call
-    $.extend(arr, {row_id:row_id});
-    $.ajax({
-      url: './data_update/',
-      type: 'POST',
-      data: arr,
-      success: function(response){ 
-        alert("this did something");
+		$.extend(arr, {row_id:row_id});
 
-      },
-      complete:function(){}
-    })
-   
+		$.ajax({
+			type: 'get',
+			url: "/ajax",
+			dataType: "application/json",
+			data: arr
+    	})
+		console.log('wow this worked');
 		//out put to show
 		$('.post_msg').html( '<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>')
 		 
