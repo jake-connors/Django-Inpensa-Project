@@ -140,6 +140,14 @@
     height: 100%;
     overflow: auto;
     font-size: 115%;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .lbs {
+    margin-bottom: 20px;
+    position: relative;
+    bottom: 10px;
   }
 
   .slider {
@@ -170,8 +178,9 @@
   .excludeBtn {
     height: 20px;
     width: 10%;
-    right: 35%;
+    right: 50%;
     position: relative;
+    bottom: 10px;
   }
 
   .toggleDisplay, .toggleDisplay2 {
@@ -194,7 +203,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" /> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 
@@ -318,57 +327,57 @@
     <textarea type="textarea" placeholder="Description (Optional)" name="description"
       style="height:43px;width:92%;padding:6px 20px;margin:-3px 0;margin-bottom:1px;display:inline-block;border:1px solid #ccc;box-sizing:border-box;resize:none"></textarea>
       <label style="font-size:115%"><b>Configuration settings:</b></label><br>
-      <label for="Exclude" style="color:rgb(77, 77, 77);font-size:115%;padding-left:200px"><b>Exclude</b></label>
+      <label for="Exclude" style="color:rgb(77, 77, 77);font-size:115%;padding-left:21%"><b>Exclude</b></label>
       <div class="configSettings">
-        <label for="TCO">TCO</label>
+        <label class="lbs" for="TCO">TCO</label>
         <input id="ex1" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex1-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="TVO">TVO</label>
+        <label class="lbs" for="TVO">TVO</label>
         <input id="ex2" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex2-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="NET">NET</label>
+        <label class="lbs" for="NET">NET</label>
         <input id="ex3" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex3-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="PP">PP</label>
+        <label class="lbs" for="PP">PP</label>
         <input id="ex4" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2"data-slider-tooltip="hide"  data-slider-enabled="true"/>
         <input id="ex4-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="ROI">ROI</label>
+        <label class="lbs" for="ROI">ROI</label>
         <input id="ex5" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex5-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="CapEx">CapEx</label>
+        <label class="lbs" for="CapEx">CapEx</label>
         <input id="ex6" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex6-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="OneTime">OneTime</label>
+        <label class="lbs" for="OneTime">OneTime</label>
         <input id="ex7" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex7-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="OnGoing">OnGoing</label>
+        <label class="lbs" for="OnGoing">OnGoing</label>
         <input id="ex8" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex8-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="Revenue">Revenue</label>
+        <label class="lbs" for="Revenue">Revenue</label>
         <input id="ex9" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex9-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="Saving">Saving</label>
+        <label class="lbs" for="Saving">Saving</label>
         <input id="ex10" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex10-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="Avoid">Avoid</label>
+        <label class="lbs" for="Avoid">Avoid</label>
         <input id="ex11" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex11-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="CostGrade">Cost Grade</label>
+        <label class="lbs" for="CostGrade">Cost Grade</label>
         <input id="ex12" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex12-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="ValueScore">Value Score</label>
+        <label class="lbs" for="ValueScore">Value Score</label>
         <input id="ex13" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex13-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="RiskScore">Risk Score</label>
+        <label class="lbs" for="RiskScore">Risk Score</label>
         <input id="ex14" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex14-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="BlendedScore">Blended Score</label>
+        <label class="lbs" for="BlendedScore">Blended Score</label>
         <input id="ex15" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex15-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="CalcPriority">Calc Priority</label>
+        <label class="lbs" for="CalcPriority">Calc Priority</label>
         <input id="ex16" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex16-enabled" class="excludeBtn" type="checkbox"/><br>
-        <label for="OverridedPriority">Overrided Priority</label>
+        <label class="lbs" for="OverridedPriority">Overrided Priority</label>
         <input id="ex17" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
         <input id="ex17-enabled" class="excludeBtn" type="checkbox"/><br>
       </div>
