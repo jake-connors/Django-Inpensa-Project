@@ -425,16 +425,85 @@ def edit_single_data(request):
         datacolumn = list(request.POST.keys())[0]
         datavalue = request.POST.get(datacolumn)
         instance = data.objects.get(id = dataid)
-        instance.datacolumn = datavalue
-        instance.save()
+        
+        if(datacolumn == "name"):
+            instance.name = datavalue
+        elif(datacolumn == "TCO"):
+            instance.TCO = datavalue
+        elif(datacolumn == "TVO"):
+            instance.TVO = datavalue
+        elif(datacolumn == "NET"):
+            instance.NET = datavalue
+        elif(datacolumn == "PP"):
+            instance.PP = datavalue
+        elif(datacolumn == "ROI"):
+            instance.ROI = datavalue
+        elif(datacolumn == "CapEx"):
+            instance.CapEx = datavalue
+        elif(datacolumn == "OneTime"):
+            instance.OneTime = datavalue
+        elif(datacolumn == "OnGoing"):
+            instance.OnGoing = datavalue
+        elif(datacolumn == "Revenue"):
+            instance.Revenue = datavalue
+        elif(datacolumn == "Saving"):
+            instance.Saving = datavalue
+        elif(datacolumn == "Avoid"):
+            instance.Avoid = datavalue
+        elif(datacolumn == "CostGrade"):
+            instance.CostGrade = datavalue
+        elif(datacolumn == "ValueScore"):
+            instance.ValueScore = datavalue
+        elif(datacolumn == "RiskScore"):
+            instance.RiskScore = datavalue
+        elif(datacolumn == "BlendedScore"):
+            instance.BlendedScore = datavalue
+        elif(datacolumn == "CalcPriority"):
+            instance.CalcPriority = datavalue
+        elif(datacolumn == "OverridedPriority"):
+            instance.OverridedPriority = datavalue
+        
 
-        print(dataid, datacolumn, datavalue,instance.datacolumn, instance.TCO)
+        instance.save()
+        dsid = instance.dsid
+        instance2 = dataset.objects.get(id = dsid.id)
+        instance2.name = instance2.name
+        instance2.save()
+
+
+
+        print(dataid, datacolumn, datavalue, instance.TCO)
         return JsonResponse({'status': True}, status = 200)
 
 
 
 def edit_whole_data(request):
-        arr= (request.POST.get('content'))
-        print(arr)
+        instance = data.objects.get(id = request.POST.get('row_id'))
+        instance.name = request.POST.get('name')
+        instance.TCO = request.POST.get('TCO')
+        instance.TVO = request.POST.get('TVO')
+        instance.NET = request.POST.get('NET')
+        instance.PP = request.POST.get('PP')
+        instance.ROI = request.POST.get("ROI")
+        instance.CapEx = request.POST.get('CapEx')
+        instance.OneTime = request.POST.get('OneTime')
+        instance.OnGoing = request.POST.get('OnGoing')
+        instance.Revenue = request.POST.get('Revenue')
+        instance.Saving = request.POST.get('Saving')
+        instance.Avoid = request.POST.get('Avoid')
+        instance.CostGrade = request.POST.get('CostGrade')
+        instance.ValueScore = request.POST.get('ValueScore')
+        instance.RiskScore = request.POST.get('RiskScore')
+        instance.BlendedScore = request.POST.get('BlendedScore')
+        instance.CalcPriority = request.POST.get('CalcPriority')
+        instance.OverridedPriority = request.POST.get('OverridedPriority')
+        
+        instance.save()
+        dsid = instance.dsid
+        instance2 = dataset.objects.get(id = dsid.id)
+        instance2.name = instance2.name
+        instance2.save()
+
+        
         return JsonResponse({'status': True}, status = 200)
         

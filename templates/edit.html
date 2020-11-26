@@ -34,7 +34,7 @@ $(document).ready(function($)
       tbl +='<th>Cost Grade</th>';
       tbl +='<th>Value Score</th>';
       tbl +='<th>Risk Score</th>';
-      tbl +='<th>Blender Score</th>';
+      tbl +='<th>Blended Score</th>';
       tbl +='<th>Calc Priority</th>';
 			tbl +='<th>Overrided Priority</th>';
 			tbl +='<th>Options</th>';
@@ -69,7 +69,7 @@ $(document).ready(function($)
           tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+val['CostGrade']+'</div></td>';
           tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
           tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="BlenderScore">'+val['BlendedScore']+'</div></td>';
+          tbl +='<td ><div class="row_data" edit_type="click" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
           tbl +='<td ><div class="row_data" edit_type="click" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
           tbl +='<td ><div class="row_data" edit_type="click" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
 
@@ -278,13 +278,14 @@ $(document).ready(function($)
 		//use the "arr"	object for your ajax call
 		$.extend(arr, {row_id:row_id});
 
+		
 		$.ajax({
-			type: 'get',
-			url: "/ajax",
+			headers: { "X-CSRFToken": token},
+			type: 'post',
+			url: "/ajax/edit_whole_data",
 			dataType: "application/json",
-			data: arr
-    	})
-		console.log('wow this worked');
+			data: arr,
+    	});
 		//out put to show
 		$('.post_msg').html( '<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>')
 		 
