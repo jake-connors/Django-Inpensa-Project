@@ -66,7 +66,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Budget</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" contentEditable="true">$1,000,000 (editable)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" contentEditable="true">${{budget}}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -243,11 +243,13 @@
                                             <div class="modal-content">
                                                 <span class="close">&times;</span>
                                                     <h3 style="padding-bottom: 1%">Upload Dataset</h3>
-                                                    <form method="POST" enctype='multipart/form-data' style="color:black">
+                                                    <form action = "/upload/" method="POST" enctype='multipart/form-data' style="color:black">
                                                         {% csrf_token %}
                                                         {{ form }}
                                                         <label style="width:30%; float:left; font-size: 16px" for="dataname">Name of data set:</label>
-                                                        <input style="width:65%; float:right; height:10px; size:50; padding:4; margin-top:0" type="text" name="dataname" required><br><br>
+                                                        <input style="width:65%; float:right; height:10px; size:50; padding:4; margin-top:0" type="text" name="name" required><br><br>
+                                                        <label style="width:30%; float:left; font-size: 16px" for="dataname">Avaiable Budget:</label>
+                                                        <input style="width:65%; float:right; height:10px; size:50; padding:4; margin-top:0" type="text" name="budget" required><br><br>
                                                         <input type="file" id="dataFile" name="Project Data" accept=".csv, .xlsx" style="float: left; padding-left: 6px">
                                                         <input type="submit" value="Submit File" style="float:right;">
                                                     </form>
@@ -391,8 +393,7 @@
                                     <table style="border-bottom: 2px;">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
-                                        <h4 class="small font-weight-bold">Size: </h4>
-                                        <h4 class="small font-weight-bold">Last Edited: </h4>
+                                        <h4 class="small font-weight-bold">Accuracy: {{data.accuracy}}%</h4>
                                         <form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">
                                             {% csrf_token %}
                                             <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">
