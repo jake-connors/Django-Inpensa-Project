@@ -13,6 +13,8 @@ import tensorflow as tf
 from json import dumps
 from django.views.generic import View
 from django.http import JsonResponse
+from sklearn.model_selection import train_test_split
+import os
 # Create your views here.
 
 def login(request):
@@ -63,7 +65,7 @@ def forgot(request):
 def dash(request):
     if request.user.is_authenticated:
         sets = dataset.objects.all().filter(user = request.user).values()
-        sets2 =  model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
+        sets2 =  model.objects.all().filter(user = request.user).values()
         return render(request, 'dashboard.html',{
             'sets': sets,
             'sets2': sets2
@@ -107,10 +109,8 @@ def upload_db(request):
             if form.is_valid():
                 df = df.reset_index().groupby("ID", as_index=False).max()
                 df['accepted'] = 0
-                instance = form.save(commit=False)
-                instance.user = request.user
-                instance = form.save()
-                
+                instance = dataset(user = request.user, name = request.POST['name'], budget = request.POST['budget'])
+                instance.save()
                 df_records = df.to_dict('records')
                 
                 model_instances = [data(
@@ -139,8 +139,11 @@ def upload_db(request):
                 data.objects.bulk_create(model_instances)
 
                 count = data.objects.filter(dsid = instance).count()
-                instance.size = count
-                instance.save()
+                if (count != 0):
+                    instance.size = count
+                    instance.save()
+                else:
+                    instance.delete()
 
 
             
@@ -191,7 +194,8 @@ def view(request):
                 'sets':sets,
                 'dataset' : request.GET['dataset'],
                 'models' : models,
-                'datasetname' : instance.name
+                'datasetname' : instance.name,
+                'budget' : instance.budget
 
             })
     else:
@@ -205,21 +209,43 @@ def predict(request):
             dsetid = request.POST['dataset']
             datapoints = data.objects.all().filter(dsid = dsetid).values()
             if not prediction.objects.filter(mid = modelid, did = datapoints[0]['id']).exists():
+                model1 = model.objects.get(id = modelid)
+                settings = {'TCO' : model.TCO,
+                'TVO': model1.TVO,
+                'NET' : model1.NET,
+                'PP' : model1.PP,
+                'ROI' : model1.ROI,
+                'CapEx' : model1.CapEx,
+                'OneTime' : model1.OneTime,
+                'OnGoing' : model1.OnGoing,
+                'Revenue' : model1.Revenue,
+                'Saving' : model1.Saving,
+                'Avoid' : model1.Avoid,
+                'Cost Grade' : model1.CostGrade,
+                'Value Score' : model1.ValueScore,
+                'Risk Score' : model1.RiskScore,
+                'Blended Score' : model1.BlendedScore,
+                'Calc Priority': model1.CalcPriority,
+                'Overrided Priority' : model1.OverridedPriority
+                }
+
                 df = pd.DataFrame(datapoints)
                 df1 = df.drop(df.columns[[0, 1, 2, 20]], axis = 1)
+                for x in settings:
+                    if settings[x] == 0:
+                        df1 = df.drop(x, axis = 1)
                 df1 = df1.fillna(0)
                 x = df1.values #returns a numpy array
                 min_max_scaler = preprocessing.MinMaxScaler()
                 x_scaled = min_max_scaler.fit_transform(x)
-                m = model.objects.all().filter(id = modelid).values()
-                m2 = model.objects.get(id = modelid)
-                loadedmodel = tf.keras.models.load_model('media/'+m[0]['kfile'])
+                loadedmodel = tf.keras.models.load_model(model1.kfile)
                 pred = loadedmodel.predict(x_scaled)
+                
                 df['pred'] = pred
                 df_records = df.to_dict('records')
                 model_instances = [prediction(
                     did =data.objects.get(id = record['id']),
-                    mid =m2,
+                    mid =model1,
                     score = record['pred'],
                     dsid = dataset.objects.get(id = dsetid)
 
@@ -243,7 +269,8 @@ def predict(request):
                 'sets':df_records1,
                 'dataset' : dsetid,
                 'models' : models,
-                'datasetname': instance.name
+                'datasetname': instance.name,
+                'budget': instance.budget
 
             })
         else:
@@ -264,20 +291,90 @@ def models(request):
     else:
         return redirect('login')
 
-def modelcreate(request):
+def cmodel(request):
     if request.user.is_authenticated:
         if request.method =="POST":
-            form = SetForm(request.POST)
+            df = pd.read_excel("static/data/training.xlsx")
+            settings = {'TCO' : request.POST['TCO'],
+            'TVO': request.POST['TVO'],
+            'NET' : request.POST['NET'],
+            'PP' : request.POST['PP'],
+            'ROI' : request.POST['ROI'],
+            'CapEx' : request.POST['CapEx'],
+            'OneTime' : request.POST['OneTime'],
+            'OnGoing' : request.POST['OnGoing'],
+            'Revenue' : request.POST['Revenue'],
+            'Saving' : request.POST['Saving'],
+            'Avoid' : request.POST['Avoid'],
+            'Cost Grade' : request.POST['CostGrade'],
+            'Value Score' : request.POST['ValueScore'],
+            'Risk Score' : request.POST['RiskScore'],
+            'Blended Score' : request.POST['BlendedScore'],
+            'Calc Priority': request.POST['CalcPriority'],
+            'Overrided Priority' : request.POST['OverridedPriority']
+            }
+            df['picked'] = [1 if x==4 else 0 for x in df['Overrided Priority']]
+            for x in settings:
+                if settings[x] == 0:
+                    df = df.drop(x, axis = 1)
 
-            if form.is_valid():
-                instance = form.save(commit=False)
-                instance.user = request.user
-                instance = form.save()
+            x = df.values #returns a numpy array
+            min_max_scaler = preprocessing.MinMaxScaler()
+            x_scaled = min_max_scaler.fit_transform(x)
+            df = pd.DataFrame(x_scaled)
+            x_df = df.drop(df.shape[1]-1, axis = 1).values
+            y_df = df[df.shape[1]-1].values
 
-            return render(request, 'view_models.html')
-        else:
-            form = ModelForm()
-            return render(request,'create_model.html',{'form': form})
+            X_train, X_test, Y_train, Y_test = train_test_split(x_df, y_df, test_size = 0.2)
+            model1 = tf.keras.Sequential([
+                tf.keras.Input(shape=(df.shape[1]-1,)),
+                tf.keras.layers.Dense(32, activation="relu"),
+                tf.keras.layers.Dense(32, activation="relu"),
+                tf.keras.layers.Dense(1, activation="sigmoid"),
+            ])
+
+
+            model1.compile(optimizer='adam',
+                        loss='binary_crossentropy',
+                        metrics=['accuracy'])
+            history = model1.fit(X_train,
+                                Y_train,
+                                epochs =100,
+                                validation_data= (X_test,Y_test),
+                                verbose=0,
+                            shuffle = False,
+                            batch_size =64)
+            acc = history.history['accuracy']
+            val_acc = history.history.get('val_accuracy')[-1]
+            import random
+            model_location = "static/data/saved_models/"+str(request.user.username)+"_"+str(request.POST['modname'])+"_"+str(random.randrange(100,999,3))+".h5"
+            model_location = model_location.replace(" ", "")
+            model1.save(model_location)
+            instance = model(user = request.user,
+                name = request.POST['modname'],
+                kfile = model_location,
+                TCO = settings['TCO'], 
+                TVO = settings['TVO'],
+                NET= settings['NET'],
+                PP = settings['PP'],
+                ROI = settings['ROI'],
+                CapEx = settings['CapEx'],
+                OneTime= settings['OneTime'],
+                OnGoing = settings['OnGoing'],
+                Revenue = settings['Revenue'],
+                Saving = settings['Saving'],
+                Avoid = settings['Avoid'],
+                CostGrade = settings['Cost Grade'],
+                ValueScore = settings['Value Score'],
+                RiskScore = settings['Risk Score'],
+                BlendedScore = settings['Blended Score'],
+                CalcPriority = settings['Calc Priority'],
+                OverridedPriority = settings['Overrided Priority']) 
+            
+            instance.accuracy = val_acc*100
+            instance.save()
+
+        return redirect('/view/?dataset=11')
     else:
         return redirect('login')
 
@@ -318,7 +415,9 @@ def delete_model(request):
     if request.user.is_authenticated:
         if request.method =='POST':
             mid = request.POST['model']
-            dataset.objects.filter(id = mid).delete()
+            instance = model.objects.get(id = mid)
+            os.remove(instance.kfile)
+            instance.delete()
         return redirect('dash')
     else:
         return redirect('login')
@@ -409,14 +508,10 @@ def add_data(request):
         
 def data_update( request):
     id = request.POST.get('row_id')
-    print(id)
     x = request.POST.get('col_name')
-    print(x)            
     instance = data.objects.get(id = id)
     arr = request.POST.get('arr')
-    print(arr)
     instance.x = arr[x]
-    print(instance.x)
     instance.save()
     return JsonResponse({'data': 'worked'}, status =200)
 
@@ -469,10 +564,9 @@ def edit_single_data(request):
         instance2 = dataset.objects.get(id = dsid.id)
         instance2.name = instance2.name
         instance2.save()
+        prediction.objects.filter(dsid = dsid.id).delete()
 
 
-
-        print(dataid, datacolumn, datavalue, instance.TCO)
         return JsonResponse({'status': True}, status = 200)
 
 
@@ -503,6 +597,8 @@ def edit_whole_data(request):
         instance2 = dataset.objects.get(id = dsid.id)
         instance2.name = instance2.name
         instance2.save()
+
+        prediction.objects.filter(dsid = dsid.id).delete()
 
         
         return JsonResponse({'status': True}, status = 200)

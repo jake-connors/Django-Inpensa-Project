@@ -46,8 +46,7 @@ class data(models.Model):
 class model(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name =  models.CharField(max_length=50)
-    kfile = models.FileField()
-    numOfFeatures = models.IntegerField(2)
+    kfile = models.CharField(max_length=200)
     TCO = models.IntegerField(1)
     TVO = models.IntegerField(1)
     NET =models.IntegerField(1)
@@ -65,6 +64,7 @@ class model(models.Model):
     BlendedScore =models.IntegerField(1)
     CalcPriority =models.IntegerField(1)
     OverridedPriority =models.IntegerField(1)
+    accuracy = models.FloatField(null = True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
