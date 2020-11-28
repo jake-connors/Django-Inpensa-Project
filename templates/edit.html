@@ -1,119 +1,151 @@
-{% extends 'base.html' %}
+{% extends 'base.html'%}
 {% block content %}
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-
-<style>
-	body{
-		font-size: 75%;
-	}
-</style>
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
 
 <script type="text/javascript">
+var dsid =JSON.parse("{{dataset|escapejs}}")
 $(document).ready(function($)
-{ var ajax_data =JSON.parse("{{sets|escapejs}}");
-  var token = '{{csrf_token}}';
+{ 	 
+	function create_html_table (tbl_data)
+	{	
+		tbl_data = JSON.parse(tbl_data)
+		//--->create data table > start
+		var tbl = '';
+		//add new table row
+		tbl +='<div class="text-left">';
+			tbl +='<span class="btn btn-primary btn_new_row">Add New Row</span>';
+		tbl +='<div>';
+		tbl +='<table class="table table-hover tbl_code_with_mark">'
 
-	//--->create data table > start
-	var tbl = '';
-	tbl +='<table class="table table-hover">'
-
-		//--->create table header > start
+			//--->create table header > start
 		tbl +='<thead>';
-			tbl +='<tr>';
-			tbl +='<th>ID</th>';
-      tbl +='<th>TCO</th>';
-      tbl +='<th>TVO</th>';
-      tbl +='<th>NET</th>';
-      tbl +='<th>PP</th>';
-      tbl +='<th>ROI</th>';
-      tbl +='<th>CapEx</th>';
-      tbl +='<th>OneTime</th>';
-      tbl +='<th>OnGoing</th>';
-      tbl +='<th>Revenue</th>';
-      tbl +='<th>Saving</th>';
-      tbl +='<th>Avoid</th>';
-      tbl +='<th>Cost Grade</th>';
-      tbl +='<th>Value Score</th>';
-      tbl +='<th>Risk Score</th>';
-      tbl +='<th>Blended Score</th>';
-      tbl +='<th>Calc Priority</th>';
-			tbl +='<th>Overrided Priority</th>';
-			tbl +='<th>Options</th>';
-			tbl +='</tr>';
+		tbl +='<tr>';
+		tbl +='<th>ID</th>';
+		tbl +='<th>TCO</th>';
+		tbl +='<th>TVO</th>';
+		tbl +='<th>NET</th>';
+		tbl +='<th>PP</th>';
+		tbl +='<th>ROI</th>';
+		tbl +='<th>CapEx</th>';
+		tbl +='<th>OneTime</th>';
+		tbl +='<th>OnGoing</th>';
+		tbl +='<th>Revenue</th>';
+		tbl +='<th>Saving</th>';
+		tbl +='<th>Avoid</th>';
+		tbl +='<th>Cost Grade</th>';
+		tbl +='<th>Value Score</th>';
+		tbl +='<th>Risk Score</th>';
+		tbl +='<th>Blended Score</th>';
+		tbl +='<th>Calc Priority</th>';
+		tbl +='<th>Overrided Priority</th>';
+		tbl +='<th>Options</th>';
+		tbl +='</tr>';
 		tbl +='</thead>';
 		//--->create table header > end
+			
+			//--->create table body > start
+			tbl +='<tbody>';
 
-		
-		//--->create table body > start
-		tbl +='<tbody>';
-
-			//--->create table body rows > start
-			$.each(ajax_data, function(index, val) 
-			{
-				//you can replace with your database row id
-				var row_id =val['id'];
-
-				//loop through ajax row data
-				tbl +='<tr row_id="'+row_id+'">';
+				//--->create table body rows > start
+				$.each(tbl_data, function(index, val) 
+				{
+					//you can replace with your database row id
+					var row_id = val['id'];
+					//loop through ajax row data
+					tbl +='<tr row_id="'+row_id+'">';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+val['TCO']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+val['TVO']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+val['NET']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="CapEx">'+val['CapEx']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="OneTime">'+val['OneTime']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="OnGoing">'+val['OnGoing']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="Revenue">'+val['Revenue']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="Saving">'+val['Saving']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="Avoid">'+val['Avoid']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+val['CostGrade']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+val['TVO']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+val['NET']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="CapEx">'+val['CapEx']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="OneTime">'+val['OneTime']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="OnGoing">'+val['OnGoing']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="Revenue">'+val['Revenue']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="Saving">'+val['Saving']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="Avoid">'+val['Avoid']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+val['CostGrade']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
 
-					//--->edit options > start
-					tbl +='<td>';
-					 
-						tbl +='<span class="btn_edit" > <a href="#" class="btn btn-link " row_id="'+row_id+'" > Edit</a> </span>';
+						//--->edit options > start
+						tbl +='<td>';						 
+							tbl +='<span class="btn_edit" > <a href="#" class="btn btn-link " row_id="'+row_id+'" > Edit</a> </span>';
+							//only show this button if edit button is clicked
+							tbl +='<a href="#" class="btn_save btn btn-link"  row_id="'+row_id+'"> Save </a>';
+							tbl +='<a href="#" class="btn_cancel btn btn-link" row_id="'+row_id+'"> Cancel </a>';
+							tbl +='<a href="#" class="btn_delete btn btn-link1 text-danger" row_id="'+row_id+'"> Delete</a>';
+						tbl +='</td>';
+						//--->edit options > end						
+					tbl +='</tr>';
+				});
+				//--->create table body rows > end
+			tbl +='</tbody>';
+			//--->create table body > end
 
-						//only show this button if edit button is clicked
-						tbl +='<span class="btn_save"> <a href="#" class="btn btn-link"  row_id="'+row_id+'"> Save</a> | </span>';
-            tbl +='<span class="btn_cancel"> <a href="#" class="btn btn-link" row_id="'+row_id+'"> Cancel</a> | </span>';
-            tbl +='<span class="btn_cancel"> <a href="#" class="btn btn-link" row_id="'+row_id+'"> Delete</a> | </span>';
+		tbl +='</table>';
+		//--->create data table > end
 
-					tbl +='</td>';
-					//--->edit options > end
-					
-				tbl +='</tr>';
-			});
+		
 
-			//--->create table body rows > end
+		//out put table data
+		$(document).find('.tbl_user_data').html(tbl);
 
-		tbl +='</tbody>';
-		//--->create table body > end
-
-	tbl +='</table>'	
-	//--->create data table > end
+		$(document).find('.btn_save').hide();
+		$(document).find('.btn_cancel').hide(); 	
+		$(document).find('.btn_delete').hide(); 
+			
+	}
 
 
+	var ajax_url = "/ajax/get_data/" ;
+	var dsid =JSON.parse("{{dataset|escapejs}}")
+	//create table on page load
+	//create_html_table(ajax_data);
+
+	//--->create table via ajax call > start
+	$.ajax({
+		type: 'get',
+		url: "/ajax/get_data",
+		dataType: "json",
+		data: {
+			dsid: dsid
+		},
+		error: function(xhr,textStatus,err){
+		console.log("readyState: " + xhr.readyState);
+		console.log("responseText: "+ xhr.responseText);
+		console.log("status: " + xhr.status);
+		console.log("text status: " + textStatus);
+		console.log("error: " + err);
+		},
+		success: function(data){
+			create_html_table(data);
+		},
+		failure: function(){
+			alert('An error occured: Please try again');
+		}
+    });
 
 
 
 
 
 
-	//out put table data
-	$(document).find('.tbl_user_data').html(tbl);
 
-	$(document).find('.btn_save').hide();
-  $(document).find('.btn_cancel').hide(); 
-  $(document).find('.btn_delete').hide();
+
+	/*
+	$.getJSON(ajax_url,{call_type:'get', 'dsid' : dsid},function(sets) 
+	{
+		alert('um');
+		create_html_table(JSON.parse(sets));
+	});
+	//--->create table via ajax call > end
+	*/
+
 
 
 	//--->make div editable > start
@@ -132,9 +164,11 @@ $(document).ready(function($)
 		$(this).addClass('bg-warning').css('padding','5px');
 
 		$(this).focus();
+
+		$(this).attr('original_entry', $(this).html());
+
 	})	
 	//--->make div editable > end
-
 
 	//--->save single field data > start
 	$(document).on('focusout', '.row_data', function(event) 
@@ -146,6 +180,9 @@ $(document).ready(function($)
 			return false; 
 		}
 
+		//get the original entry
+		var original_entry = $(this).attr('original_entry');
+
 		var row_id = $(this).closest('tr').attr('row_id'); 
 		
 		var row_div = $(this)				
@@ -154,34 +191,60 @@ $(document).ready(function($)
 
 		var col_name = row_div.attr('col_name'); 
 		var col_val = row_div.html(); 
-
-		var arr = {};
-		arr[col_name] = col_val;
-
-		//use the "arr"	object for your ajax call
-		$.extend(arr, {row_id:row_id});
 		
-		$.ajax({
-			headers: { "X-CSRFToken": token},
-			type: 'post',
-			url: "/ajax/edit_single_data",
-			dataType: "application/json",
-			data: arr,
-    	});
+		var arr = {};
+		//get the col name and value
+		arr[col_name] = col_val; 
+		//get row id value
+		arr['row_id'] = row_id;
 
+		if(original_entry != col_val)
+		{ 
+			//remove the attr so that new entry can take place
+			$(this).removeAttr('original_entry');
 
+			//ajax api json data			 
+			var data_obj = 
+			{
+				row_id: row_id,
+				col_name: col_name,
+				col_val:col_val,
+				call_type: 'single_entry',				
+			};
 
+			
+			//call ajax api to update the database record
+			$.post("/ajax/edit_single_data/", data_obj, function(data) 
+			{
+				var d1 = data;
+				if(d1.status == "error")
+				{
+					var msg = ''
+					+ '<h3>There was an error while trying to update your entry</h3>'
+					+'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+					+'';
 
+					//$('.post_msg').html(msg);
+				}
+				else if(d1.status == "success")
+				{
+					var msg = ''
+					+ '<h3>Successfully updated your entry</h3>'
+					+'<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>'
+					+'';
 
-
-
-		//out put to show
-		$('.post_msg').html( '<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>');
+					//$('.post_msg').html(msg);
+				}
+			});
+		}
+		else
+		{
+			//$('.post_msg').html('');
+		}
 		
 	})	
 	//--->save single field data > end
 
- 
 	//--->button > edit > start	
 	$(document).on('click', '.btn_edit', function(event) 
 	{
@@ -191,8 +254,8 @@ $(document).ready(function($)
 		var row_id = tbl_row.attr('row_id');
 
 		tbl_row.find('.btn_save').show();
-    tbl_row.find('.btn_cancel').show();
-    tbl_row.find('.btn_delete').show();
+		tbl_row.find('.btn_cancel').show();
+		tbl_row.find('.btn_delete').show();
 
 		//hide edit button
 		tbl_row.find('.btn_edit').hide(); 
@@ -228,6 +291,7 @@ $(document).ready(function($)
 		//hide save and cacel buttons
 		tbl_row.find('.btn_save').hide();
 		tbl_row.find('.btn_cancel').hide();
+		tbl_row.find('.btn_delete').hide();
 
 		//show edit button
 		tbl_row.find('.btn_edit').show();
@@ -255,9 +319,10 @@ $(document).ready(function($)
 		var row_id = tbl_row.attr('row_id');
 
 		
-		//hide save and cancel buttons
+		//hide save and cacel buttons
 		tbl_row.find('.btn_save').hide();
 		tbl_row.find('.btn_cancel').hide();
+		tbl_row.find('.btn_delete').hide();
 
 		//show edit button
 		tbl_row.find('.btn_edit').show();
@@ -279,51 +344,277 @@ $(document).ready(function($)
 		});
 		//--->get row data > end
 
-		//use the "arr"	object for your ajax call
-		$.extend(arr, {row_id:row_id});
+		//get row id value
+		arr['row_id'] = row_id;
 
-		
-		$.ajax({
-			headers: { "X-CSRFToken": token},
-			type: 'post',
-			url: "/ajax/edit_whole_data",
-			dataType: "application/json",
-			data: arr,
-    	});
 		//out put to show
-		$('.post_msg').html( '<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>')
-		 
+		//$('.post_msg').html( '<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>');
 
+		//add call type for ajax call
+		arr['call_type'] = 'row_entry';
+
+		//call ajax api to update the database record
+		$.post("/ajax/edit_whole_data/", arr, function(data) 
+		{
+			var d1 = JSON.parse(data);
+			if(d1.status == "error")
+			{
+				var msg = '<h3>There was an error while trying to update your entry</h3><pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>';
+
+				//$('.post_msg').html(msg);
+			}
+			else if(d1.status == "success")
+			{
+				var msg = '<h3>Successfully updated your entry</h3><pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>';
+
+				//$('.post_msg').html(msg);
+			}			
+		});
 	});
 	//--->save whole row entery > end
 
 
-}); 
+
+	$(document).on('click', '.btn_new_row', function(event) 
+	{
+		event.preventDefault();
+		//create a random id
+		var row_id = Math.random().toString(36).substr(2);
+
+		//get table rows
+		var tbl_row = $(document).find('.tbl_code_with_mark').find('tr');	 
+		var tbl = '';
+		tbl +='<tr row_id="'+row_id+'">';
+			tbl +='<td ><div class="new_row_data name bg-warning" contenteditable="true" edit_type="click" col_name="name"></div></td>';
+			tbl +='<td ><div class="new_row_data tco bg-warning" contenteditable="true" edit_type="click" col_name="TCO"></div></td>';
+			tbl +='<td ><div class="new_row_data tvo bg-warning" contenteditable="true" edit_type="click" col_name="TVO"></div></td>';
+			tbl +='<td ><div class="new_row_data net bg-warning" contenteditable="true" edit_type="click" col_name="NET"></div></td>';
+			tbl +='<td ><div class="new_row_data pp bg-warning" contenteditable="true" edit_type="click" col_name="PP"></div></td>';
+			tbl +='<td ><div class="new_row_data roi bg-warning" contenteditable="true" edit_type="click" col_name="ROI"></div></td>';
+			tbl +='<td ><div class="new_row_data capex bg-warning" contenteditable="true" edit_type="click" col_name="CapEx"></div></td>';
+			tbl +='<td ><div class="new_row_data onetime bg-warning" contenteditable="true" edit_type="click" col_name="OneTime"></div></td>';
+			tbl +='<td ><div class="new_row_data ongoing bg-warning" contenteditable="true" edit_type="click" col_name="OnGoing"></div></td>';
+			tbl +='<td ><div class="new_row_data revenue bg-warning" contenteditable="true" edit_type="click" col_name="Revenue"></div></td>';
+			tbl +='<td ><div class="new_row_data saving bg-warning" contenteditable="true" edit_type="click" col_name="Saving"></div></td>';
+			tbl +='<td ><div class="new_row_data avoid bg-warning" contenteditable="true" edit_type="click" col_name="Avoid"></div></td>';
+			tbl +='<td ><div class="new_row_data costgrade bg-warning" contenteditable="true" edit_type="click" col_name="CostGrade"></div></td>';
+			tbl +='<td ><div class="new_row_data valuescore bg-warning" contenteditable="true" edit_type="click" col_name="ValueScore"></div></td>';
+			tbl +='<td ><div class="new_row_data riskscore bg-warning" contenteditable="true" edit_type="click" col_name="RiskScore"></div></td>';
+			tbl +='<td ><div class="new_row_data blendedscore bg-warning" contenteditable="true" edit_type="click" col_name="BlendedScore"></div></td>';
+			tbl +='<td ><div class="new_row_data calcpriority bg-warning" contenteditable="true" edit_type="click" col_name="CalcPriority"></div></td>';
+			tbl +='<td ><div class="new_row_data overridedpriority bg-warning" contenteditable="true" edit_type="click" col_name="OverridedPriority"></div></td>';
+
+			//--->edit options > start
+			tbl +='<td>';			 
+				tbl +='  <a href="#" class="btn btn-link btn_new" row_id="'+row_id+'" > Add Entry</a>   | ';
+				tbl +='  <a href="#" class="btn btn-link btn_remove_new_entry" row_id="'+row_id+'"> Remove</a> ';
+			tbl +='</td>';
+			//--->edit options > end	
+
+		tbl +='</tr>';
+		tbl_row.last().after(tbl);
+
+		$(document).find('.tbl_code_with_mark').find('tr').last().find('.name').focus();
+	});
+
+	
+	$(document).on('click', '.btn_remove_new_entry', function(event) 
+	{
+		event.preventDefault();
+
+		$(this).closest('tr').remove();
+	});
+
+	function alert_msg (msg)
+	{
+		return '<span class="alert_msg text-danger">'+msg+'</span>';
+	}
+
+	$(document).on('click', '.btn_new', function(event) 
+	{
+		event.preventDefault();
+		
+		var ele_this = $(this);
+		var ele = ele_this.closest('tr');
+		
+		//remove all old alerts
+		ele.find('.alert_msg').remove();
+
+		//get row id
+		var row_id = $(this).attr('row_id');
+
+		//get field names
+		var name = ele.find('.name');
+		var tco = ele.find('.tco');
+		var tvo = ele.find('.tvo');
+		var net = ele.find('.net');
+		var pp = ele.find('.pp');
+		var roi = ele.find('.roi');
+		var capex = ele.find('.capex');
+		var onetime = ele.find('.onetime');
+		var ongoing = ele.find('.ongoing');
+		var revenue = ele.find('.revenue');
+		var saving = ele.find('.saving');
+		var avoid = ele.find('.avoid');
+		var costgrade = ele.find('.costgrade');
+		var valuescore = ele.find('.valuescore');
+		var riskscore = ele.find('.riskscore');
+		var blendedscore = ele.find('.blendedscore');
+		var calcpriority = ele.find('.calcpriority');
+		var overridedpriority = ele.find('.overridedpriority');
+
+
+		if(name.html() == "")
+		{
+			name.focus();
+			name.after(alert_msg('Enter ID'));
+		}
+		else if(overridedpriority.html() == "")
+		{
+			overridedpriority.focus();
+			overridedpriority.after(alert_msg('Enter Overrided Priority'));
+		}
+		else
+		{
+			var data_obj=
+			{
+				call_type:'new_row_entry',
+				row_id:row_id,
+				name:name.html(),
+				tco:tco.html(),
+				tvo:tvo.html(),
+				net:net.html(),
+				pp:pp.html(),
+				roi:roi.html(),
+				capex:capex.html(),
+				onetime:onetime.html(),
+				ongoing:ongoing.html(),
+				revenue:revenue.html(),
+				saving:saving.html(),
+				avoid:avoid.html(),
+				costgrade:costgrade.html(),
+				valuescore:valuescore.html(),
+				riskscore:riskscore.html(),
+				blendedscore:blendedscore.html(),
+				calcpriority:calcpriority.html(),
+				overridedpriority:overridedpriority.html(),
+				dsid: dsid,
+			};	
+			
+			ele_this.html('<p class="bg-warning">Please wait....adding your new row</p>');
+			$.post("/ajax/add_row/", data_obj, function(data) 
+			{	
+
+				var d1 = data;
+				var tbl = '';
+				tbl +='<a href="#" class="btn btn-link btn_edit" row_id="'+row_id+'" > Edit</a>';
+				tbl +='<a href="#" class="btn btn-link btn_save"  row_id="'+row_id+'" style="display:none;"> Save</a>';
+				tbl +='<a href="#" class="btn btn-link btn_cancel" row_id="'+row_id+'" style="display:none;"> Cancel</a>';
+				tbl +='<a href="#" class="btn btn-link text-warning btn_delete" row_id="'+row_id+'" style="display:none;" > Delete</a>';
+				
+
+				if(d1.status == "error")
+				{
+					var msg = ''
+					+ '<h3>There was an error while trying to add your entry</h3>'
+					+'<pre class="bg-danger">'+JSON.stringify(data_obj, null, 2) +'</pre>'
+					+'';
+
+					//$('.post_msg').html(msg);
+				}
+				else if(d1.status == "success")
+				{
+					ele_this.closest('td').html(tbl);
+					ele.find('.new_row_data').removeClass('bg-warning');
+					ele.find('.new_row_data').toggleClass('new_row_data row_data');
+					$.ajax({
+						type: 'get',
+						url: "/ajax/get_data",
+						dataType: "json",
+						data: {
+							dsid: dsid
+						},
+						error: function(xhr,textStatus,err){
+							alert("error");
+						console.log("readyState: " + xhr.readyState);
+						console.log("responseText: "+ xhr.responseText);
+						console.log("status: " + xhr.status);
+						console.log("text status: " + textStatus);
+						console.log("error: " + err);
+						},
+						success: function(data){
+							create_html_table(data);
+						},
+						failure: function(){
+							alert('An error occured: Please try again');
+						}
+					});
+				}
+			});
+		}
+	});
+
+
+
+	$(document).on('click', '.btn_delete', function(event) 
+	{
+		event.preventDefault();
+
+		var ele_this = $(this);
+		var row_id = ele_this.attr('row_id');
+		var data_obj=
+		{
+			call_type:'delete_row_entry',
+			row_id:row_id,
+			dsid:dsid,
+		};	
+		 		 
+		ele_this.html('<p class="bg-warning">Please wait....deleting your entry</p>')
+		$.post("/ajax/delete_row/", data_obj, function(data) 
+		{ 
+			var d1 = data; 
+			if(d1.status == "error")
+			{
+				var msg = ''
+				+ '<h3>There was an error while trying to add your entry</h3>'
+				+'<pre class="bg-danger">'+JSON.stringify(data_obj, null, 2) +'</pre>'
+				+'';
+
+				//$('.post_msg').html(msg);
+			}
+			else if(d1.status == "success")
+			{
+				ele_this.closest('tr').css('background','red').slideUp('slow');				 
+			}
+		});
+	});
+ 
+	
+});
 </script>
 
 
-<div class="panel panel-default">
-  <div class="panel-heading" style="margin-top: 10px; margin-left: 8px; font-size: 200%;"><b> Demo </b> </div>
 
-  <div class="panel-body">
-	
-	<div class="tbl_user_data"></div>
+<div style="padding:10px;"></div>
+ 
+<div class="container">
+	<h1 class="text-center">Easily Add, Edit, and Delete HTML Table Rows Or Cells With jQuery</h1>
 
-  </div>
+	<div style="padding:20px;"></div>
 
+	<div class="panel panel-default">
+	  <div class="panel-heading text-center"><h3> Editable HTML Table </h3> </div>
+
+	  <div class="panel-body">
+		
+		<div class="tbl_user_data"></div>
+
+	  </div>
+
+	</div>
+
+	 
 </div>
 
- {% csrf_token %}
+{%endblock%}
 
-<div class="panel panel-default">
-  <div class="panel-heading"><b>HTML Table Edits/Upates</b> </div>
-
-  <div class="panel-body">
-	
-	<p>All the changes will be displayed below</p>
-	<div class="post_msg"> </div>
-
-  </div>
-</div>
-
-{% endblock %}

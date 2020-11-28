@@ -23,7 +23,11 @@ urlpatterns = [
     url(r'^edit_data/$', views.edit_data, name='edit_data'),
     url(r'^delete_data/$', views.delete_data, name='delete_data'),
     url(r'^edit/$', views.edit, name='edit'),
-    url(r'^ajax/edit_single_data$', views.edit_single_data),
-    url(r'^ajax/edit_whole_data$', views.edit_whole_data)
+    url(r'^ajax/edit_single_data/$', views.edit_single_data),
+    url(r'^ajax/edit_whole_data/$', views.edit_whole_data),
+    url(r'^ajax/delete_row/$', views.delete_row),
+    url(r'^ajax/get_data/$', views.get_data),
+    url(r'^ajax/add_row/$', views.add_row)
+
     
 ]
