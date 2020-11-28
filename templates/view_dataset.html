@@ -21,46 +21,53 @@
   }
   tr:nth-child(even) {background-color: #e6e6e6}
 
+  
   .dropbtn {
+    all:unset;
+    
     border-radius:8px;
-    background-color: #e6e6e6 !important;
+    background-color: #e6e6e6 !important; 
     color: black;
-    padding: 16px;
-    font-size: 16px;
-    border: 3px solid #ccc !important;
+    padding: 4px;
+    font-size: 8px;
+    border: 3px solid #ccc !important; 
     cursor: pointer;
-    margin-top: 8%;
-  }
+  } 
   .dropdown {
-
-
     display: inline-block;
-    min-width: 160px;
-    z-index:5;
   }
+  
 
   .dropdown-content {
-    border-radius:3px;
+    /*
+    border-radius:3px; */
+    
+
+    
     display: none;
-    position: absolute;
+    position: absolute; /* */
     background-color: #e6e6e6 !important;
-    min-width: 160px;
     overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
     z-index: 1;
-  }
+  } 
+  
   .dropdown-content a {
+    /*
     color: black;
     padding: 12px 16px;
-    text-decoration: none;
+    text-decoration: none; */
     display: block;
-  }
+  } 
   .show {
     display: block;
   }
+
+
+  /*
   .dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover, #createNewModel:hover {
     background-color: #b6b6b6 !important;
   }
+  
 
   #ddForm, #createNewModel {
     width: 100%;
@@ -74,13 +81,19 @@
     align-items: center;
     background-color: #e6e6e6 !important;
     color: rgb(24, 24, 24);
-  }
+  } */
+  
+  
   button[name="submit"] {
+    all:unset;
+    /*
     background-color: #e6e6e6 !important;
     color: black;
     border: 3px solid #ccc !important;
-    border-radius:3px;
+    border-radius:3px; */
   }
+  
+
   .arrow {
     border: solid black;
     border-width: 0 3px 3px 0;
@@ -91,35 +104,39 @@
     position: relative;
     left: 6px;
     bottom: 3px;
-  }
+  } 
 
   .form-popup {
     display: none;
     position: fixed;
     border: 3px solid #66666696;
     z-index: 9;
-    height: 85%;
-    width: 75%;
+    height: 90%;
+    width: 70%;
     top: 53%;
     left: 50%;
     margin-top:-28%;
     margin-left:-35%;
-    overflow: auto;
   }
   .form-container {
     padding: 12px;
     background-color: white;
     margin: auto;
-    min-width: 100%;
-    min-height: 100%;
+    width: 145%;
+    height: 100%;
+
   }
   .btn, .cancel {
     border: 3px solid #ccc !important;
-    border-radius:3px !important;
+    border-radius:3px !important;/*
     margin-bottom: 5px !important;
-    margin-top: 1% !important;
+    margin-top: 1% !important; */
     background-color: #e6e6e6 !important;
     color: black;
+    /*
+    z-index: 1;
+    position: absolute;
+    bottom: 50px; */
   }
   .esc {
     border: 3px solid #ccc !important;
@@ -129,31 +146,29 @@
     height: 8%;
     width: 5%;
     position: fixed;
-    right: 11%;
-    top: 6%;
+    right: 16%;
+    top: 8%;
   }
   .btn:hover, .cancel:hover {
     background-color: #b6b6b6;
   }
 
   .configSettings {
-    height: 100%;
+    height: 58%;
     overflow: auto;
     font-size: 115%;
-    align-items: center !important;
-    justify-content: center !important;
   }
 
+
   .lbs {
-    margin-bottom: 20px;
-    position: sticky;
-    bottom: 10px;
+    position: relative;
+    font-weight: bold;
   }
 
   .slider {
     position: sticky !important;
     /*left: 225px; */
-    left: 375px; /**/
+    left: 30%; /**/
   }
   .slider.slider-horizontal {
     width: 50% !important;
@@ -176,11 +191,12 @@
   }
 
   .excludeBtn {
-    height: 20px;
+    display: block;
+    height: 24px;
     width: 10%;
-    right: 71%;
-    position: sticky;
-    top: 0;
+    position: relative;
+    left: 15%;
+    bottom: 70px;
   }
 
   .toggleDisplay, .toggleDisplay2 {
@@ -320,75 +336,76 @@
 
 
 
-
+<div style="display:inline-block">
 <div class="form-popup" id="newModelForm">
   <form action = "/cmodel/" method="POST" method="POST" enctype='multipart/form-data' class="form-container">
     {% csrf_token %}
-    <h3 style="margin-bottom:-20px; font-size:200%">Create a New Model</h3><button type="button" class="esc" style="font-size:125%;color:black" onclick="closeForm()">X</button><br>
+    <h3 style="margin-bottom:-20px; font-size:200%">Create a New Model</h3><button type="button" class="esc" style="font-size:150% !important;color:black" onclick="closeForm()">X</button><br>
     <label for="modname" style="font-size:115%"><b>Model Name</b></label>
     <input type="text" placeholder="Model Name" name="modname" required style="margin-top:-1px;display:block;padding:3px 20px;line-height:20px;width:92%">
-    <label for="description" style="margin-top:0px;font-size:115%"><b>Description</b></label>
+    <label for="description" style="margin-top:0px;font-size:115%"><b>Description</b></label><br>
     <textarea type="textarea" placeholder="Description (Optional)" name="description"
       style="height:43px;width:92%;padding:6px 20px;margin:-3px 0;margin-bottom:1px;display:inline-block;border:1px solid #ccc;box-sizing:border-box;resize:none"></textarea>
       <label style="font-size:115%"><b>Configuration settings:</b></label><br>
-      <label for="Exclude" style="color:rgb(77, 77, 77);font-size:115%;padding-left:21%"><b>Exclude</b></label>
+      <label for="Exclude" style="color:rgb(77, 77, 77);font-size:115%;padding-left:18%"><b>Exclude</b></label>
       <div class="configSettings">
         <label class="lbs" for="TCO">TCO</label>
         <input id="ex1" name="TCO" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex1-enabled" name="TCO" class="excludeBtn" type="checkbox" value=0 /><br>
+        <input id="ex1-enabled" name="TCO" class="excludeBtn" type="checkbox" value=0 style="margin-top:1%;"/><br>
         <label class="lbs" for="TVO">TVO</label>
         <input id="ex2" name="TVO" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex2-enabled" name="TVO" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex2-enabled" name="TVO" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="NET">NET</label>
         <input id="ex3" name="NET" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex3-enabled" name="NET" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex3-enabled" name="NET" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="PP">PP</label>
         <input id="ex4" name="PP" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2"data-slider-tooltip="hide"  data-slider-enabled="true"/>
-        <input id="ex4-enabled" name="PP" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex4-enabled" name="PP" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="ROI">ROI</label>
         <input id="ex5" name="ROI" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex5-enabled" name="ROI" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex5-enabled" name="ROI" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="CapEx">CapEx</label>
         <input id="ex6" name="CapEx" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex6-enabled" name="CapEx" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex6-enabled" name="CapEx" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="OneTime">OneTime</label>
         <input id="ex7" name="OneTime" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex7-enabled" name="OneTime" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex7-enabled" name="OneTime" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="OnGoing">OnGoing</label>
         <input id="ex8" name="OnGoing" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex8-enabled" name="OnGoing" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex8-enabled" name="OnGoing" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="Revenue">Revenue</label>
         <input id="ex9" name="Revenue" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex9-enabled" name="Revenue" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex9-enabled" name="Revenue" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="Saving">Saving</label>
         <input id="ex10" name="Saving" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex10-enabled" name="Saving" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex10-enabled" name="Saving" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="Avoid">Avoid</label>
         <input id="ex11" name="Avoid" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex11-enabled" name="Avoid" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex11-enabled" name="Avoid" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="CostGrade">Cost Grade</label>
         <input id="ex12" name="CostGrade" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex12-enabled" name="CostGrade" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex12-enabled" name="CostGrade" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="ValueScore">Value Score</label>
         <input id="ex13" name="ValueScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex13-enabled" name="ValueScore" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex13-enabled" name="ValueScore" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="RiskScore">Risk Score</label>
         <input id="ex14" name="RiskScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex14-enabled" name="RiskScore" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex14-enabled" name="RiskScore" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="BlendedScore">Blended Score</label>
         <input id="ex15" name="BlendedScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex15-enabled" name="BlendedScore" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex15-enabled" name="BlendedScore" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="CalcPriority">Calc Priority</label>
         <input id="ex16" name="CalcPriority" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex16-enabled" name="CalcPriority" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex16-enabled" name="CalcPriority" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <label class="lbs" for="OverridedPriority">Overrided Priority</label>
         <input id="ex17" name="OverridedPriority" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-        <input id="ex17-enabled" name="OverridedPriority" class="excludeBtn" type="checkbox" value=0/><br>
+        <input id="ex17-enabled" name="OverridedPriority" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
         <hidden id="datasetid" name="dsid", name={{dataset.id}}></hidden>
       </div>
     <button type="submit" class="btn" style="font-size:110%">Submit</button>
     <button type="button" class="btn cancel" style="font-size:110%" onclick="closeForm()">Close</button>
   </form>
+  </div>
 </div>
 
 <script>
@@ -478,6 +495,7 @@
     else { $("#ex17").slider("enable");}
   }); 
 
+
   /*
   var i;
   for(i=1; i<=17; i++) {
@@ -520,7 +538,6 @@
   
   function openForm() {
     document.getElementById("newModelForm").style.display = "flex";
-
     var i;
     for(i=0;i<=17;i++) {
       $("#ex"+i).slider('refresh');
@@ -595,11 +612,6 @@
   </div>
 </div>
 <script type="text/javascript">
-  /*
-  $("#expand").click(function() {
-      $(".table .toggleDisplay").toggleClass("in");
-  });
-  */
   $("#expand2").click(function() {
       $(".table .toggleDisplay2").toggleClass("in");
   });
