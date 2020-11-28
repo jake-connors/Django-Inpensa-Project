@@ -12,9 +12,11 @@ from sklearn import preprocessing
 import tensorflow as tf
 from json import dumps
 from django.views.generic import View
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from sklearn.model_selection import train_test_split
 import os
+import json.encoder
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def login(request):
@@ -515,11 +517,11 @@ def data_update( request):
     instance.x = arr[x]
     instance.save()
     return JsonResponse({'data': 'worked'}, status =200)
-
+@csrf_exempt
 def edit_single_data(request):
         dataid = request.POST.get('row_id')
-        datacolumn = list(request.POST.keys())[0]
-        datavalue = request.POST.get(datacolumn)
+        datacolumn = request.POST.get('col_name')
+        datavalue = request.POST.get('col_val')
         instance = data.objects.get(id = dataid)
         
         if(datacolumn == "name"):
@@ -571,7 +573,7 @@ def edit_single_data(request):
         return JsonResponse({'status': True}, status = 200)
 
 
-
+@csrf_exempt
 def edit_whole_data(request):
         instance = data.objects.get(id = request.POST.get('row_id'))
         instance.name = request.POST.get('name')
@@ -603,4 +605,37 @@ def edit_whole_data(request):
 
         
         return JsonResponse({'status': True}, status = 200)
+@csrf_exempt
+def delete_row(request):
+    if request.method =='POST':
+        did = request.POST['row_id']
+        instance = data.objects.get(id = did)
+        if(instance.delete()):
+            dataset1 = dataset.objects.get(id = request.POST['dsid'])
+            dataset1.save()
+            return JsonResponse({'status':'success'}, safe=False)
+        else:
+            return JsonResponse({'status':'error'}, safe=False)
+    else:
+        raise Http404
         
+def get_data(request):
+    if request.method =='GET':
+        dsid = request.GET['dsid']
+        daata = data.objects.filter(dsid = dsid).values()
+        df = pd.DataFrame(daata)
+        df = df.fillna(0)
+        sets = df.to_dict('records')
+        sets = dumps(sets)
+        return JsonResponse(sets, safe=False)
+@csrf_exempt
+def add_row(request):
+    dataset1 = dataset.objects.get(id = request.POST['dsid'])
+    instance = data(dsid = dataset1, name= request.POST['name'],TVO= request.POST['tvo'],TCO= request.POST['tco'],NET= request.POST['net'],PP= request.POST['pp'],ROI= request.POST['roi'],CapEx= request.POST['capex'],OneTime= request.POST['onetime'],OnGoing= request.POST['ongoing'],Revenue= request.POST['revenue'],Saving= request.POST['saving'],Avoid= request.POST['avoid'],CostGrade= request.POST['costgrade'],ValueScore= request.POST['valuescore'],RiskScore= request.POST['riskscore'],BlendedScore= request.POST['blendedscore'],CalcPriority= request.POST['calcpriority'],OverridedPriority= request.POST['overridedpriority'],accepted=0)
+    instance.save()
+    dataset1.save()
+    test= instance.id
+    if(test != None):
+        return JsonResponse({'status':'success'}, safe=False)
+    else:
+        return JsonResponse({'status':'error'}, safe=False)
