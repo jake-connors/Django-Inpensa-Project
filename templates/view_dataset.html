@@ -25,13 +25,12 @@
   .dropbtn {
     all:unset;
     
-    border-radius:8px;
+    border-radius:10px;
     background-color: #e6e6e6 !important; 
     color: black;
-    padding: 4px;
-    font-size: 8px;
     border: 3px solid #ccc !important; 
     cursor: pointer;
+    padding:5px;
   } 
   .dropdown {
     display: inline-block;
@@ -39,37 +38,35 @@
   
 
   .dropdown-content {
-    /*
-    border-radius:3px; */
     
 
-    
+    all:unset;
+    width: 100%;
+
+    border-radius:10px; 
     display: none;
-    position: absolute; /* */
+    position: absolute;
     background-color: #e6e6e6 !important;
     overflow: auto;
     z-index: 1;
   } 
   
   .dropdown-content a {
-    /*
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none; */
-    display: block;
+    all:unset;
   } 
   .show {
     display: block;
   }
 
 
-  /*
+  
   .dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover, #createNewModel:hover {
     background-color: #b6b6b6 !important;
   }
   
 
   #ddForm, #createNewModel {
+    /*
     width: 100%;
     margin: auto;
     margin-bottom: 2px;
@@ -81,7 +78,19 @@
     align-items: center;
     background-color: #e6e6e6 !important;
     color: rgb(24, 24, 24);
-  } */
+    */
+    all:unset;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 2px;
+    padding: 0px;
+    border: 3px solid #ccc !important;
+    border-radius:3px; 
+
+    color: rgb(24, 24, 24);
+    display:flex;
+    justify-content: center;
+  } 
   
   
   button[name="submit"] {
@@ -102,7 +111,7 @@
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     position: relative;
-    left: 6px;
+    left: 4px;
     bottom: 3px;
   } 
 
@@ -126,31 +135,44 @@
     height: 100%;
 
   }
-  .btn, .cancel {
+  #cancel {
+    all:unset;
+    margin-bottom: 0%;
     border: 3px solid #ccc !important;
-    border-radius:3px !important;/*
-    margin-bottom: 5px !important;
-    margin-top: 1% !important; */
+    border-radius:3px !important;
     background-color: #e6e6e6 !important;
     color: black;
-    /*
-    z-index: 1;
     position: absolute;
-    bottom: 50px; */
+    bottom: 5px !important; 
+    text-align: center;
+    width: 80%;
+  }
+  .btn {
+    all:unset;
+    margin-top: 2%;
+    border: 3px solid #ccc !important;
+    border-radius:3px !important;
+    background-color: #e6e6e6 !important;
+    color: black;
+    position: absolute;
+    text-align: center;
+    width: 80%;
   }
   .esc {
+    all:unset;
     border: 3px solid #ccc !important;
     border-radius:3px !important;
     margin-bottom: 5px !important;
-    background-color: #e6e6e6 !important;
+    background-color: #e6e6e6 ;
+    text-align: center;
     height: 8%;
     width: 5%;
     position: fixed;
     right: 16%;
     top: 8%;
   }
-  .btn:hover, .cancel:hover {
-    background-color: #b6b6b6;
+  .btn:hover, #cancel:hover, .esc:hover {
+    background-color: #b6b6b6 !important;
   }
 
   .configSettings {
@@ -239,7 +261,7 @@
               <button name ="submit" value="1" type="submit">{{model.name}}</button>
             </form>
             {% endfor %}
-          <button class="open-button" onclick="openForm()" id="createNewModel">Create New Model</button>
+          <button class="open-button" onclick="openForm()" id="createNewModel">New Model</button>
         </div>
       </div>
     </div>
@@ -403,7 +425,7 @@
         <hidden id="datasetid" name="dsid", name={{dataset.id}}></hidden>
       </div>
     <button type="submit" class="btn" style="font-size:110%">Submit</button>
-    <button type="button" class="btn cancel" style="font-size:110%" onclick="closeForm()">Close</button>
+    <button type="button" class="btn cancel" id="cancel" style="font-size:110%" onclick="closeForm()">Close</button>
   </form>
   </div>
 </div>
