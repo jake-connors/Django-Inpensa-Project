@@ -1,23 +1,47 @@
 {% extends 'base.html'%}
 {% block content %}
-<<<<<<< HEAD
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <style>
 	body{
-		font-size: 68%;
+		font-size: 77%;
 	}
-	.btn-link{
-		font-size: 100%;
+	.btn-link, .btn-link1{
+		font-size: 90%;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+	.tbl_user_data{
+		overflow-y:scroll;
+		max-height:70em;
+		width: 142em;
+		border-top: 1px solid black;
+	}
+	td{
+		border-left: 1px solid black;
+		border-right: 1px solid black;
 		padding: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+		text-align: center;
+	}
+	.btn_new_row{
+		top:0;
+		position:sticky;
+	}
+	th{
+		top:0;
+		position:sticky;
+		border-left: 1px solid black;
+		padding: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+		text-align: center;
+		background-color: rgb(216, 216, 216);
 	}
 </style>
 
-
-=======
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
->>>>>>> c79523b7b3e57b2daf8d64bf228d25dddad408f1
 
 <script type="text/javascript">
 var dsid =JSON.parse("{{dataset|escapejs}}")
@@ -29,10 +53,8 @@ $(document).ready(function($)
 		//--->create data table > start
 		var tbl = '';
 		//add new table row
-		tbl +='<div class="text-left">';
-			tbl +='<span class="btn btn-primary btn_new_row">Add New Row</span>';
-		tbl +='<div>';
 		tbl +='<table class="table table-hover tbl_code_with_mark">'
+
 
 			//--->create table header > start
 		tbl +='<thead>';
@@ -336,7 +358,7 @@ $(document).ready(function($)
 		var row_id = tbl_row.attr('row_id');
 
 		
-		//hide save and cacel buttons
+		//hide save and cancel buttons
 		tbl_row.find('.btn_save').hide();
 		tbl_row.find('.btn_cancel').hide();
 		tbl_row.find('.btn_delete').hide();
@@ -609,18 +631,18 @@ $(document).ready(function($)
 	
 });
 </script>
-
-
-
-<div style="padding:10px;"></div>
  
 <div class="container">
-	<h1 class="text-center">Easily Add, Edit, and Delete HTML Table Rows Or Cells With jQuery</h1>
+	<h1 class="text-left">dataname</h1>
 
-	<div style="padding:20px;"></div>
+	<div style="padding-top: 4px; padding-bottom: 0; margin: 0"></div>
+
+	<div class="text-left">
+		<span class="btn btn-primary btn_new_row">Add New Row</span>
+		</div>
+		<div style="padding:10px;"></div>
 
 	<div class="panel panel-default">
-	  <div class="panel-heading text-center"><h3> Editable HTML Table </h3> </div>
 
 	  <div class="panel-body">
 		
