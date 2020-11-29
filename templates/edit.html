@@ -1,4 +1,5 @@
 {% extends 'base.html'%}
+{% block title %}Edit Dataset{% endblock%}
 {% block content %}
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -12,15 +13,17 @@
 		padding-top: 2px;
 		padding-bottom: 2px;
 	}
+
 	.tbl_user_data{
-		overflow-y:scroll;
-		max-height:70em;
-		width: 142em;
-		border-top: 1px solid black;
+		overflow-x:auto;
+		overflow-y:auto;
+		max-height:76em;
+		width: 99%;
+		margin-left: 1em;
+		padding: 0;
 	}
 	td{
 		border-left: 1px solid black;
-		border-right: 1px solid black;
 		padding: 0;
 		margin-top: 0;
 		margin-bottom: 0;
@@ -29,16 +32,20 @@
 	.btn_new_row{
 		top:0;
 		position:sticky;
+		margin-left: 1em;
+		margin-top: 1em;
 	}
 	th{
 		top:0;
 		position:sticky;
-		border-left: 1px solid black;
+		box-shadow: inset 1px 1px 0 black,
+                    inset 0 -1px 0 black;
 		padding: 0;
 		margin-top: 0;
 		margin-bottom: 0;
 		text-align: center;
 		background-color: rgb(216, 216, 216);
+		border-bottom: 2px solid black;
 	}
 </style>
 
@@ -632,8 +639,8 @@ $(document).ready(function($)
 });
 </script>
  
-<div class="container">
-	<h1 class="text-left">dataname</h1>
+
+	<h6 style="font-size: 30px; float:right; margin-top: 26px; margin-right: 1em">dataname</h6>
 
 	<div style="padding-top: 4px; padding-bottom: 0; margin: 0"></div>
 
@@ -652,8 +659,6 @@ $(document).ready(function($)
 
 	</div>
 
-	 
-</div>
 
 {%endblock%}
 
