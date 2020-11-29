@@ -34,6 +34,7 @@
   } 
   .dropdown {
     display: inline-block;
+    left: 92%;
   }
   
 
@@ -66,19 +67,6 @@
   
 
   #ddForm, #createNewModel {
-    /*
-    width: 100%;
-    margin: auto;
-    margin-bottom: 2px;
-    padding: 0px;
-    border: 3px solid #ccc !important;
-    height: 54.83px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #e6e6e6 !important;
-    color: rgb(24, 24, 24);
-    */
     all:unset;
     width: 100%;
     margin: auto;
@@ -95,11 +83,6 @@
   
   button[name="submit"] {
     all:unset;
-    /*
-    background-color: #e6e6e6 !important;
-    color: black;
-    border: 3px solid #ccc !important;
-    border-radius:3px; */
   }
   
 
@@ -122,10 +105,10 @@
     z-index: 9;
     height: 90%;
     width: 70%;
-    top: 53%;
-    left: 50%;
-    margin-top:-28%;
-    margin-left:-35%;
+    top: 70px;
+    left: 580px;
+    margin-top:-35px;
+    margin-left:-290px;
   }
   .form-container {
     padding: 12px;
@@ -144,8 +127,9 @@
     color: black;
     position: absolute;
     bottom: 5px !important; 
+    right: 30px;
     text-align: center;
-    width: 80%;
+    width: 95%;
   }
   .btn {
     all:unset;
@@ -155,8 +139,10 @@
     background-color: #e6e6e6 !important;
     color: black;
     position: absolute;
+    bottom: 45px !important; 
+    right: 30px;
     text-align: center;
-    width: 80%;
+    width: 95%;
   }
   .esc {
     all:unset;
@@ -167,16 +153,17 @@
     text-align: center;
     height: 8%;
     width: 5%;
-    position: fixed;
-    right: 16%;
-    top: 8%;
+    position: absolute;
+    right: 25px;
+    top: 20px;
   }
   .btn:hover, #cancel:hover, .esc:hover {
     background-color: #b6b6b6 !important;
   }
 
   .configSettings {
-    height: 58%;
+    height: 350px;
+    /*height: 60%; */
     overflow: auto;
     font-size: 115%;
   }
@@ -249,21 +236,6 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">{{datasetname}}</h1>
-      <div class="dropdown">
-        <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
-        <div id="myDropdown" class="dropdown-content">
-            {% for model in models %}
-            <form action="/predict/" method="post" id="ddForm">
-            {% csrf_token %}
-              <input type="hidden" name="model" value={{model.id}}>
-              <input type="hidden" name="dataset" value={{dataset}}>
-              <!--{{dataset}}-->
-              <button name ="submit" value="1" type="submit">{{model.name}}</button>
-            </form>
-            {% endfor %}
-          <button class="open-button" onclick="openForm()" id="createNewModel">New Model</button>
-        </div>
-      </div>
     </div>
   <!-- Content Row -->
     <div class="row">
@@ -355,7 +327,21 @@
 </div>
 
 
-
+<div class="dropdown">
+  <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
+  <div id="myDropdown" class="dropdown-content">
+      {% for model in models %}
+      <form action="/predict/" method="post" id="ddForm">
+      {% csrf_token %}
+        <input type="hidden" name="model" value={{model.id}}>
+        <input type="hidden" name="dataset" value={{dataset}}>
+        <!--{{dataset}}-->
+        <button name ="submit" value="1" type="submit">{{model.name}}</button>
+      </form>
+      {% endfor %}
+    <button class="open-button" onclick="openForm()" id="createNewModel">New Model</button>
+  </div>
+</div>
 
 
 <div style="display:inline-block">
