@@ -1,4 +1,5 @@
 {% extends 'base.html'%}
+{% block title %}Edit Dataset{% endblock%}
 {% block content %}
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -12,15 +13,19 @@
 		padding-top: 2px;
 		padding-bottom: 2px;
 	}
+
 	.tbl_user_data{
-		overflow-y:scroll;
-		max-height:70em;
-		width: 142em;
-		border-top: 1px solid black;
+		overflow-x:auto;
+		overflow-y:auto;
+		max-height:76em;
+		width: 87vw;
+		margin-left: .8vw;
+		margin-right: auto;
+		padding: 0;
+		float:center;
 	}
 	td{
 		border-left: 1px solid black;
-		border-right: 1px solid black;
 		padding: 0;
 		margin-top: 0;
 		margin-bottom: 0;
@@ -29,16 +34,20 @@
 	.btn_new_row{
 		top:0;
 		position:sticky;
+		margin-left: 1em;
+		margin-top: 1em;
 	}
 	th{
 		top:0;
 		position:sticky;
-		border-left: 1px solid black;
+		box-shadow: inset 1px 1px 0 black,
+                    inset 0 -1px 0 black;
 		padding: 0;
 		margin-top: 0;
 		margin-bottom: 0;
 		text-align: center;
 		background-color: rgb(216, 216, 216);
+		border-bottom: 2px solid black;
 	}
 </style>
 
@@ -240,41 +249,73 @@ $(document).ready(function($)
 		if(original_entry != col_val)
 		{ 
 			//remove the attr so that new entry can take place
-			$(this).removeAttr('original_entry');
-
-			//ajax api json data			 
-			var data_obj = 
-			{
-				row_id: row_id,
-				col_name: col_name,
-				col_val:col_val,
-				call_type: 'single_entry',				
-			};
-
 			
-			//call ajax api to update the database record
-			$.post("/ajax/edit_single_data/", data_obj, function(data) 
-			{
-				var d1 = data;
-				if(d1.status == "error")
-				{
-					var msg = ''
-					+ '<h3>There was an error while trying to update your entry</h3>'
-					+'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
-					+'';
-
-					//$('.post_msg').html(msg);
+			if((col_name != "name" || col_name != "OverridedPriority") && col_val != "" &&  isNaN(col_val)){
+				alert("This column only accepts numeric input, please try again with a different input!")
+			}
+			else if((col_name == "name" || col_name == "OverridedPriority") && (col_val == "")){
+				alert("This column cannot be left blank! Please enter a valid input!")
+			}
+			else if(( col_name == "OverridedPriority") && !(col_val == 1 || col_val == 2 || col_val == 3 || col_val == 4)){
+				alert("Override Priority can only be 1, 2, 3 or 4. Please enter a valid integer.");
+			}
+			else{
+				$(this).attr
+				if((col_name != "name" || col_name != "OverridedPriority") && col_val ==""){
+					col_val = null
 				}
-				else if(d1.status == "success")
-				{
-					var msg = ''
-					+ '<h3>Successfully updated your entry</h3>'
-					+'<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>'
-					+'';
 
-					//$('.post_msg').html(msg);
-				}
-			});
+				//ajax api json data			 
+				var data_obj = 
+				{
+					row_id: row_id,
+					col_name: col_name,
+					col_val:col_val,
+					call_type: 'single_entry',				
+				};
+
+				//call ajax api to update the database record
+				$.post("/ajax/edit_single_data/", data_obj, function(data) 
+				{
+					var d1 = data;
+					if(d1.status == "error")
+					{
+						var msg = ''
+						+ '<h3>There was an error while trying to update your entry</h3>'
+						+'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+						+'';
+
+						//$('.post_msg').html(msg);
+					}
+					else if(d1.status == "success")
+					{
+						$.ajax({
+						type: 'get',
+						url: "/ajax/get_data",
+						dataType: "json",
+						data: {
+							dsid: dsid
+						},
+						error: function(xhr,textStatus,err){
+							alert("error");
+						console.log("readyState: " + xhr.readyState);
+						console.log("responseText: "+ xhr.responseText);
+						console.log("status: " + xhr.status);
+						console.log("text status: " + textStatus);
+						console.log("error: " + err);
+						},
+						success: function(data){
+							create_html_table(data);
+						},
+						failure: function(){
+							alert('An error occured: Please try again');
+						}
+					});
+
+						//$('.post_msg').html(msg);
+					}
+				});
+			}
 		}
 		else
 		{
@@ -392,23 +433,65 @@ $(document).ready(function($)
 		//add call type for ajax call
 		arr['call_type'] = 'row_entry';
 
-		//call ajax api to update the database record
-		$.post("/ajax/edit_whole_data/", arr, function(data) 
-		{
-			var d1 = JSON.parse(data);
-			if(d1.status == "error")
+		if((col_name != "name" || col_name != "OverridedPriority") && col_val != "" &&  isNaN(col_val)){
+			alert("This column only accepts numeric input, please try again with a different input!")
+		}
+		else if((col_name == "name" || col_name == "OverridedPriority") && (col_val == "")){
+			alert("This column cannot be left blank! Please enter a valid input!")
+		}
+		else if(( col_name == "OverridedPriority") && Number.isInteger(col_val) == false){
+			alert("Override Priority can only be 1, 2, 3 or 4. Please enter a valid integer.");
+		}
+		else{
+			//call ajax api to update the database record
+			$.post("/ajax/edit_whole_data/", arr, function(data) 
 			{
-				var msg = '<h3>There was an error while trying to update your entry</h3><pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>';
+				var d1 = JSON.parse(data);
+				if(d1.status == "error")
+				{
+					var msg = '<h3>There was an error while trying to update your entry</h3><pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>';
 
-				//$('.post_msg').html(msg);
-			}
-			else if(d1.status == "success")
-			{
-				var msg = '<h3>Successfully updated your entry</h3><pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>';
+					//$('.post_msg').html(msg);
+				}
+				else if(d1.status == "success")
+				{
+					$.ajax({
+							type: 'get',
+							url: "/ajax/get_data",
+							dataType: "json",
+							data: {
+								dsid: dsid
+							},
+							error: function(xhr,textStatus,err){
+								alert("error");
+							console.log("readyState: " + xhr.readyState);
+							console.log("responseText: "+ xhr.responseText);
+							console.log("status: " + xhr.status);
+							console.log("text status: " + textStatus);
+							console.log("error: " + err);
+							},
+							success: function(data){
+								create_html_table(data);
+							},
+							failure: function(){
+								alert('An error occured: Please try again');
+							}
+						});
 
-				//$('.post_msg').html(msg);
-			}			
-		});
+					//$('.post_msg').html(msg);
+				}			
+			});
+		}
+
+
+
+
+
+
+
+
+
+		
 	});
 	//--->save whole row entery > end
 
@@ -507,6 +590,54 @@ $(document).ready(function($)
 		{
 			name.focus();
 			name.after(alert_msg('Enter ID'));
+		}
+		else if(tco.html() == ""){
+			tco.html() = null;
+		}
+		else if(tvo.html() == ""){
+			tvo.html() = null;
+		}
+		else if(net.html() == ""){
+			net.html() = null;
+		}
+		else if(pp.html() == ""){
+			pp.html() = null;
+		}
+		else if(roi.html() == ""){
+			roi.html() = null;
+		}
+		else if(capex.html() == ""){
+			capex.html() = null;
+		}
+		else if(onetime.html() == ""){
+			onetime.html() = null;
+		}
+		else if(ongoing.html() == ""){
+			ongoing.html() = null;
+		}
+		else if(revenue.html() == ""){
+			reveneue.html() = null;
+		}
+		else if(saving.html() == ""){
+			saving.html() = null;
+		}
+		else if(avoid.html() == ""){
+			avoid.html() = null;
+		}
+		else if(costgrade.html() == ""){
+			costgrade.html() = null;
+		}
+		else if(valuescore.html() == ""){
+			valuescore.html() = null;
+		}
+		else if(riskscore.html() == ""){
+			riskscore.html() = null;
+		}
+		else if(blendedscore.html() == ""){
+			blendedscore.html() = null;
+		}
+		else if(calcpriority.html() == ""){
+			calcpriority.html() = null;
 		}
 		else if(overridedpriority.html() == "")
 		{
@@ -632,28 +763,19 @@ $(document).ready(function($)
 });
 </script>
  
-<div class="container">
-	<h1 class="text-left">dataname</h1>
+
+	<h6 style="font-size: 30px; float:right; margin-top: 26px; margin-right: 44.5vw">dataname</h6>
 
 	<div style="padding-top: 4px; padding-bottom: 0; margin: 0"></div>
 
 	<div class="text-left">
 		<span class="btn btn-primary btn_new_row">Add New Row</span>
-		</div>
-		<div style="padding:10px;"></div>
-
-	<div class="panel panel-default">
-
-	  <div class="panel-body">
-		
-		<div class="tbl_user_data"></div>
-
-	  </div>
-
 	</div>
+	
+	<div style="padding:10px;"></div>
 
-	 
-</div>
+	<div class="tbl_user_data"></div>
+
 
 {%endblock%}
 

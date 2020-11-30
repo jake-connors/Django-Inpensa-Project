@@ -47,6 +47,7 @@ class model(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name =  models.CharField(max_length=50)
     kfile = models.CharField(max_length=200)
+    details = models.CharField(max_length=500, null=True, blank =True)
     TCO = models.IntegerField(1)
     TVO = models.IntegerField(1)
     NET =models.IntegerField(1)
@@ -75,6 +76,7 @@ class prediction(models.Model):
     did = models.ForeignKey(data, on_delete=models.CASCADE)
     mid = models.ForeignKey(model, on_delete=models.CASCADE)
     dsid = models.ForeignKey(dataset, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
     score = models.FloatField()
     def __float__(self):
         return self.score
