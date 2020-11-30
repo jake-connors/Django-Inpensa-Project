@@ -224,6 +224,7 @@
                                     {% for data in sets2 %}
                                     <table style="border-bottom: 2px;">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
+                                        <h4 class="small font-weight-bold">Description: {{data.details}}</h4>
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
                                         <h4 class="small font-weight-bold">Accuracy: {{data.accuracy}}%</h4>
                                         <form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">

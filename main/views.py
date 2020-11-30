@@ -210,7 +210,19 @@ def predict(request):
             modelid = request.POST['model']
             dsetid = request.POST['dataset']
             datapoints = data.objects.all().filter(dsid = dsetid).values()
-            if not prediction.objects.filter(mid = modelid, did = datapoints[0]['id']).exists():
+            exists = False
+            old = False
+            dataset_instance = dataset.objects.get(id = dsetid)
+            if(prediction.objects.filter(mid = modelid, did = datapoints[0]['id']).exists()):
+                exists = True
+                pred_instance =prediction.objects.get(mid = modelid, did = datapoints[0]['id'])
+                if  dataset_instance.updated_at > pred_instance.created_at:
+                    old = True
+            
+            if (exists == False or old == True):
+                if(old):
+                    prediction.objects.filter(mid = modelid ,dsid = dsetid).delete()
+                    print('old stuff deleted')
                 model1 = model.objects.get(id = modelid)
                 settings = {'TCO' : model.TCO,
                 'TVO': model1.TVO,
@@ -355,6 +367,7 @@ def cmodel(request):
             model1.save(model_location)
             instance = model(user = request.user,
                 name = request.POST['modname'],
+                details = request.POST['description'],
                 kfile = model_location,
                 TCO = settings['TCO'], 
                 TVO = settings['TVO'],
@@ -430,8 +443,8 @@ def edit(request):
         if request.method=="POST":
             return redirect('dash')
         else:
-            id = request.GET['dsid']
-            sets = data.objects.all().filter(dsid = id).values()
+            did = request.GET['dsid']
+            sets = data.objects.all().filter(dsid = did).values()
             df = pd.DataFrame(sets)
             df = df.fillna("")
             sets = df.to_dict('records')
@@ -522,7 +535,10 @@ def edit_single_data(request):
         dataid = request.POST.get('row_id')
         datacolumn = request.POST.get('col_name')
         datavalue = request.POST.get('col_val')
+        if (datavalue == ""):
+            datavalue = None
         instance = data.objects.get(id = dataid)
+
         
         if(datacolumn == "name"):
             instance.name = datavalue
@@ -565,9 +581,7 @@ def edit_single_data(request):
         instance.save()
         dsid = instance.dsid
         instance2 = dataset.objects.get(id = dsid.id)
-        instance2.name = instance2.name
         instance2.save()
-        prediction.objects.filter(dsid = dsid.id).delete()
 
 
         return JsonResponse({'status': True}, status = 200)
@@ -598,10 +612,7 @@ def edit_whole_data(request):
         instance.save()
         dsid = instance.dsid
         instance2 = dataset.objects.get(id = dsid.id)
-        instance2.name = instance2.name
         instance2.save()
-
-        prediction.objects.filter(dsid = dsid.id).delete()
 
         
         return JsonResponse({'status': True}, status = 200)
