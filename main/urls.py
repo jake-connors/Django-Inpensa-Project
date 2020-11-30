@@ -27,7 +27,8 @@ urlpatterns = [
     url(r'^ajax/edit_whole_data/$', views.edit_whole_data),
     url(r'^ajax/delete_row/$', views.delete_row),
     url(r'^ajax/get_data/$', views.get_data),
-    url(r'^ajax/add_row/$', views.add_row)
+    url(r'^ajax/add_row/$', views.add_row),
+    url(r'^ajax/data_list/$', views.dataList)
 
     
 ]

@@ -60,9 +60,29 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        {% for data in sets %}
-                        <a class="collapse-item" href="/edit" formmethod="get" type ="submit" name="dsid" value={{data.id}}>{{data.name}}</a>
-                        {% endfor %}
+                        <script>
+                            $.ajax({
+                                type: 'get',
+                                url: "/ajax/data_list",
+                                dataType: "json",
+                                data: {
+                                    dsid: 0
+                                },
+                                error: function(xhr,textStatus,err){
+                                },
+                                success: function(data){
+                                    var data_list = data;
+                                },
+                                failure: function(){
+                                    alert('An error occured: Please try again');
+                                }
+                            });
+                            //$.each(data_list, function(index, val)) {}
+
+                                
+
+                        </script>
+                        
                     </div>
                 </div>
             </li>

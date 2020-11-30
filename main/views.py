@@ -451,11 +451,16 @@ def edit(request):
             sets = dumps(sets)
             return render(request, 'edit.html',{
                 'sets':sets,
-                'dataset' : id
+                'dataset' : did
 
             })
     else:
         return redirect('login')
+
+def dataList(request):
+    sets = dataset.objects.all().filter(user = request.user).values()
+    sets = dumps(sets)
+    return JsonResponse(sets, safe=False)
 
 
 def edit_data(request):
