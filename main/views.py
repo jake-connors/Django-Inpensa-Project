@@ -459,6 +459,9 @@ def edit(request):
 
 def dataList(request):
     sets = dataset.objects.all().filter(user = request.user).values()
+    df = pd.DataFrame(sets)
+    df = df[['id', 'name']]
+    sets = df.to_dict('records')
     sets = dumps(sets)
     return JsonResponse(sets, safe=False)
 
@@ -501,7 +504,7 @@ def add_data(request):
     if request.user.is_authenticated:
         if request.method =='POST':
             dsid = request.POST['dsid']
-            instance = data(dsid = dsid, 
+            instance = data(dsid = dsid,
             name = request.POST['NAME'],
             TCO = request.POST['TCO'],
             TVO =request.POST['TVO'],
@@ -646,6 +649,7 @@ def get_data(request):
         return JsonResponse(sets, safe=False)
 @csrf_exempt
 def add_row(request):
+    print(request.POST)
     dataset1 = dataset.objects.get(id = request.POST['dsid'])
     instance = data(dsid = dataset1, name= request.POST['name'],TVO= request.POST['tvo'],TCO= request.POST['tco'],NET= request.POST['net'],PP= request.POST['pp'],ROI= request.POST['roi'],CapEx= request.POST['capex'],OneTime= request.POST['onetime'],OnGoing= request.POST['ongoing'],Revenue= request.POST['revenue'],Saving= request.POST['saving'],Avoid= request.POST['avoid'],CostGrade= request.POST['costgrade'],ValueScore= request.POST['valuescore'],RiskScore= request.POST['riskscore'],BlendedScore= request.POST['blendedscore'],CalcPriority= request.POST['calcpriority'],OverridedPriority= request.POST['overridedpriority'],accepted=0)
     instance.save()

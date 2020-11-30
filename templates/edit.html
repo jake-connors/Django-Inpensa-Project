@@ -394,6 +394,7 @@ $(document).ready(function($)
 	$(document).on('click', '.btn_save', function(event) 
 	{
 		event.preventDefault();
+		
 		var tbl_row = $(this).closest('tr');
 
 		var row_id = tbl_row.attr('row_id');
@@ -431,18 +432,36 @@ $(document).ready(function($)
 		//$('.post_msg').html( '<pre class="bg-success">'+JSON.stringify(arr, null, 2) +'</pre>');
 
 		//add call type for ajax call
-		arr['call_type'] = 'row_entry';
+		
 
-		if((col_name != "name" || col_name != "OverridedPriority") && col_val != "" &&  isNaN(col_val)){
-			alert("This column only accepts numeric input, please try again with a different input!")
-		}
-		else if((col_name == "name" || col_name == "OverridedPriority") && (col_val == "")){
-			alert("This column cannot be left blank! Please enter a valid input!")
-		}
-		else if(( col_name == "OverridedPriority") && Number.isInteger(col_val) == false){
-			alert("Override Priority can only be 1, 2, 3 or 4. Please enter a valid integer.");
-		}
-		else{
+		var error = false;
+		var error2 = false;
+		var error3 = false;
+
+		$.each(arr, function(index, val){
+
+			
+			
+			if ((index == "name" || index == "OverridedPriority") && (val == "")){
+				error2 = true;
+			} 
+			else if(val == ""){
+				arr[index]= 0;
+			} 
+			else if ((isNaN(val)) && (index != "name")){
+				error = true;
+			}
+			else if ((index == "OverridedPriority") && !(val == "1" || val == "2" || val == "3" || val == "4")){
+				error3 = true;
+			}
+		});
+
+
+
+
+
+
+		if(error == false && error2 == false && error3 == false){		
 			//call ajax api to update the database record
 			$.post("/ajax/edit_whole_data/", arr, function(data) 
 			{
@@ -481,6 +500,15 @@ $(document).ready(function($)
 					//$('.post_msg').html(msg);
 				}			
 			});
+		}
+		else if (error == true && error2 == false){
+			alert("Please enter numerical data for all data columns!")
+		}
+		else if (error == false && error2 == true){
+			alert("Both ID, and Overrided Prioritry cannot be blank!")
+		}
+		else if (error3){
+			alert("Overrided Priority can be 1, 2, 3 or 4. Please enter a valid value and try again.")
 		}
 
 
@@ -591,53 +619,9 @@ $(document).ready(function($)
 			name.focus();
 			name.after(alert_msg('Enter ID'));
 		}
-		else if(tco.html() == ""){
-			tco.html() = null;
-		}
-		else if(tvo.html() == ""){
-			tvo.html() = null;
-		}
-		else if(net.html() == ""){
-			net.html() = null;
-		}
-		else if(pp.html() == ""){
-			pp.html() = null;
-		}
-		else if(roi.html() == ""){
-			roi.html() = null;
-		}
-		else if(capex.html() == ""){
-			capex.html() = null;
-		}
-		else if(onetime.html() == ""){
-			onetime.html() = null;
-		}
-		else if(ongoing.html() == ""){
-			ongoing.html() = null;
-		}
-		else if(revenue.html() == ""){
-			reveneue.html() = null;
-		}
-		else if(saving.html() == ""){
-			saving.html() = null;
-		}
-		else if(avoid.html() == ""){
-			avoid.html() = null;
-		}
-		else if(costgrade.html() == ""){
-			costgrade.html() = null;
-		}
-		else if(valuescore.html() == ""){
-			valuescore.html() = null;
-		}
-		else if(riskscore.html() == ""){
-			riskscore.html() = null;
-		}
-		else if(blendedscore.html() == ""){
-			blendedscore.html() = null;
-		}
-		else if(calcpriority.html() == ""){
-			calcpriority.html() = null;
+		else if(isNaN(tco.html())){
+			tco.focus();
+			tco.after(alert_msg('Enter numeric value'))
 		}
 		else if(overridedpriority.html() == "")
 		{
@@ -670,6 +654,56 @@ $(document).ready(function($)
 				overridedpriority:overridedpriority.html(),
 				dsid: dsid,
 			};	
+			
+			if(tco.html() == ""){
+				data_obj['tco'] = 0;
+			};
+			if(tvo.html() == ""){
+				data_obj['tvo'] = 0;
+			};
+			if(net.html() == ""){
+				data_obj['net'] = 0;
+			};
+			if(pp.html() == ""){
+				data_obj['pp'] = 0;
+			};
+			if(roi.html() == ""){
+				data_obj['roi'] = 0;
+			};
+			if(capex.html() == ""){
+				data_obj['capex'] = 0;
+			};
+			if(onetime.html() == ""){
+				data_obj['onetime'] = 0;
+			};
+			if(ongoing.html() == ""){
+				data_obj['ongoing'] = 0;
+			};
+			if(revenue.html() == ""){
+				data_obj['revenue'] = 0;
+			};
+			if(saving.html() == ""){
+				data_obj['saving'] = 0;
+			};
+			if(avoid.html() == ""){
+				data_obj['avoid'] = 0;
+			};
+			if(costgrade.html() == ""){
+				data_obj['costgrade'] = 0;
+			};
+			if(valuescore.html() == ""){
+				data_obj['valuescore'] = 0;
+			};
+			if(riskscore.html() == ""){
+				data_obj['riskscore'] = 0;
+			};
+			if(blendedscore.html() == ""){
+				data_obj['blendedscore'] = 0;
+			};
+			if(calcpriority.html() == ""){
+				data_obj['calcpriority'] = 0;
+			};
+
 			
 			ele_this.html('<p class="bg-warning">Please wait....adding your new row</p>');
 			$.post("/ajax/add_row/", data_obj, function(data) 
@@ -721,7 +755,7 @@ $(document).ready(function($)
 					});
 				}
 			});
-		}
+		};
 	});
 
 
