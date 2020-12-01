@@ -247,7 +247,7 @@
 
 
   <!-- Content Wrapper -->
-<div id="content-wrapper" class="d-flex flex-column">
+<div id="content-wrapper" style="width:90vw;float:center; padding-left:2vw; padding-right:2vw;" class="d-flex flex-column">
   <!-- Begin Page Content -->
   <div class="container-fluid">
     <!-- Page Heading -->
@@ -255,7 +255,7 @@
       <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">{{datasetname}}</h1>
     </div>
 
-    <div class="dropdown">
+    <div class="dropdown" style="width:10vw;">
       <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
       <div id="myDropdown" class="dropdown-content">
           {% for model in models %}

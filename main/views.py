@@ -68,7 +68,6 @@ def dash(request):
     if request.user.is_authenticated:
         sets = dataset.objects.all().filter(user = request.user).values()
         sets2 =  model.objects.all().filter(user = request.user).values()
-        print(sets)
         return render(request, 'dashboard.html',{
             'sets': sets,
             'sets2': sets2
@@ -223,7 +222,6 @@ def predict(request):
             if (exists == False or old == True):
                 if(old):
                     prediction.objects.filter(mid = modelid ,dsid = dsetid).delete()
-                    print('old stuff deleted')
                 model1 = model.objects.get(id = modelid)
                 settings = {'TCO' : model.TCO,
                 'TVO': model1.TVO,
@@ -310,7 +308,6 @@ def cmodel(request):
     if request.user.is_authenticated:
         if request.method =="POST":
             df = pd.read_excel("static/data/training.xlsx")
-            print(request.POST)
             settings = {'TCO' : request.POST['TCO'],
             'TVO': request.POST['TVO'],
             'NET' : request.POST['NET'],
@@ -440,12 +437,10 @@ def delete_model(request):
         return redirect('login')
 
 def edit(request):
-    print(request)
     if request.user.is_authenticated:
         if request.method=="POST":
-            print(request.POST['dsid'])
+            redirect('dash')
         else:
-            print(request.GET)
             did = request.GET['dsid']
             sets = data.objects.all().filter(dsid = did).values()
             df = pd.DataFrame(sets)
@@ -652,7 +647,6 @@ def get_data(request):
         return JsonResponse(sets, safe=False)
 @csrf_exempt
 def add_row(request):
-    print(request.POST)
     dataset1 = dataset.objects.get(id = request.POST['dsid'])
     instance = data(dsid = dataset1, name= request.POST['name'],TVO= request.POST['tvo'],TCO= request.POST['tco'],NET= request.POST['net'],PP= request.POST['pp'],ROI= request.POST['roi'],CapEx= request.POST['capex'],OneTime= request.POST['onetime'],OnGoing= request.POST['ongoing'],Revenue= request.POST['revenue'],Saving= request.POST['saving'],Avoid= request.POST['avoid'],CostGrade= request.POST['costgrade'],ValueScore= request.POST['valuescore'],RiskScore= request.POST['riskscore'],BlendedScore= request.POST['blendedscore'],CalcPriority= request.POST['calcpriority'],OverridedPriority= request.POST['overridedpriority'],accepted=0)
     instance.save()
