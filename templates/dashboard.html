@@ -42,6 +42,15 @@
   text-decoration: none;
   cursor: pointer;
 }
+button{
+    color: black;
+    background-color: white;
+    padding-left: 6px;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: left;
+    box-shadow: 0px 0px white;
+}
 </style>
 
                 <!-- Begin Page Content -->
@@ -62,28 +71,28 @@
                             <div class="card shadow mb-4" style="height:90vh; width:100%">
                                 <div class="card-header py-3">
                                     <div style="float:left">
-                                        <h6 class="m-0 font-weight-bold text-primary">Set List</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">My Portfolios</h6>
                                     </div>
                                     <div style="float:right" style="margin:0 auto; padding:0; border:0">
                                         <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 4px; width:100%">
                                             <!-- upload dataset button -->
-                                            <button class="open-button" id="myBtn" style="background-color: #36b9cc; text-align: center; margin: 0 auto; padding: 2px 12px">Upload Dataset</button>
+                                            <button class="open-button" id="myBtn" style="background-color: #36b9cc; text-align: center; margin: 0 auto; padding: 2px 12px; color:white">Upload Portfolio</button>
             <!-- The Modal -->
                                             <div id="myModal" class="modal">
 
                                             <!-- Modal content -->
                                             <div class="modal-content">
                                                 <span class="close">&times;</span>
-                                                    <h3 style="padding-bottom: 1%">Upload Dataset</h3>
-                                                    <form action = "/upload/" method="POST" enctype='multipart/form-data' style="color:black">
+                                                    <h3 style="padding-bottom: 1%">Upload Portfolio</h3>
+                                                    <form action = "/upload/" method="POST" enctype='multipart/form-data' style="color:black; display:inline-block">
                                                         {% csrf_token %}
                                                         {{ form }}
-                                                        <label style="width:30%; float:left; font-size: 16px" for="dataname">Name of data set:</label>
-                                                        <input style="width:65%; float:right; height:10px; size:50; padding:4; margin-top:0" type="text" name="name" required><br><br>
-                                                        <label style="width:30%; float:left; font-size: 16px" for="dataname">Available Budget:</label>
-                                                        <input style="width:65%; float:right; height:10px; size:50; padding:4; margin-top:0" type="text" name="budget" required><br><br>
-                                                        <input type="file" id="dataFile" name="Project Data" accept=".csv, .xlsx" style="float: left; padding-left: 6px">
-                                                        <input type="submit" value="Submit File" style="float:right;">
+                                                        <label style="width:33%; font-size: 15px; margin-left: -5%" for="dataname">Portfolio Name:</label>
+                                                        <input style="width:65%; height:10px; size:50; padding:4; margin-top:0; float:right" type="text" name="name" required><br><br>
+                                                        <label style="width:33%; font-size: 15px; margin-left: -5%" for="dataname">Available Budget:</label>
+                                                        <input style="width:65%; height:10px; size:50; padding:4; margin-top:0; float:right" type="text" name="budget" required><br><br>
+                                                        <input type="file" id="dataFile" name="Project Data" accept=".csv, .xlsx" style="float: left;  margin-bottom:-10%">
+                                                        <input type="submit" value="Submit File" style="float:right;  padding-bottom: 0px">
                                                     </form>
                                             </div>
 
@@ -128,14 +137,14 @@
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
                                         <h4 class="small font-weight-bold">Last Updated: {{data.updated_at}}</h4>
                                         <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%; float:left; padding:0">
-                                            <button type ="submit" name="dataset" style="background-color: #4e73df; text-align:center; padding: 2px 0" value={{data.id}}>View Data</button>
+                                            <button type ="submit" name="dataset" style="background-color: #4e73df; text-align:center; padding: 2px 0; color:white" value={{data.id}}>View Data</button>
                                         </div>
                                     </form>
                                     <form style="margin:0; padding:0; border:0">
                                         <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:67%; float:center">
-                                            <button formaction="/edit" formmethod="get" type ="submit" name="dsid" style="background-color: #f6c23e; text-align:center; padding: 2px 0" value={{data.id}}>Edit</button>
+                                            <button formaction="/edit" formmethod="get" type ="submit" name="dsid" style="background-color: #f6c23e; text-align:center; padding: 2px 0; color: white" value={{data.id}}>Edit</button>
                                                 {% csrf_token %}
-                                            <button formaction="/delete_dataset/" formmethod="post" type ="submit" name="dsid" style="background-color: #c93325; text-align:center; padding: 2px 0" value={{data.id}}>Delete</button>
+                                            <button formaction="/delete_dataset/" formmethod="post" type ="submit" name="dsid" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value={{data.id}}>Delete</button>
                                         </div>   
                                     </form>    
                                 {% endfor %}
@@ -148,18 +157,19 @@
                             <!-- Model List -->
                             <div class="card shadow mb-4" style="height: 90vh">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Model List</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Model List</h6>
                                 </div>
                                 <div class="card-body" style="overflow-y:auto; max-height: 90vh">
                                     {% for data in sets2 %}
                                     <table style="border-bottom: 2px;">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
+                                        <h4 class="small font-weight-bold">Name: {{data.details}}</h4>
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
                                         <h4 class="small font-weight-bold">Accuracy: {{data.accuracy}}%</h4>
                                         <form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">
                                             {% csrf_token %}
                                             <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">
-                                                <button type ="submit" name="model" style="background-color: #b00c0c; text-align:center; padding: 2px 0" value={{data.id}}>Delete</button>
+                                                <button type ="submit" name="model" style="background-color: #b00c0c; text-align:center; padding: 2px 0; color:white" value={{data.id}}>Delete</button>
                                             </div>   
                                         </form>   
                                         <br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br>
