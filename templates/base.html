@@ -27,11 +27,10 @@
         },
         success: function(data){
             data_obj = JSON.parse(data);
-            var output = ' <form action = "/edit_2/" method="get">';
+            var output = '';
             $.each(data_obj, function(index, val){
-                output+='<a class="collapse-item" href="/edit_2/" formmethod="get" type ="submit" name="dsid1" value='+val["id"]+'>'+val["name"]+'</a>';
+                output+='<a class="collapse-item" href="/edit/?dsid='+val["id"]+'" type="submit">'+val["name"]+'</a>';
             });
-            output+= '</form>'
             $(document).find('.bg-white').html(output);
         },
         failure: function(){
