@@ -16,7 +16,6 @@
 </head>
 
 <script>
-    var data_list;
     $.ajax({
         type: 'get',
         url: "/ajax/data_list",
@@ -92,6 +91,20 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Items - View Sets -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i href="{% static 'media\folderman.png' %}" class="sidebar-brand-icon"></i>
+                    <span>View Portfolios</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="2 bg-white py-2 collapse-inner rounded">
                         
                     </div>
                 </div>
