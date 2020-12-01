@@ -441,7 +441,9 @@ def delete_model(request):
 
 def edit_2(request):
     if request.user.is_authenticated:
-        if request.method=="get":
+        if request.method == "POST":
+            return redirect(dash)
+        else:
             print('wtf is going on')
             print(request.GET)
             did = request.GET['dsid1']
@@ -453,9 +455,10 @@ def edit_2(request):
         return redirect('login')
 
 def edit(request):
+    print(request)
     if request.user.is_authenticated:
         if request.method=="POST":
-            print(request.POST['dsid1'])
+            print(request.POST['dsid'])
         else:
             print(request.GET)
             did = request.GET['dsid']
@@ -478,7 +481,6 @@ def dataList(request):
     df = df[['id', 'name']]
     sets = df.to_dict('records')
     sets = dumps(sets)
-    print(sets)
     return JsonResponse(sets, safe=False)
 
 
