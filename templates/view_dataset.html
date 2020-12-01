@@ -5,6 +5,7 @@
 <style>
   
   table{
+    margin-top: 15px;
     counter-reset: tableCount;
     border-collapse: collapse;
     font-size: 79%;
@@ -25,7 +26,8 @@
   
   .dropbtn {
     all:unset;
-    
+    margin-top: 15px;
+
     border-radius:10px;
     background-color: #e6e6e6 !important; 
     color: black;
@@ -46,12 +48,13 @@
     display: none;
     position: absolute;
     background-color: #e6e6e6 !important;
-    overflow: auto;
+
     z-index: 1;
   } 
   
   .dropdown-content a {
     all:unset;
+    
   } 
   .show {
     display: block;
@@ -111,11 +114,11 @@
     border: 3px solid #66666696;
     border-radius:15px; 
     z-index: 9;
-    height: 90%;
+    height: 100%;
     width: 70%;
-    top: 70px;
+    top: 20px;
     left: 580px;
-    margin-top:-35px;
+    margin-top:-10px;
     margin-left:-290px;
   }
   .form-container {
@@ -124,7 +127,7 @@
     background-color: white;
     margin: auto;
     width: 145%;
-    height: 90vh;
+    height: 100vh;
 
   }
   #cancel {
@@ -233,6 +236,11 @@
   body {
     overflow:auto;
   }
+  
+  /*
+  .slider-selection.tick-slider-selection {
+    background-image: linear-gradient(to bottom, #E5E5E5, #E9E9E9) !important;
+  } */
 
 
 
@@ -253,22 +261,6 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">{{datasetname}}</h1>
-    </div>
-
-    <div class="dropdown" style="width:10vw;">
-      <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
-      <div id="myDropdown" class="dropdown-content">
-          {% for model in models %}
-          <form action="/predict/" method="post" id="ddForm">
-          {% csrf_token %}
-            <input type="hidden" name="model" value={{model.id}}>
-            <input type="hidden" name="dataset" value={{dataset}}>
-            <!--{{dataset}}-->
-            <button name ="submit" value="1" type="submit">{{model.name}}</button>
-          </form>
-          {% endfor %}
-        <button class="open-button" onclick="openForm()" id="createNewModel">New Model</button>
-      </div>
     </div>
 
   <!-- Content Row -->
@@ -360,6 +352,22 @@
   </div>
 </div>
 
+<div class="dropdown">
+  <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
+  <div id="myDropdown" class="dropdown-content">
+      {% for model in models %}
+      <form action="/predict/" method="post" id="ddForm">
+      {% csrf_token %}
+        <input type="hidden" name="model" value={{model.id}}>
+        <input type="hidden" name="dataset" value={{dataset}}>
+        <!--{{dataset}}-->
+        <button name ="submit" value="1" type="submit">{{model.name}}</button>
+      </form>
+      {% endfor %}
+    <button class="open-button" onclick="openForm()" id="createNewModel">New Model</button>
+  </div>
+</div>
+
 
 <div style="display:inline-block">
 <div class="form-popup" id="newModelForm">
@@ -436,7 +444,7 @@
 <script>
   $("#ex1").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
   $("#ex1-enabled").click(function() {
-    if(this.checked) { $("#ex1").slider("disable"); }
+    if(this.checked) { $("#ex1").slider("disable");  }
     else { $("#ex1").slider("enable");}
   });
   $("#ex2").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
