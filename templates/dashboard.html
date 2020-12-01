@@ -59,7 +59,7 @@
                         <div class="col-lg-6 mb-4">
 
                             <!-- Set List -->
-                            <div class="card shadow mb-4" style="height:35em; width:100%">
+                            <div class="card shadow mb-4" style="height:90vh; width:100%">
                                 <div class="card-header py-3">
                                     <div style="float:left">
                                         <h6 class="m-0 font-weight-bold text-primary">Set List</h6>
@@ -120,13 +120,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body" style="overflow-y: auto; max-height:35em">
+                                <div class="card-body" style="overflow-y: auto; max-height:90vh">
                                 {% for data in sets %}
                                     <form action = "/view" method="get" style="margin:0; padding:0; border:0">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
                                         <h4 class="small font-weight-bold">Size: {{data.size}}</h4>
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
-                                        
                                         <h4 class="small font-weight-bold">Last Updated: {{data.updated_at}}</h4>
                                         <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%; float:left; padding:0">
                                             <button type ="submit" name="dataset" style="background-color: #4e73df; text-align:center; padding: 2px 0" value={{data.id}}>View Data</button>
@@ -142,89 +141,19 @@
                                 {% endfor %}
                                 </div>
                             </div>
-
-                            <!-- Color System -->
-                            <div class="row">
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-primary text-white shadow">
-                                        <div class="card-body">
-                                            Primary
-                                            <div class="text-white-50 small">#4e73df</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-success text-white shadow">
-                                        <div class="card-body">
-                                            Success
-                                            <div class="text-white-50 small">#1cc88a</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
-                                            Info
-                                            <div class="text-white-50 small">#36b9cc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-warning text-white shadow">
-                                        <div class="card-body">
-                                            Warning
-                                            <div class="text-white-50 small">#f6c23e</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-danger text-white shadow">
-                                        <div class="card-body">
-                                            Danger
-                                            <div class="text-white-50 small">#e74a3b</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-secondary text-white shadow">
-                                        <div class="card-body">
-                                            Secondary
-                                            <div class="text-white-50 small">#858796</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-light text-black shadow">
-                                        <div class="card-body">
-                                            Light
-                                            <div class="text-black-50 small">#f8f9fc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-dark text-white shadow">
-                                        <div class="card-body">
-                                            Dark
-                                            <div class="text-white-50 small">#5a5c69</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
 
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-6 mb-4" style="float:left">
 
                             <!-- Model List -->
-                            <div class="card shadow mb-4" style="height: 35em">
+                            <div class="card shadow mb-4" style="height: 90vh">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Model List</h6>
                                 </div>
-                                <div class="card-body" style="overflow-y:auto; max-height: 35em">
+                                <div class="card-body" style="overflow-y:auto; max-height: 90vh">
                                     {% for data in sets2 %}
                                     <table style="border-bottom: 2px;">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
-                                        <h4 class="small font-weight-bold">Description: {{data.details}}</h4>
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
                                         <h4 class="small font-weight-bold">Accuracy: {{data.accuracy}}%</h4>
                                         <form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">
@@ -238,9 +167,10 @@
                                     {% endfor %}
                                 </div>
                             </div>
+                        </div>
 
                             <!-- Approach -->
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-4" style="opacity:100;">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
                                 </div>
