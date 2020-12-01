@@ -186,7 +186,6 @@ def view(request):
             sets = data.objects.all().filter(dsid = request.GET['dataset']).values()
             df = pd.DataFrame(sets)
             df = df.fillna("")
-            print(df)
             df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
             df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
 
@@ -224,7 +223,7 @@ def predict(request):
                 if(old):
                     prediction.objects.filter(mid = modelid ,dsid = dsetid).delete()
                 model1 = model.objects.get(id = modelid)
-                settings = {'TCO' : model.TCO,
+                settings = {'TCO' : model1.TCO,
                 'TVO': model1.TVO,
                 'NET' : model1.NET,
                 'PP' : model1.PP,
@@ -247,7 +246,7 @@ def predict(request):
                 df1 = df.drop(df.columns[[0, 1, 2, 20]], axis = 1)
                 for x in settings:
                     if settings[x] == 0:
-                        df1 = df.drop(x, axis = 1)
+                        df1 = df1.drop(x, axis = 1)
                 df1 = df1.fillna(0)
                 x = df1.values #returns a numpy array
                 min_max_scaler = preprocessing.MinMaxScaler()
@@ -329,9 +328,8 @@ def cmodel(request):
             }
             df['picked'] = [1 if x==4 else 0 for x in df['Overrided Priority']]
             for x in settings:
-                if settings[x] == 0:
+                if settings[x] == '0':
                     df = df.drop(x, axis = 1)
-
             x = df.values #returns a numpy array
             min_max_scaler = preprocessing.MinMaxScaler()
             x_scaled = min_max_scaler.fit_transform(x)
