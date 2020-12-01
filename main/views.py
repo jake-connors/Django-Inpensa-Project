@@ -68,6 +68,7 @@ def dash(request):
     if request.user.is_authenticated:
         sets = dataset.objects.all().filter(user = request.user).values()
         sets2 =  model.objects.all().filter(user = request.user).values()
+        print(sets)
         return render(request, 'dashboard.html',{
             'sets': sets,
             'sets2': sets2
@@ -438,11 +439,25 @@ def delete_model(request):
     else:
         return redirect('login')
 
+def edit_2(request):
+    if request.user.is_authenticated:
+        if request.method=="get":
+            print('wtf is going on')
+            print(request.GET)
+            did = request.GET['dsid1']
+            return render(request, 'edit.html',{
+                'dataset' : did
+
+            })
+    else:
+        return redirect('login')
+
 def edit(request):
     if request.user.is_authenticated:
         if request.method=="POST":
-            return redirect('dash')
+            print(request.POST['dsid1'])
         else:
+            print(request.GET)
             did = request.GET['dsid']
             sets = data.objects.all().filter(dsid = did).values()
             df = pd.DataFrame(sets)
@@ -463,6 +478,7 @@ def dataList(request):
     df = df[['id', 'name']]
     sets = df.to_dict('records')
     sets = dumps(sets)
+    print(sets)
     return JsonResponse(sets, safe=False)
 
 

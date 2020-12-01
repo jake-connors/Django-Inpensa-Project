@@ -15,6 +15,37 @@
 
 </head>
 
+<script>
+    var data_list;
+    $.ajax({
+        type: 'get',
+        url: "/ajax/data_list",
+        dataType: "json",
+        data: {
+            dsid: 0
+        },
+        error: function(xhr,textStatus,err){
+        },
+        success: function(data){
+            data_obj = JSON.parse(data);
+            var output = ' <form action = "/edit_2/" method="get">';
+            $.each(data_obj, function(index, val){
+                output+='<a class="collapse-item" href="/edit_2/" formmethod="get" type ="submit" name="dsid1" value='+val["id"]+'>'+val["name"]+'</a>';
+            });
+            output+= '</form>'
+            $(document).find('.bg-white').html(output);
+        },
+        failure: function(){
+            alert('An error occured: Please try again');
+        }
+    });
+    //$.each(data_list, function(index, val)) {}
+    
+</script>
+
+
+
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -60,28 +91,7 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <script>
-                            $.ajax({
-                                type: 'get',
-                                url: "/ajax/data_list",
-                                dataType: "json",
-                                data: {
-                                    dsid: 0
-                                },
-                                error: function(xhr,textStatus,err){
-                                },
-                                success: function(data){
-                                    var data_list = data;
-                                },
-                                failure: function(){
-                                    alert('An error occured: Please try again');
-                                }
-                            });
-                            //$.each(data_list, function(index, val)) {}
-
-                                
-
-                        </script>
+                        
                         
                     </div>
                 </div>
