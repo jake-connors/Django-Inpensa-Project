@@ -27,11 +27,16 @@
         },
         success: function(data){
             data_obj = JSON.parse(data);
-            var output = '';
+            var output1 = '';
+            var output2 = '';
             $.each(data_obj, function(index, val){
-                output+='<a class="collapse-item" href="/edit/?dsid='+val["id"]+'" type="submit">'+val["name"]+'</a>';
+                output1+='<form action = "/view" method="get">';
+                output1+='<button type ="submit" href="/view/" name="dataset" value='+val["id"]+'>'+val["name"]+'</button>';
+                output2+='<a class="collapse-item" href="/edit/?dsid='+val["id"]+'" type="submit">'+val["name"]+'</a>';
+                output1+='</form>';
             });
-            $(document).find('.bg-white').html(output);
+            $(document).find('.view').html(output1);
+            $(document).find('.edit').html(output2);
         },
         failure: function(){
             alert('An error occured: Please try again');
@@ -79,17 +84,46 @@
                     <span>Dashboard</span></a>
             </li>
 
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+
+
             <!-- Nav Items - Set List Edits -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i href="{% static 'media\folderman.png' %}" class="sidebar-brand-icon"></i>
-                    <span>Edit Portfolios</span>
+                    <span>View Portfolios</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
+                    <div id= "view" class="bg-white py-2 collapse-inner rounded">
+                        <div class="view"></div>
                         
+                        
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+
+
+            <!-- Nav Items - Set List Edits -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1"
+                    aria-expanded="true" aria-controls="collapseUtilities1">
+                    <i href="{% static 'media\folderman.png' %}" class="sidebar-brand-icon"></i>
+                    <span>Edit Portfolios</span>
+                </a>
+                <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div id ="edit" class="bg-white py-2 collapse-inner rounded">
+                        <div class="edit"></div>
                         
                     </div>
                 </div>

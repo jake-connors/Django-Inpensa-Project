@@ -439,21 +439,6 @@ def delete_model(request):
     else:
         return redirect('login')
 
-def edit_2(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            return redirect(dash)
-        else:
-            print('wtf is going on')
-            print(request.GET)
-            did = request.GET['dsid1']
-            return render(request, 'edit.html',{
-                'dataset' : did
-
-            })
-    else:
-        return redirect('login')
-
 def edit(request):
     print(request)
     if request.user.is_authenticated:

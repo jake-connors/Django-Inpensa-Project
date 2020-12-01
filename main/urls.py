@@ -29,7 +29,6 @@ urlpatterns = [
     url(r'^ajax/get_data/$', views.get_data),
     url(r'^ajax/add_row/$', views.add_row),
     url(r'^ajax/data_list/$', views.dataList),
-    url(r'^edit_2/$', views.edit_2, name='edit2'),
 
     
 ]
