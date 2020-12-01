@@ -186,8 +186,9 @@ def view(request):
             sets = data.objects.all().filter(dsid = request.GET['dataset']).values()
             df = pd.DataFrame(sets)
             df = df.fillna("")
+            print(df)
             df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
-            df['Overrided Priority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
+            df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
 
             sets = df.to_dict('records')
             models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
