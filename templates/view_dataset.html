@@ -40,7 +40,7 @@
     } 
     .dropdown {
       display: inline-block;
-      left: 89%;
+      left: 80vw;
     }
     
   
@@ -354,12 +354,6 @@
     </div>
   </div>
   
-  <div class="dropdown">
-    <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
-    <div id="myDropdown" class="dropdown-content">
-        
-    </div>
-  </div>
   <div style="display:inline-block">
     <div class="form-popup" id="newModelForm">
       <form action = "/cmodel/" method="POST" method="POST" enctype='multipart/form-data' class="form-container">
@@ -581,7 +575,7 @@ $(document).ready(function($)
     var tco_val = 0;
     var approved_tco = 0;
 		//add new table row
-		tbl +='<table class="table table-hover tbl_code_with_mark">'
+		tbl +='<table class="table table-hover tbl_code_with_mark" id="table1">'
 
 
 			//--->create table header > start
@@ -776,6 +770,12 @@ $(document).ready(function($)
 });
 </script>
 <div class="container" style="margin-left:0%">
+  <div class="dropdown">
+    <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
+    <div id="myDropdown" class="dropdown-content">
+        
+    </div>
+  </div>
     <div class="row">
         <div class="col-md-12">
             <div class="test55"></div>
@@ -791,4 +791,7 @@ $("#expand2").click(function() {
     $(".table .toggleDisplay2").toggleClass("in");
 });
 </script>
+
+
+
 {% endblock %}
