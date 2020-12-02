@@ -30,10 +30,8 @@
             var output1 = '';
             var output2 = '';
             $.each(data_obj, function(index, val){
-                output1+='<form action = "/view" method="get">';
-                output1+='<button type ="submit" href="/view/" name="dataset" value='+val["id"]+'>'+val["name"]+'</button>';
+                output1+='<a class="collapse-item" href="/view/?datasetid='+val["id"]+'" type="submit">'+val["name"]+'</a>';
                 output2+='<a class="collapse-item" href="/edit/?dsid='+val["id"]+'" type="submit">'+val["name"]+'</a>';
-                output1+='</form>';
             });
             $(document).find('.view').html(output1);
             $(document).find('.edit').html(output2);

@@ -29,6 +29,9 @@ urlpatterns = [
     url(r'^ajax/get_data/$', views.get_data),
     url(r'^ajax/add_row/$', views.add_row),
     url(r'^ajax/data_list/$', views.dataList),
+    url(r'^ajax/get_table_data/$', views.get_table_data),
+    url(r'^ajax/get_data_details/$', views.get_data_details),
+    url(r'^ajax/get_models/$', views.get_models)
 
     
 ]

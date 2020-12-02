@@ -160,7 +160,11 @@ def upload_db(request):
 
 
 def test(request):
-    return render(request, 'test.html')
+    dsid = request.GET['dsid']
+    return render(request, 'test.html',{
+        'dsid': dsid,
+        'predict':0
+    })
 
 
 
@@ -183,21 +187,10 @@ def view(request):
 
             return render(request, 'view_dataset.html')
         else:
-            sets = data.objects.all().filter(dsid = request.GET['dataset']).values()
-            df = pd.DataFrame(sets)
-            df = df.fillna("")
-            df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
-            df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
-
-            sets = df.to_dict('records')
-            models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
-            instance = dataset.objects.get(id = request.GET['dataset'])
+            
             return render(request, 'view_dataset.html',{
-                'sets':sets,
-                'dataset' : request.GET['dataset'],
-                'models' : models,
-                'datasetname' : instance.name,
-                'budget' : instance.budget
+                'dataset' : request.GET['datasetid'],
+                'predict':0
 
             })
     else:
@@ -270,20 +263,16 @@ def predict(request):
 
             df2 =  pd.DataFrame(prediction.objects.all().filter(mid = modelid, dsid = dsetid).values())
             df['score'] = df2['score']
-            df = df.fillna("")
+            df = df.fillna(0)
             df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
             df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
 
-            df = df.sort_values(by = ['score'], ascending = False)
+            df = df.sort_values(by = ['accepted','score'], ascending = False)
             df_records1 = df.to_dict('records')
-            models = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
-            instance = dataset.objects.get(id = dsetid)
             return render(request, 'view_dataset.html',{
-                'sets':df_records1,
+                'sets':dumps(df_records1),
                 'dataset' : dsetid,
-                'models' : models,
-                'datasetname': instance.name,
-                'budget': instance.budget
+                'predict':1
 
             })
         else:
@@ -644,6 +633,38 @@ def get_data(request):
         sets = df.to_dict('records')
         sets = dumps(sets)
         return JsonResponse(sets, safe=False)
+
+
+
+def get_table_data(request):
+    if request.method == 'GET':
+        dsid = request.GET['dsid']
+        stuff = data.objects.filter(dsid = dsid).values()
+        df = pd.DataFrame(stuff)
+        df = df.fillna(0)
+        df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
+        df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
+        sets = df.to_dict('records')
+        sets = dumps(sets)
+        return JsonResponse(sets, safe=False)
+
+
+def get_data_details(request):
+    if request.method =="GET":
+        dsid = request.GET['dsid']
+        stuff = dataset.objects.filter(id = dsid).values()
+        stuff = list(stuff)
+        return JsonResponse(stuff, safe=False)
+
+def get_models(request):
+    if request.method =="GET":
+        stuff = model.objects.filter(user = request.user).values()
+        stuff = list(stuff)
+        return JsonResponse(stuff, safe=False)
+
+
+
+
 @csrf_exempt
 def add_row(request):
     dataset1 = dataset.objects.get(id = request.POST['dsid'])

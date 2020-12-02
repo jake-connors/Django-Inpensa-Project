@@ -37,7 +37,7 @@ class data(models.Model):
     BlendedScore =models.FloatField(null = True)
     CalcPriority =models.FloatField(null = True)
     OverridedPriority =models.IntegerField()
-    accepted = models.IntegerField(1)
+    accepted = models.IntegerField()
 
     def __dataset__(self):
         return self.dsid
