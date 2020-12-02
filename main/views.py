@@ -199,9 +199,9 @@ def view(request):
 
 def predict(request):
     if request.user.is_authenticated:
-        if request.method == "POST":
-            modelid = request.POST['model']
-            dsetid = request.POST['dataset']
+        if request.method == "GET":
+            modelid = request.GET['model']
+            dsetid = request.GET['dataset']
             datapoints = data.objects.all().filter(dsid = dsetid).values()
             exists = False
             old = False

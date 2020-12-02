@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Dataset{% endblock%}
-
+{% load static %}
 {% block content %}
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -38,11 +38,7 @@
       cursor: pointer;
       padding:5px;
     } 
-    .dropdown {
-      display: inline-block;
-      left: 89%;
-    }
-    
+
   
     .dropdown-content {
       all:unset;
@@ -353,13 +349,14 @@
       </div>
     </div>
   </div>
+ 
   
-  <div class="dropdown">
+  <!--<div class="dropdown">
     <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
     <div id="myDropdown" class="dropdown-content">
         
     </div>
-  </div>
+  </div>-->
   <div style="display:inline-block">
     <div class="form-popup" id="newModelForm">
       <form action = "/cmodel/" method="POST" method="POST" enctype='multipart/form-data' class="form-container">
@@ -757,16 +754,20 @@ $(document).ready(function($)
             var models = '';
             
             $.each(data, function(index, val){
-                models+= '<form action="/predict/" method="post" id="ddForm">'
+                models+='<a class="dropdown-item" href="/predict/?model='+val["id"]+'&dataset='+dsid+'" >'+val["name"]+'</a>';
+                models+='<div class="dropdown-divider"></div>';
+                /*
+                models+= '<form action="/predict/" method="get" id="ddForm">'
                 models+= '{% csrf_token %}'
                 models+='<input type="hidden" name="model" value='+val["id"]+'>';
                 models+='<input type="hidden" name="dataset" value='+dsid+'>';
                 models+='<button name ="submit"  type="submit">'+val['name']+'</button>';
                 models+='</form>';
+                */
             });
             
-            models+='<button class="open-button" onclick="openForm()" id="createNewModel">New Model</button>'
-            $(document).find('.dropdown-content').html(models);
+            models+='<a class="dropdown-item" onclick="openForm()" id="createNewModel">New Model</a>'
+            $(document).find('.dropdown-menu').html(models);
 		},
 		failure: function(){
 			alert('An error occured: Please try again');
@@ -775,16 +776,19 @@ $(document).ready(function($)
     $(document).find('.remaining_budget').html(formatter.format(DATA_BUDGET -approved_tco));
 });
 </script>
-<div class="container" style="margin-left:0%">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="test55"></div>
-            <div class="test56"></div>
+<!-- Example single danger button -->
+<div class="idk" style="width:10vw">
+  <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown button
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+  </div>
+</div>
+<div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 87vw;" >
+  
           <div class="tbl_user_data" style="width: 88vw; padding-top:0; max-height: 61em; overflow:auto">
             
         </div>
-      </div>
-    </div>
   </div>
 <script type="text/javascript">
 $("#expand2").click(function() {
