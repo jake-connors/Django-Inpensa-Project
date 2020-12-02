@@ -575,7 +575,6 @@ $(document).ready(function($)
   
 	function create_html_table (tbl_data)
 	{	
-    alert(tbl_data);
 		tbl_data = JSON.parse(tbl_data)
 		//--->create data table > start
     var tbl = '';
@@ -639,7 +638,6 @@ $(document).ready(function($)
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
                     tbl +='<td ><div class="row_data" edit_type="click" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
                     if(val['accepted'] ==1){
-                      alert("yes");
                         approved_tco += val['TCO'];
                     }
 					
@@ -774,8 +772,6 @@ $(document).ready(function($)
 			alert('An error occured: Please try again');
 		}
     });
-    alert(DATA_BUDGET);
-    alert(approved_tco);
     $(document).find('.remaining_budget').html(formatter.format(DATA_BUDGET -approved_tco));
 });
 </script>
