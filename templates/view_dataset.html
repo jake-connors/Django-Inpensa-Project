@@ -38,15 +38,11 @@
       cursor: pointer;
       padding:5px;
     } 
-<<<<<<< HEAD
-
-=======
     .dropdown {
       display: inline-block;
       left: 80vw;
     }
     
->>>>>>> 99f8377021aff80e18e1bd60a06394f44ae34e8c
   
     .dropdown-content {
       all:unset;
@@ -356,19 +352,18 @@
         </div>
       </div>
     </div>
-  </div>
- 
-  
-<<<<<<< HEAD
+  </div>      
+  <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      </div>
   <!--<div class="dropdown">
     <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
     <div id="myDropdown" class="dropdown-content">
         
     </div>
   </div>-->
-=======
->>>>>>> 99f8377021aff80e18e1bd60a06394f44ae34e8c
   <div style="display:inline-block">
+        
     <div class="form-popup" id="newModelForm">
       <form action = "/cmodel/" method="POST" method="POST" enctype='multipart/form-data' class="form-container">
         {% csrf_token %}
@@ -777,7 +772,7 @@ $(document).ready(function($)
                 */
             });
             
-            models+='<a class="dropdown-item" onclick="openForm()" id="createNewModel">New Model</a>'
+            models+='<a class="dropdown-item" style="border:0%; margin:0%" onclick="openForm()" id="createNewModel">New Model</a>'
             $(document).find('.dropdown-menu').html(models);
 		},
 		failure: function(){
@@ -788,13 +783,9 @@ $(document).ready(function($)
 });
 </script>
 <!-- Example single danger button -->
-<div class="idk" style="width:10vw">
-  <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown button
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-  </div>
-</div>
+
+  
+
 <div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 87vw;" >
   
           <div class="tbl_user_data" style="width: 88vw; padding-top:0; max-height: 61em; overflow:auto">
