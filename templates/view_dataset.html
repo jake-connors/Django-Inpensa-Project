@@ -38,7 +38,15 @@
       cursor: pointer;
       padding:5px;
     } 
+<<<<<<< HEAD
 
+=======
+    .dropdown {
+      display: inline-block;
+      left: 80vw;
+    }
+    
+>>>>>>> 99f8377021aff80e18e1bd60a06394f44ae34e8c
   
     .dropdown-content {
       all:unset;
@@ -351,12 +359,15 @@
   </div>
  
   
+<<<<<<< HEAD
   <!--<div class="dropdown">
     <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
     <div id="myDropdown" class="dropdown-content">
         
     </div>
   </div>-->
+=======
+>>>>>>> 99f8377021aff80e18e1bd60a06394f44ae34e8c
   <div style="display:inline-block">
     <div class="form-popup" id="newModelForm">
       <form action = "/cmodel/" method="POST" method="POST" enctype='multipart/form-data' class="form-container">
@@ -578,7 +589,7 @@ $(document).ready(function($)
     var tco_val = 0;
     var approved_tco = 0;
 		//add new table row
-		tbl +='<table class="table table-hover tbl_code_with_mark">'
+		tbl +='<table class="table table-hover tbl_code_with_mark" id="table1">'
 
 
 			//--->create table header > start
@@ -795,4 +806,7 @@ $("#expand2").click(function() {
     $(".table .toggleDisplay2").toggleClass("in");
 });
 </script>
+
+
+
 {% endblock %}
