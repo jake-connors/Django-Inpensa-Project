@@ -210,7 +210,7 @@ $(document).ready(function($)
 		//make div editable
 		$(this).closest('div').attr('contenteditable', 'true');
 		//add bg css
-		$(this).addClass('bg-warning').css('padding','5px');
+		$(this).addClass('bg-light').css('padding','5px');
 
 		$(this).focus();
 
@@ -235,7 +235,7 @@ $(document).ready(function($)
 		var row_id = $(this).closest('tr').attr('row_id'); 
 		
 		var row_div = $(this)				
-		.removeClass('bg-warning') //add bg css
+		.removeClass('bg-light') //add bg css
 		.css('padding','')
 
 		var col_name = row_div.attr('col_name'); 
@@ -345,7 +345,7 @@ $(document).ready(function($)
 		tbl_row.find('.row_data')
 		.attr('contenteditable', 'true')
 		.attr('edit_type', 'button')
-		.addClass('bg-warning')
+		.addClass('bg-light')
 		.css('padding','3px')
 
 		//--->add the original entry > start
@@ -380,7 +380,7 @@ $(document).ready(function($)
 		//make the whole row editable
 		tbl_row.find('.row_data')
 		.attr('edit_type', 'click')
-		.removeClass('bg-warning')
+		.removeClass('bg-light')
 		.css('padding','') 
 
 		tbl_row.find('.row_data').each(function(index, val) 
@@ -413,7 +413,7 @@ $(document).ready(function($)
 		//make the whole row editable
 		tbl_row.find('.row_data')
 		.attr('edit_type', 'click')
-		.removeClass('bg-warning')
+		.removeClass('bg-light')
 		.css('padding','') 
 
 		//--->get row data > start
@@ -536,24 +536,24 @@ $(document).ready(function($)
 		var tbl_row = $(document).find('.tbl_code_with_mark').find('tr');	 
 		var tbl = '';
 		tbl +='<tr row_id="'+row_id+'">';
-			tbl +='<td ><div class="new_row_data name bg-warning" contenteditable="true" edit_type="click" col_name="name"></div></td>';
-			tbl +='<td ><div class="new_row_data tco bg-warning" contenteditable="true" edit_type="click" col_name="TCO"></div></td>';
-			tbl +='<td ><div class="new_row_data tvo bg-warning" contenteditable="true" edit_type="click" col_name="TVO"></div></td>';
-			tbl +='<td ><div class="new_row_data net bg-warning" contenteditable="true" edit_type="click" col_name="NET"></div></td>';
-			tbl +='<td ><div class="new_row_data pp bg-warning" contenteditable="true" edit_type="click" col_name="PP"></div></td>';
-			tbl +='<td ><div class="new_row_data roi bg-warning" contenteditable="true" edit_type="click" col_name="ROI"></div></td>';
-			tbl +='<td ><div class="new_row_data capex bg-warning" contenteditable="true" edit_type="click" col_name="CapEx"></div></td>';
-			tbl +='<td ><div class="new_row_data onetime bg-warning" contenteditable="true" edit_type="click" col_name="OneTime"></div></td>';
-			tbl +='<td ><div class="new_row_data ongoing bg-warning" contenteditable="true" edit_type="click" col_name="OnGoing"></div></td>';
-			tbl +='<td ><div class="new_row_data revenue bg-warning" contenteditable="true" edit_type="click" col_name="Revenue"></div></td>';
-			tbl +='<td ><div class="new_row_data saving bg-warning" contenteditable="true" edit_type="click" col_name="Saving"></div></td>';
-			tbl +='<td ><div class="new_row_data avoid bg-warning" contenteditable="true" edit_type="click" col_name="Avoid"></div></td>';
-			tbl +='<td ><div class="new_row_data costgrade bg-warning" contenteditable="true" edit_type="click" col_name="CostGrade"></div></td>';
-			tbl +='<td ><div class="new_row_data valuescore bg-warning" contenteditable="true" edit_type="click" col_name="ValueScore"></div></td>';
-			tbl +='<td ><div class="new_row_data riskscore bg-warning" contenteditable="true" edit_type="click" col_name="RiskScore"></div></td>';
-			tbl +='<td ><div class="new_row_data blendedscore bg-warning" contenteditable="true" edit_type="click" col_name="BlendedScore"></div></td>';
-			tbl +='<td ><div class="new_row_data calcpriority bg-warning" contenteditable="true" edit_type="click" col_name="CalcPriority"></div></td>';
-			tbl +='<td ><div class="new_row_data overridedpriority bg-warning" contenteditable="true" edit_type="click" col_name="OverridedPriority"></div></td>';
+			tbl +='<td ><div class="new_row_data name bg-light" contenteditable="true" edit_type="click" col_name="name"></div></td>';
+			tbl +='<td ><div class="new_row_data tco bg-light" contenteditable="true" edit_type="click" col_name="TCO"></div></td>';
+			tbl +='<td ><div class="new_row_data tvo bg-light" contenteditable="true" edit_type="click" col_name="TVO"></div></td>';
+			tbl +='<td ><div class="new_row_data net bg-light" contenteditable="true" edit_type="click" col_name="NET"></div></td>';
+			tbl +='<td ><div class="new_row_data pp bg-light" contenteditable="true" edit_type="click" col_name="PP"></div></td>';
+			tbl +='<td ><div class="new_row_data roi bg-light" contenteditable="true" edit_type="click" col_name="ROI"></div></td>';
+			tbl +='<td ><div class="new_row_data capex bg-light" contenteditable="true" edit_type="click" col_name="CapEx"></div></td>';
+			tbl +='<td ><div class="new_row_data onetime bg-light" contenteditable="true" edit_type="click" col_name="OneTime"></div></td>';
+			tbl +='<td ><div class="new_row_data ongoing bg-light" contenteditable="true" edit_type="click" col_name="OnGoing"></div></td>';
+			tbl +='<td ><div class="new_row_data revenue bg-light" contenteditable="true" edit_type="click" col_name="Revenue"></div></td>';
+			tbl +='<td ><div class="new_row_data saving bg-light" contenteditable="true" edit_type="click" col_name="Saving"></div></td>';
+			tbl +='<td ><div class="new_row_data avoid bg-light" contenteditable="true" edit_type="click" col_name="Avoid"></div></td>';
+			tbl +='<td ><div class="new_row_data costgrade bg-light" contenteditable="true" edit_type="click" col_name="CostGrade"></div></td>';
+			tbl +='<td ><div class="new_row_data valuescore bg-light" contenteditable="true" edit_type="click" col_name="ValueScore"></div></td>';
+			tbl +='<td ><div class="new_row_data riskscore bg-light" contenteditable="true" edit_type="click" col_name="RiskScore"></div></td>';
+			tbl +='<td ><div class="new_row_data blendedscore bg-light" contenteditable="true" edit_type="click" col_name="BlendedScore"></div></td>';
+			tbl +='<td ><div class="new_row_data calcpriority bg-light" contenteditable="true" edit_type="click" col_name="CalcPriority"></div></td>';
+			tbl +='<td ><div class="new_row_data overridedpriority bg-light" contenteditable="true" edit_type="click" col_name="OverridedPriority"></div></td>';
 
 			//--->edit options > start
 			tbl +='<td>';			 
