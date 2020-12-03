@@ -291,7 +291,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Budget</div>
-                  <div id = "budget" class="h5 mb-0 font-weight-bold text-gray-800" contentEditable="true"><div class="budget"></div></div>
+                  <div id = "budget" class="h5 mb-0 font-weight-bold text-gray-800"><div class="budget"></div></div>
                   
                 </div>
                 <div class="col-auto">
@@ -301,7 +301,10 @@
             </div>
           </div>
         </div>
-  
+        
+        
+        
+        
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-success shadow h-100 py-2">
@@ -574,16 +577,19 @@
 <!--start of  table writing-->
 <script type="text/javascript">
 //var dsid =JSON.parse("{{datasetid|escapejs}}")
+
+const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2
+      })
+      var dsid =JSON.parse("{{dataset|escapejs}}");
+      var predict = JSON.parse("{{predict|escapejs}}");
 $(document).ready(async function($)
 { 	 
 
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2
-    })
-    var dsid =JSON.parse("{{dataset|escapejs}}");
-    var predict = JSON.parse("{{predict|escapejs}}");
+    
+    
 
 
   var DATA_NAME = '';
@@ -591,7 +597,7 @@ $(document).ready(async function($)
   var tco_val = 0;
   var approved_tco = 0;
   
-  function create_html_table (tbl_data)
+  function create_html_table (tbl_data, data_budget)
 	{	
 
 		tbl_data = JSON.parse(tbl_data)
@@ -632,16 +638,28 @@ $(document).ready(async function($)
 			//--->create table body > start
       tbl +='<tbody>';
       var last_accepted = 0
+      var curr_budget = 0
+      var printed = 0
         //--->create table body rows > start
         
           $.each(tbl_data, function(index, val) 
           {
+            curr_budget += val['TCO'];
             //you can replace with your database row id
                       var row_id = val['id'];
             //loop through ajax row data
-            if( val['accepted'] == 0   && last_accepted == 1 ){
+            if(( val['accepted'] == 0   && last_accepted == 1 ) && (curr_budget >= data_budget && printed == 0)){
+              last_accepted = 0;
+              printed = 1;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid yellow;">';
+            }
+            else if( val['accepted'] == 0   && last_accepted == 1 ){
               last_accepted =0;
               tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid green;">';
+            }
+            else if (curr_budget >= data_budget && printed == 0){
+              printed = 1;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid red;">';
             }
             else if (val['accepted'] == 1 && last_accepted ==0){
               last_accepted = 1;
@@ -684,39 +702,15 @@ $(document).ready(async function($)
 		//--->create data table > end
 
     //out put table data
-    
     $(document).find('.approved_project').html(formatter.format(approved_tco));
     $(document).find('.total_tco').html(formatter.format(tco_val));
+    $(document).find('.budget').html(formatter.format(data_budget));
+    $(document).find('.remaining_budget').html(formatter.format(data_budget - approved_tco));
     $(document).find('.tbl_user_data').html(tbl);
-    gettotal(approved_tco);
 			
   }
   
 
-   function getbudget(){
-    $.ajax({
-    type: 'get',
-    url: "/ajax/get_data_details",
-        dataType: "text",
-        data: {
-          dsid: dsid
-        },
-    error: function(xhr,textStatus,err){
-        console.log("readyState: " + xhr.readyState);
-    console.log("responseText: "+ xhr.responseText);
-    console.log("status: " + xhr.status);
-    console.log("text status: " + textStatus);
-    console.log("error: " + err);
-    },
-    success: function(data){
-            return data
-    },
-    failure: function(){
-      alert('An error occured: Please try again');
-    }
-    });
-
-  }
 
 
 
@@ -724,10 +718,6 @@ $(document).ready(async function($)
   //tells if this is a prediction or just a table pullup
 	//create table on page load
 	//create_html_table(ajax_data);
-  function gettotal(approved){
-
-
-
 
     $.ajax({
     type: 'get',
@@ -749,14 +739,43 @@ $(document).ready(async function($)
             DATA_NAME = data[0].name;
             const DATA_BUDGET = data[0].budget;
             $(document).find('.data_name').html(DATA_NAME);
-            $(document).find('.budget').html(formatter.format(DATA_BUDGET));
-            $(document).find('.remaining_budget').html(formatter.format(DATA_BUDGET - approved));
+            if(predict == 0){
+              $.ajax({
+                type: 'get',
+                url: "/ajax/get_table_data",
+                dataType: "json",
+                data: {
+                  dsid: dsid
+                },
+                error: function(xhr,textStatus,err){
+                    console.log("readyState: " + xhr.readyState);
+                console.log("responseText: "+ xhr.responseText);
+                console.log("status: " + xhr.status);
+                console.log("text status: " + textStatus);
+                console.log("error: " + err);
+                },
+                success: function(data){
+                  create_html_table(data, DATA_BUDGET);
+                },
+                failure: function(){
+                  alert('An error occured: Please try again');
+                }
+                });
+              }
+              //if it's a prediction just take the data passed over
+              else{
+              
+                  var data = "{{sets|escapejs}}";
+                  create_html_table(data, DATA_BUDGET);
+
+              } 
+            
     },
     failure: function(){
       alert('An error occured: Please try again');
     }
     });
-  }
+  
   
   
 
@@ -768,36 +787,7 @@ $(document).ready(async function($)
 
 
     //--->create table via ajax call > start
-  if(predict == 0){
-    $.ajax({
-      type: 'get',
-      url: "/ajax/get_table_data",
-      dataType: "json",
-      data: {
-        dsid: dsid
-      },
-      error: function(xhr,textStatus,err){
-          console.log("readyState: " + xhr.readyState);
-      console.log("responseText: "+ xhr.responseText);
-      console.log("status: " + xhr.status);
-      console.log("text status: " + textStatus);
-      console.log("error: " + err);
-      },
-      success: function(data){
-        create_html_table(data);
-      },
-      failure: function(){
-        alert('An error occured: Please try again');
-      }
-      });
-    }
-    //if it's a prediction just take the data passed over
-    else{
-    
-         var data = "{{sets|escapejs}}";
-         create_html_table(data);
-
-    } 
+  
   
   
 
@@ -836,12 +826,136 @@ $(document).ready(async function($)
 			alert('An error occured: Please try again');
 		}
     });
-    $(document).find('.remaining_budget').html(formatter.format(DATA_BUDGET -approved_tco));
-});
-</script>
-<!-- Example single danger button -->
 
-  
+  //--->make div editable > start
+  $(document).on('click', '.budget', function(event) 
+  {
+    event.preventDefault(); 
+
+    if($(this).attr('edit_type') == 'button')
+    {
+      return false; 
+    }
+
+    //make div editable
+    $(this).closest('div').attr('contenteditable', 'true');
+    //add bg css
+    $(this).addClass('bg-light').css('padding','5px');
+
+    $(this).focus();
+
+    $(this).attr('original_entry', $(this).html());
+
+  })	
+  //--->make div editable > end
+
+  //--->save single field data > start
+  $(document).on('focusout', '.budget', function(event) 
+  {
+    event.preventDefault();
+
+    if($(this).attr('edit_type') == 'button')
+    {
+      return false; 
+    }
+
+    //get the original entry
+    var original_entry = $(this).attr('original_entry');
+
+    var row_id = $(this).closest('tr').attr('row_id'); 
+    
+    var row_div = $(this)				
+    .removeClass('bg-light') //add bg css
+    .css('padding','')
+    var col_val = row_div.html(); 
+    var number = Number(col_val.replace(/[^0-9.-]+/g,""));
+    alert(number);
+
+    if(original_entry != col_val)
+    { 
+      //remove the attr so that new entry can take place
+      
+      if( col_val != "" &&  isNaN(number)){
+        alert("Please enter a numeric value for budget.");
+      }
+      else if (number < 0){
+        alert('Please enter a positive value for budget!');
+      }
+      else{
+        $(this).attr
+        if(number == ""){
+          number = 0
+        }
+
+        //ajax api json data			 
+        var data_obj = 
+        {
+          'datasetid':dsid,
+          'new_budget':number
+                  
+        };
+
+        //call ajax api to update the database record
+        $.post("/ajax/edit_budget/", data_obj, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            var msg = ''
+            + '<h3>There was an error while trying to update your entry</h3>'
+            +'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+            +'';
+
+            //$('.post_msg').html(msg);
+          }
+          else if(d1.status == "success")
+          {
+            budget = number;
+            if(predict == 0){
+                $.ajax({
+                  type: 'get',
+                  url: "/ajax/get_table_data",
+                  dataType: "json",
+                  data: {
+                    dsid: dsid
+                  },
+                  error: function(xhr,textStatus,err){
+                      console.log("readyState: " + xhr.readyState);
+                  console.log("responseText: "+ xhr.responseText);
+                  console.log("status: " + xhr.status);
+                  console.log("text status: " + textStatus);
+                  console.log("error: " + err);
+                  },
+                  success: function(data){
+                    create_html_table(data, number);
+                  },
+                  failure: function(){
+                    alert('An error occured: Please try again');
+                  }
+                  });
+                }
+                //if it's a prediction just take the data passed over
+                else{
+                
+                    var data = "{{sets|escapejs}}";
+                    create_html_table(data, number);
+
+                } 
+        
+                    //$('.post_msg').html(msg);
+                  }
+                });
+      }
+    }
+    else
+    {
+      //$('.post_msg').html('');
+    }
+    
+  })	
+  //--->save single field data > end
+});
+</script>  
 
 <div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 87vw;" >
   <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropbtn" onclick="dropFunc()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>

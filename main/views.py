@@ -677,3 +677,14 @@ def add_row(request):
         return JsonResponse({'status':'success'}, safe=False)
     else:
         return JsonResponse({'status':'error'}, safe=False)
+@csrf_exempt
+def edit_budget(request):
+    datasetid = request.POST['datasetid']
+    new_budget= request.POST['new_budget']
+    instance = dataset.objects.get(id = datasetid)
+    instance.budget = new_budget
+    instance.save()
+    if (instance.budget == new_budget):
+        return JsonResponse({'status':'success'}, safe=False)
+    else:
+        return JsonResponse({'status':'error'}, safe=False)
