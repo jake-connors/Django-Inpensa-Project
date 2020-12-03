@@ -236,10 +236,16 @@
     .toggleDisplay.in, .toggleDisplay2.in {
       display: table-cell;
     }
-  
     body {
       overflow:auto;
     }
+    /* take away the next style if you want non-monetary values to be center-aligned instead of left-aligned */
+    td:nth-child(1), td:nth-child(5), td:nth-child(6), td:nth-child(14), td:nth-child(15), td:nth-child(16), td:nth-child(17), td:nth-child(18){
+      text-align: left;
+    }
+    td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(7), td:nth-child(8),td:nth-child(9), td:nth-child(10), td:nth-child(11), td:nth-child(12), td:nth-child(13){
+      text-align: right;
+    }    
     button{
       background-color: white;
       border: none;
@@ -260,18 +266,16 @@
 		padding: 0;
 		margin-top: 0;
 		margin-bottom: 0;
-		text-align: left;
+		text-align: center;
 	}
+
     /*
     .slider-selection.tick-slider-selection {
       background-image: linear-gradient(to bottom, #E5E5E5, #E9E9E9) !important;
     } */
   
-  
-  
   </style>
-  
-  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
   <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
@@ -305,9 +309,6 @@
             </div>
           </div>
         </div>
-        
-        
-        
         
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
@@ -580,6 +581,7 @@
 
 <!--start of  table writing-->
 <script type="text/javascript">
+
 //var dsid =JSON.parse("{{datasetid|escapejs}}")
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -591,10 +593,6 @@ const formatter = new Intl.NumberFormat('en-US', {
       var predict = JSON.parse("{{predict|escapejs}}");
 $(document).ready(async function($)
 { 	 
-
-    
-    
-
 
   var DATA_NAME = '';
   var DATA_BUDGET = 0;
@@ -638,7 +636,6 @@ $(document).ready(async function($)
 		tbl +='</thead>';
     //--->create table header > end
       
-			
 			//--->create table body > start
       tbl +='<tbody>';
       var last_accepted = 0
@@ -713,12 +710,7 @@ $(document).ready(async function($)
     $(document).find('.tbl_user_data').html(tbl);
 			
   }
-  
 
-
-
-
-  
   //tells if this is a prediction or just a table pullup
 	//create table on page load
 	//create_html_table(ajax_data);
@@ -780,22 +772,8 @@ $(document).ready(async function($)
     }
     });
   
-  
-  
-
-
-
-
-
-
-
-
     //--->create table via ajax call > start
   
-  
-  
-
-
     $.ajax({
 		type: 'get',
 		url: "/ajax/get_models",
@@ -975,7 +953,5 @@ $("#expand2").click(function() {
     $(".table .toggleDisplay2").toggleClass("in");
 });
 </script>
-
-
 
 {% endblock %}
