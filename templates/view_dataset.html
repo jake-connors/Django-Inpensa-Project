@@ -24,10 +24,9 @@
     tr:nth-child(even) {background-color: #e6e6e6}
   
     
-    .dropbtn {
+    #dropbtn {
       all:unset;
       margin-top: 15px;
-  
       border-radius:10px;
       background-color: #e6e6e6 !important; 
       color: black;
@@ -41,9 +40,9 @@
     }
     
   
-    .dropdown-content {
+    .dropdown-menu {
       all:unset;
-      width: 100%;
+      width: 10%;
       border-radius:10px; 
       display: none;
       position: absolute;
@@ -62,7 +61,7 @@
   
   
     
-    .dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover, #createNewModel:hover {
+    #dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover, #createNewModel:hover {
       background-color: #b6b6b6 !important;
       border: 0 !important;
     }
@@ -372,9 +371,7 @@
       </div>
     </div>
   </div>      
-  <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      </div>
+
   <!--<div class="dropdown">
     <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
     <div id="myDropdown" class="dropdown-content">
@@ -382,7 +379,6 @@
     </div>
   </div>-->
   <div style="display:inline-block">
-        
     <div class="form-popup" id="newModelForm">
       <form action = "/cmodel/" method="POST" method="POST" enctype='multipart/form-data' class="form-container">
         {% csrf_token %}
@@ -548,8 +544,8 @@
     }
     // Close the dropdown if the user clicks outside of it
     window.onclick = function(event) {
-      if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
+      if (!event.target.matches('#dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-menu");
         var i;
         for (i = 0; i < dropdowns.length; i++) {
           var openDropdown = dropdowns[i];
@@ -806,6 +802,9 @@ $(document).ready(function($)
   
 
 <div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 87vw;" >
+  <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropbtn" onclick="dropFunc()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown">
+  </div>
   
           <div class="tbl_user_data" style="width: 88vw; padding-top:0; max-height: 61em; overflow:auto">
             
