@@ -578,7 +578,7 @@
 <!--start of  table writing-->
 <script type="text/javascript">
 //var dsid =JSON.parse("{{datasetid|escapejs}}")
-$(document).ready(function($)
+$(document).ready(async function($)
 { 	 
 
     const formatter = new Intl.NumberFormat('en-US', {
@@ -595,8 +595,9 @@ $(document).ready(function($)
   var tco_val = 0;
   var approved_tco = 0;
   
-	function create_html_table (tbl_data)
+  function create_html_table (tbl_data)
 	{	
+
 		tbl_data = JSON.parse(tbl_data)
 		//--->create data table > start
     var tbl = '';
@@ -629,42 +630,56 @@ $(document).ready(function($)
 		tbl +='<th>Overrided Priority</th>';
 		tbl +='</tr>';
 		tbl +='</thead>';
-		//--->create table header > end
+    //--->create table header > end
+      
 			
 			//--->create table body > start
-			tbl +='<tbody>';
-				//--->create table body rows > start
-				$.each(tbl_data, function(index, val) 
-				{
-					//you can replace with your database row id
-                    var row_id = val['id'];
-					//loop through ajax row data
-					tbl +='<tr row_id="'+row_id+'">';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
-          tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
-          tco_val +=val['TCO'];
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
-                    tbl +='<td ><div class="row_data" edit_type="click" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
-                    if(val['accepted'] ==1){
-                        approved_tco += val['TCO'];
-                    }
-					
-					tbl +='</tr>';
-        });
+      tbl +='<tbody>';
+      var last_accepted = 0
+        //--->create table body rows > start
+        
+          $.each(tbl_data, function(index, val) 
+          {
+            //you can replace with your database row id
+                      var row_id = val['id'];
+            //loop through ajax row data
+            if( val['accepted'] == 0   && last_accepted == 1 ){
+              last_accepted =0;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid green;">';
+            }
+            else if (val['accepted'] == 1 && last_accepted ==0){
+              last_accepted = 1;
+              tbl +='<tr  row_id="'+row_id+'" >';
+            }
+            else{
+              tbl +='<tr  row_id="'+row_id+'">';
+            }
+            
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
+            tco_val +=val['TCO'];
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
+                      tbl +='<td ><div class="row_data" edit_type="click" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
+                      if(val['accepted'] ==1){
+                          approved_tco += val['TCO'];
+                      }
+            
+            tbl +='</tr>';
+          });
 				//--->create table body rows > end
 			tbl +='</tbody>';
 			//--->create table body > end
@@ -679,7 +694,34 @@ $(document).ready(function($)
     $(document).find('.tbl_user_data').html(tbl);
     gettotal(approved_tco);
 			
-	}
+  }
+  
+
+   function getbudget(){
+    $.ajax({
+    type: 'get',
+    url: "/ajax/get_data_details",
+        dataType: "text",
+        data: {
+          dsid: dsid
+        },
+    error: function(xhr,textStatus,err){
+        console.log("readyState: " + xhr.readyState);
+    console.log("responseText: "+ xhr.responseText);
+    console.log("status: " + xhr.status);
+    console.log("text status: " + textStatus);
+    console.log("error: " + err);
+    },
+    success: function(data){
+            return data
+    },
+    failure: function(){
+      alert('An error occured: Please try again');
+    }
+    });
+
+  }
+
 
 
   
