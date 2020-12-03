@@ -644,6 +644,7 @@ def get_table_data(request):
         df = df.fillna(0)
         df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
         df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
+        df = df.sort_values(by =['accepted'], ascending=False)
         sets = df.to_dict('records')
         sets = dumps(sets)
         return JsonResponse(sets, safe=False)
@@ -673,6 +674,17 @@ def add_row(request):
     dataset1.save()
     test= instance.id
     if(test != None):
+        return JsonResponse({'status':'success'}, safe=False)
+    else:
+        return JsonResponse({'status':'error'}, safe=False)
+@csrf_exempt
+def edit_budget(request):
+    datasetid = request.POST['datasetid']
+    new_budget= request.POST['new_budget']
+    instance = dataset.objects.get(id = datasetid)
+    instance.budget = new_budget
+    instance.save()
+    if (instance.budget == new_budget):
         return JsonResponse({'status':'success'}, safe=False)
     else:
         return JsonResponse({'status':'error'}, safe=False)

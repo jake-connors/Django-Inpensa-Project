@@ -80,3 +80,4 @@ class prediction(models.Model):
     score = models.FloatField()
     def __float__(self):
         return self.score
+
