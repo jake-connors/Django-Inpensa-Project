@@ -53,6 +53,7 @@ button{
 }
 </style>
 
+<script src="https://code.highcharts.com/highcharts.js"></script>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -61,12 +62,30 @@ button{
                         <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">Dashboard</h1>
                     </div>
 
+
+
+
+
                     <!-- Content Row -->
                     <div class="row">
 
                         <!-- Content Column -->
                         <div class="col-lg-6 mb-4">
 
+                            <figure class="highcharts-figure">
+                                <div id="container"></div>
+
+                                
+        
+                            </figure>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <figure class="highcharts-figure">
+                                <div id="container2"></div>
+                            </figure>
+                        </div>
+
+                            <div class="col-lg-6 mb-4">
                             <!-- Set List -->
                             <div class="card shadow mb-4" style="height:90vh; width:100%">
                                 <div class="card-header py-3">
@@ -226,5 +245,109 @@ button{
             </div>
         </div>
     </div>
+
+<script>
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Models'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            name: '%:',
+            colorByPoint: true,
+            data: [{
+                name: 'Chrome',
+                y: 69.2,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Internet Explorer',
+                y: 11.8
+            }, {
+                name: 'Firefox',
+                y: 10.85
+            }, {
+                name: 'Edge',
+                y: 8.1
+            }]
+        }]
+    });
+    
+    Highcharts.chart('container2', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Most Accurate Models'
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Accuracy %'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Accuracy: <b>{point.y:.1f} %</b>'
+        },
+        series: [{
+            name: 'Models Name',
+            data: [
+                ['Model 1', 95.5], //['{{data.name}}', {{data.accuracy}}],
+                ['Model 2', 90.8],
+                ['Model 3', 93.9],
+                ['Model 4', 84.7],
+                ['Model 5', 89.1]
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                format: '{point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
+</script>
 
 {% endblock %}
