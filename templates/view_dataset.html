@@ -614,6 +614,7 @@ $(document).ready(async function($)
 			//--->create table header > start
 		tbl +='<thead>';
 		tbl +='<tr>';
+    tbl +='<th>Select</th>';
 		tbl +='<th>ID</th>';
 		tbl +='<th>TCO</th>';
 		tbl +='<th>TVO</th>';
@@ -642,7 +643,7 @@ $(document).ready(async function($)
       var curr_budget = 0
       var printed = 0
         //--->create table body rows > start
-        
+          
           $.each(tbl_data, function(index, val) 
           {
             curr_budget += val['TCO'];
@@ -669,7 +670,11 @@ $(document).ready(async function($)
             else{
               tbl +='<tr  row_id="'+row_id+'">';
             }
-            
+            if(val['accepted'] == 1){
+              tbl +='<td ><div></div></td>'
+            }else{
+            tbl +='<td style="width:1vw!important"><input type="checkbox" id="select" name="select" value="'+row_id+'" style="width:.5vw"></input></td>';
+            }
             tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
             tco_val +=val['TCO'];
@@ -809,7 +814,7 @@ $(document).ready(async function($)
 		}
     });
 
-  //--->make div editable > start
+  //--->make budget editable > start
   $(document).on('click', '.budget', function(event) 
   {
     event.preventDefault(); 
@@ -831,7 +836,7 @@ $(document).ready(async function($)
   })	
   //--->make div editable > end
 
-  //--->save single field data > start
+  //--->save budget field data > start
   $(document).on('focusout', '.budget', function(event) 
   {
     event.preventDefault();
@@ -851,7 +856,6 @@ $(document).ready(async function($)
     .css('padding','')
     var col_val = row_div.html(); 
     var number = Number(col_val.replace(/[^0-9.-]+/g,""));
-    alert(number);
 
     if(original_entry != col_val)
     { 
@@ -936,14 +940,17 @@ $(document).ready(async function($)
     
   })	
   //--->save single field data > end
+  $(document).on('click', '.approve', function(event){
+    alert("yes");
+  });
 });
-</script>  
 
+</script>  
 <div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 87vw;" >
   <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropbtn" onclick="dropFunc()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown">
   </div>
-  
+  <div class="sexybutton" ><button class="approve">Click me!</button></div>
           <div class="tbl_user_data" style="width: 88vw; padding-top:0; max-height: 61em; overflow:auto">
             
         </div>
