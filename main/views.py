@@ -692,10 +692,37 @@ def edit_budget(request):
 
 @csrf_exempt
 def approve(request):
-    dataid = request.POST['did']
-    instance = data.objects.get(id = dataid)
-    instance.accepted = 1
-    if(instance.accepted ==1):
-        return JsonResponse({'status':'success'}, safe=False)
-    else:
-        return JsonResponse({'status':'error'}, safe=False)
+    idlist = request.POST['list'].split(',')
+    for x in idlist:
+        if x =="":
+            break
+        else:
+            instance = data.objects.get(id = x)
+            instance.accepted = 1
+            instance.save()
+    datasetid = instance.dsid.id
+    raw_data = data.objects.filter(dsid = datasetid).values()
+    dinstance = dataset.objects.get(id = datasetid)
+    df = pd.DataFrame(raw_data)
+    df = df.loc[df['accepted']==1]
+    total_approved = df['TCO'].agg('sum')
+    dinstance.approved = total_approved
+    dinstance.save()
+    return JsonResponse({'status':'success'}, safe=False)
+@csrf_exempt
+def unapprove(request):
+    idlist = request.POST['unlist'].split(',')
+    idlist.pop()
+    for x in idlist:
+        instance = data.objects.get(id = x)
+        instance.accepted = 0
+        instance.save()
+    datasetid = instance.dsid.id
+    raw_data = data.objects.filter(dsid = datasetid).values()
+    dinstance = dataset.objects.get(id = datasetid)
+    df = pd.DataFrame(raw_data)
+    df = df.loc[df['accepted']==1]
+    total_approved = df['TCO'].agg('sum')
+    dinstance.approved = total_approved
+    dinstance.save()
+    return JsonResponse({'status':'success'}, safe=False)

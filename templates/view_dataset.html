@@ -671,9 +671,9 @@ $(document).ready(async function($)
               tbl +='<tr  row_id="'+row_id+'">';
             }
             if(val['accepted'] == 1){
-              tbl +='<td ><div></div></td>'
+            tbl +='<td style="width:1vw!important background-color:red!important"><input type="checkbox" onclick="show_unapprove()" id="unselect"  name="deselect" value='+row_id+' style="width:1vw"></input></td>';
             }else{
-            tbl +='<td style="width:1vw!important"><input type="checkbox" id="select" name="select" value="'+row_id+'" style="width:.5vw"></input></td>';
+            tbl +='<td style="width:1vw!important"><input type="checkbox" onclick="show_approve()" id="select" name="select" value='+row_id+' style="width:1vw"></input></td>';
             }
             tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
@@ -738,7 +738,7 @@ $(document).ready(async function($)
             data = JSON.parse(data)
 
             DATA_NAME = data[0].name;
-            const DATA_BUDGET = data[0].budget;
+            DATA_BUDGET = data[0].budget;
             $(document).find('.data_name').html(DATA_NAME);
             if(predict == 0){
               $.ajax({
@@ -940,17 +940,211 @@ $(document).ready(async function($)
     
   })	
   //--->save single field data > end
+  
+  //----> change projects to approved start
   $(document).on('click', '.approve', function(event){
-    alert("yes");
+    var approved = '';
+    $.each($("input[name='select']:checked"), function(){
+      approved+=($(this).val())+",";
+    });
+    approved_list = {
+      'list':approved
+    }
+    $.post("/ajax/approve/", approved_list, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            var msg = ''
+            + '<h3>There was an error while trying to update your entry</h3>'
+            +'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+            +'';
+
+            //$('.post_msg').html(msg);
+          }
+          else if(d1.status == "success")
+          {
+            $.ajax({
+            type: 'get',
+            url: "/ajax/get_data_details",
+                dataType: "text",
+                data: {
+                  dsid: dsid
+                },
+            error: function(xhr,textStatus,err){
+                console.log("readyState: " + xhr.readyState);
+            console.log("responseText: "+ xhr.responseText);
+            console.log("status: " + xhr.status);
+            console.log("text status: " + textStatus);
+            console.log("error: " + err);
+            },
+            success: function(data){
+                    document.getElementById("sexybutton").style.display = "none";
+                    data = JSON.parse(data)
+
+                    DATA_NAME = data[0].name;
+                    DATA_BUDGET = data[0].budget;
+                    $(document).find('.data_name').html(DATA_NAME);
+                    if(predict == 0){
+                      $.ajax({
+                        type: 'get',
+                        url: "/ajax/get_table_data",
+                        dataType: "json",
+                        data: {
+                          dsid: dsid
+                        },
+                        error: function(xhr,textStatus,err){
+                            console.log("readyState: " + xhr.readyState);
+                        console.log("responseText: "+ xhr.responseText);
+                        console.log("status: " + xhr.status);
+                        console.log("text status: " + textStatus);
+                        console.log("error: " + err);
+                        },
+                        success: function(data){
+                          create_html_table(data, DATA_BUDGET);
+                        },
+                        failure: function(){
+                          alert('An error occured: Please try again');
+                        }
+                        });
+                      }
+                      //if it's a prediction just take the data passed over
+                      else{
+                      
+                          var data = "{{sets|escapejs}}";
+                          create_html_table(data, DATA_BUDGET);
+
+                      } 
+                    
+            },
+            failure: function(){
+              alert('An error occured: Please try again');
+            }
+            });
+          };
+      });
   });
+  //---> save project as approved end
+
+//---> save projects as unapproved start
+$(document).on('click', '.unapprove', function(event){
+    var unapproved = '';
+    $.each($("input[name='deselect']:checked"), function(){
+      unapproved+=($(this).val())+",";
+    });
+    unapproved_list = {
+      'unlist':unapproved
+    }
+    $.post("/ajax/unapprove/", unapproved_list, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            var msg = ''
+            + '<h3>There was an error while trying to update your entry</h3>'
+            +'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+            +'';
+
+            //$('.post_msg').html(msg);
+          }
+          else if(d1.status == "success")
+          {
+            document.getElementById("unsexybutton").style.display = "none";
+            $.ajax({
+            type: 'get',
+            url: "/ajax/get_data_details",
+                dataType: "text",
+                data: {
+                  dsid: dsid
+                },
+            error: function(xhr,textStatus,err){
+                console.log("readyState: " + xhr.readyState);
+            console.log("responseText: "+ xhr.responseText);
+            console.log("status: " + xhr.status);
+            console.log("text status: " + textStatus);
+            console.log("error: " + err);
+            },
+            success: function(data){
+                    data = JSON.parse(data)
+
+                    DATA_NAME = data[0].name;
+                    DATA_BUDGET = data[0].budget;
+                    $(document).find('.data_name').html(DATA_NAME);
+                    if(predict == 0){
+                      $.ajax({
+                        type: 'get',
+                        url: "/ajax/get_table_data",
+                        dataType: "json",
+                        data: {
+                          dsid: dsid
+                        },
+                        error: function(xhr,textStatus,err){
+                            console.log("readyState: " + xhr.readyState);
+                        console.log("responseText: "+ xhr.responseText);
+                        console.log("status: " + xhr.status);
+                        console.log("text status: " + textStatus);
+                        console.log("error: " + err);
+                        },
+                        success: function(data){
+                          create_html_table(data, DATA_BUDGET);
+                        },
+                        failure: function(){
+                          alert('An error occured: Please try again');
+                        }
+                        });
+                      }
+                      //if it's a prediction just take the data passed over
+                      else{
+                      
+                          var data = "{{sets|escapejs}}";
+                          create_html_table(data, DATA_BUDGET);
+
+                      } 
+                    
+            },
+            failure: function(){
+              alert('An error occured: Please try again');
+            }
+            });
+          };
+      });
+  });
+  //--->save projects as unapproved end
+
+  
 });
 
 </script>  
-<div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 87vw;" >
-  <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropbtn" onclick="dropFunc()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
+<div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 50vw" >
+  <button class="btn btn-secondary dropdown-toggle" style="width:10vw; float:left" type="button" id="dropbtn" onclick="dropFunc()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown">
   </div>
-  <div class="sexybutton" ><button class="approve">Click me!</button></div>
+  <div id="sexybutton" style="display:none" ><button class="approve" style="color: black; border: 1px solid black; width: 10vw; float: center; border-radius:4px;">Approve selected</button></div>
+  <div id="unsexybutton" style="display:none" ><button class="unapprove" style="color: black; border: 1px solid black; width: 10vw; float: center; border-radius:4px;">Un-approve selected</button></div>
+<script>
+  function show_approve() {
+  var x = document.getElementById("sexybutton");
+  var clicked = 0
+  $.each($("input[name='select']:checked"), function(){
+    clicked+= 1;
+  });
+  if (clicked == 0) {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }};
+  function show_unapprove() {
+  var y = document.getElementById("unsexybutton");
+  var clicked2 = 0
+  $.each($("input[name='deselect']:checked"), function(){
+    clicked2+= 1;
+  });
+  if (clicked2 == 0) {
+    y.style.display = "none";
+  } else {
+    y.style.display = "block";
+  }};
+</script>
           <div class="tbl_user_data" style="width: 88vw; padding-top:0; max-height: 61em; overflow:auto">
             
         </div>
