@@ -618,7 +618,7 @@ $(document).ready(async function($)
 		tbl +='<th>ID</th>';
 		tbl +='<th>TCO</th>';
 		tbl +='<th>TVO</th>';
-		tbl +='<th>NET</th>';
+		tbl +='<th>NET<span style=shownet>&#43;</span></th>';
 		tbl +='<th>PP</th>';
 		tbl +='<th>ROI</th>';
 		tbl +='<th>CapEx</th>';
@@ -676,18 +676,18 @@ $(document).ready(async function($)
             tbl +='<td style="width:1vw!important"><input type="checkbox" onclick="show_approve()" id="select" name="select" value='+row_id+' style="width:1vw"></input></td>';
             }
             tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
+            tbl +='<td id=1><div class="row_data" edit_type="click" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
             tco_val +=val['TCO'];
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
+            tbl +='<td id=1><div class="row_data" edit_type="click" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
+            tbl +='<td id= 2><div class="row_data" edit_type="click" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
+            tbl +='<td id=2><div class="row_data" edit_type="click" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
+            tbl +='<td id=2><div class="row_data" edit_type="click" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
+            tbl +='<td id=3><div class="row_data" edit_type="click" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
+            tbl +='<td id=3><div class="row_data" edit_type="click" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
+            tbl +='<td id=3><div class="row_data" edit_type="click" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
@@ -939,8 +939,11 @@ $(document).ready(async function($)
     }
     
   })	
-  //--->save single field data > end
-  
+  //--->show net details START
+  $(document).on('click', '.shownet', function(event){
+    alert('no');
+  });
+  //---> show net details end
   //----> change projects to approved start
   $(document).on('click', '.approve', function(event){
     var approved = '';
@@ -1132,6 +1135,17 @@ $(document).on('click', '.unapprove', function(event){
     x.style.display = "none";
   } else {
     x.style.display = "block";
+  }};
+  function show_unapprove() {
+  var y = document.getElementById("unsexybutton");
+  var clicked2 = 0
+  $.each($("input[name='deselect']:checked"), function(){
+    clicked2+= 1;
+  });
+  if (clicked2 == 0) {
+    y.style.display = "none";
+  } else {
+    y.style.display = "block";
   }};
   function show_unapprove() {
   var y = document.getElementById("unsexybutton");
