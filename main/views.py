@@ -70,8 +70,8 @@ def dash(request):
         sets2 =  model.objects.all().filter(user = request.user).values()
 
         return render(request, 'dashboard.html',{
-            'sets': dumps(sets),
-            'sets2': dumps(sets2)
+            'sets': sets,
+            'sets2': sets2
         })
     else:
         return redirect('login')
@@ -112,6 +112,10 @@ def upload_db(request):
             if form.is_valid():
                 df = df.reset_index().groupby("ID", as_index=False).max()
                 df['accepted'] = 0
+                
+                df['TCO'] = df['CapEx'] + df['OneTime'] + df['OnGoing']
+                df['TVO'] = df['Revenue'] +df['Saving']+df['Avoid']
+                df['NET'] = df['TVO'] - df['TCO']
                 instance = dataset(user = request.user, name = request.POST['name'], budget = request.POST['budget'])
                 instance.save()
                 df_records = df.to_dict('records')
