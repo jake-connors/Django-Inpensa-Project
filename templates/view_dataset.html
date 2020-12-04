@@ -625,7 +625,7 @@ $(document).ready(async function($)
 		tbl +='<tr>';
     tbl +='<th>Select</th>';
     tbl +='<th>ID</th>';
-    tbl +='<th ><div class="netdisplay"></div></th>';
+    tbl +='<th ><div class="netdisplay" ></div></th>';
     tbl +='<th class="one"><div class="tcodisplay"</th>';
     tbl +='<th class="two">CapEx</th>';
 		tbl +='<th class="two">OneTime</th>';
@@ -701,7 +701,7 @@ $(document).ready(async function($)
             tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
             
             
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
+            tbl +='<td ><div class="row_data" edit_type="click" style="text-align: right;"col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
@@ -727,9 +727,9 @@ $(document).ready(async function($)
     $(document).find('.budget').html(formatter.format(data_budget));
     $(document).find('.remaining_budget').html(formatter.format(data_budget - approved_tco));
     $(document).find('.tbl_user_data').html(tbl);
-    $(document).find('.netdisplay').html('NET<span class="shownet" style="width:1vw">&#43;</span>');
-    $(document).find('.tcodisplay').html('TCO<span class="showtco" style="width:1vw">&#43;</span>');
-    $(document).find('.tvodisplay').html('TVO<span class="showtvo" style="width:1vw">&#43;</span>');
+    $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET&#43;</span>');
+    $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO&#43;</span>');
+    $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO&#43;</span>');
 			
   }
 
@@ -960,15 +960,29 @@ $(document).ready(async function($)
 
   $(document).on('click', '.shownet', function(event){
     var divsToHide = document.getElementsByClassName("one"); //divsToHide is an array
-    for(var i = 0; i < divsToHide.length; i++){
-      if(divsToHide[i].style.display == "table-cell"){
+    if(divsToHide[0].style.display == "table-cell"){
+      for(var i = 0; i < divsToHide.length; i++){
         divsToHide[i].style.display = "none"; // depending on what you're doing
-        $(document).find('.netdisplay').html('NET<span class="shownet" style="width:1vw">&#43;</span>');
-        
+        $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET&#43;</span>');
       }
-      else{
+      //hide tvo column if you hide net
+      var divsToHide2 = document.getElementsByClassName("two"); //divsToHide is an array
+        for(var i = 0; i < divsToHide2.length; i++){
+          divsToHide2[i].style.display = "none";
+          $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO&#43;</span>');
+        }
+      //hide tco column if you hide
+      var divsToHide3 = document.getElementsByClassName("three"); //divsToHide is an array
+        for(var i = 0; i < divsToHide3.length; i++){
+          divsToHide3[i].style.display = "none"; // depending on what you're doing
+          $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO&#43;</span>');
+        }
+      
+    }
+    else{
+      for(var i = 0; i < divsToHide.length; i++){
         divsToHide[i].style.display = "table-cell"; // depending on what you're doing
-        $(document).find('.netdisplay').html('NET<span class="shownet" style="width:1vw">-</span>');
+        $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET-</span>');
         
       }
     }
@@ -978,11 +992,11 @@ $(document).ready(async function($)
     for(var i = 0; i < divsToHide.length; i++){
       if(divsToHide[i].style.display == "table-cell"){
         divsToHide[i].style.display = "none"; // depending on what you're doing
-        $(document).find('.tcodisplay').html('TCO<span class="showtco" style="width:1vw">&#43;</span>');
+        $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TVO&#43;</span>');
       }
       else{
         divsToHide[i].style.display = "table-cell"; // depending on what you're doing
-        $(document).find('.tcodisplay').html('TCO<span class="showtco" style="width:1vw">-</span>');
+        $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TVO-</span>');
       }
     }
   });
@@ -991,11 +1005,11 @@ $(document).ready(async function($)
     for(var i = 0; i < divsToHide.length; i++){
       if(divsToHide[i].style.display == "table-cell"){
         divsToHide[i].style.display = "none"; // depending on what you're doing
-        $(document).find('.tvodisplay').html('TVO<span class="showtvo" style="width:1vw">&#43;</span>');
+        $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO&#43;</span>');
       }
       else{
         divsToHide[i].style.display = "table-cell"; // depending on what you're doing
-        $(document).find('.tvodisplay').html('TVO<span class="showtvo" style="width:1vw">-</span>');
+        $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO-</span>');
       }
     }
   });

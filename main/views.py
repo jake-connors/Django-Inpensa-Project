@@ -108,49 +108,50 @@ def upload_db(request):
                 df = pd.read_excel(f)
             except Exception:
                 df = pd.read_csv(f)
-            form = SetForm(request.POST)
-            if form.is_valid():
-                df = df.reset_index().groupby("ID", as_index=False).max()
-                df['accepted'] = 0
+            print(df)
+            df = df.fillna(0)
+            df = df.reset_index().groupby("ID", as_index=False).max()
+            df['accepted'] = 0
+            print(df)
+            df['TCO'] = df['CapEx'] + df['OneTime'] + df['OnGoing']
+            df['TVO'] = df['Revenue'] +df['Saving']+df['Avoid']
+            df['NET'] = df['TVO'] - df['TCO']
+            print(df)
+            instance = dataset(user = request.user, name = request.POST['name'], budget = request.POST['budget'])
+            instance.save()
+            df_records = df.to_dict('records')
+            
+            model_instances = [data(
+                name =record['ID'],
+                TCO =record['TCO'],
+                TVO =record['TVO'],
+                NET =record['NET'],
+                PP =record['PP'],
+                ROI =record['ROI'],
+                CapEx =record['CapEx'],
+                OneTime =record['OneTime'],
+                OnGoing =record['OnGoing'],
+                Revenue =record['Revenue'],
+                Saving =record['Saving'],
+                Avoid =record['Avoid'],
+                CostGrade =record['Cost Grade'],
+                ValueScore =record['Value Score'],
+                RiskScore =record['Risk Score'],
+                BlendedScore =record['Blended Score'],
+                CalcPriority =record['Calc Priority'],
+                OverridedPriority =record['Overrided Priority'],
+                dsid = instance,
+                accepted = record['accepted']
                 
-                df['TCO'] = df['CapEx'] + df['OneTime'] + df['OnGoing']
-                df['TVO'] = df['Revenue'] +df['Saving']+df['Avoid']
-                df['NET'] = df['TVO'] - df['TCO']
-                instance = dataset(user = request.user, name = request.POST['name'], budget = request.POST['budget'])
-                instance.save()
-                df_records = df.to_dict('records')
-                
-                model_instances = [data(
-                    name =record['ID'],
-                    TCO =record['TCO'],
-                    TVO =record['TVO'],
-                    NET =record['NET'],
-                    PP =record['PP'],
-                    ROI =record['ROI'],
-                    CapEx =record['CapEx'],
-                    OneTime =record['OneTime'],
-                    OnGoing =record['OnGoing'],
-                    Revenue =record['Revenue'],
-                    Saving =record['Saving'],
-                    Avoid =record['Avoid'],
-                    CostGrade =record['Cost Grade'],
-                    ValueScore =record['Value Score'],
-                    RiskScore =record['Risk Score'],
-                    BlendedScore =record['Blended Score'],
-                    CalcPriority =record['Calc Priority'],
-                    OverridedPriority =record['Overrided Priority'],
-                    dsid = instance,
-                    accepted = record['accepted']
-                    
-                ) for record in df_records]
-                data.objects.bulk_create(model_instances)
+            ) for record in df_records]
+            data.objects.bulk_create(model_instances)
 
-                count = data.objects.filter(dsid = instance).count()
-                if (count != 0):
-                    instance.size = count
-                    instance.save()
-                else:
-                    instance.delete()
+            count = data.objects.filter(dsid = instance).count()
+            if (count != 0):
+                instance.size = count
+                instance.save()
+            else:
+                instance.delete()
 
 
             
@@ -522,15 +523,20 @@ def add_data(request):
 
         
 def data_update( request):
-    id = request.POST.get('row_id')
-    x = request.POST.get('col_name')
-    instance = data.objects.get(id = id)
-    arr = request.POST.get('arr')
-    instance.x = arr[x]
-    instance.save()
-    return JsonResponse({'data': 'worked'}, status =200)
+    if request.user.is_authenticated:
+        id = request.POST.get('row_id')
+        x = request.POST.get('col_name')
+        instance = data.objects.get(id = id)
+        arr = request.POST.get('arr')
+        instance.x = arr[x]
+        instance.save()
+        return JsonResponse({'data': 'worked'}, status =200)
+    else:
+        raise Http404
+
 @csrf_exempt
 def edit_single_data(request):
+    if request.user.is_authenticated:
         dataid = request.POST.get('row_id')
         datacolumn = request.POST.get('col_name')
         datavalue = request.POST.get('col_val')
@@ -584,10 +590,13 @@ def edit_single_data(request):
 
 
         return JsonResponse({'status': True}, status = 200)
+    else:
+        raise Http404
 
 
 @csrf_exempt
 def edit_whole_data(request):
+    if request.user.is_authenticated:
         instance = data.objects.get(id = request.POST.get('row_id'))
         instance.name = request.POST.get('name')
         instance.TCO = request.POST.get('TCO')
@@ -615,6 +624,8 @@ def edit_whole_data(request):
 
         
         return JsonResponse({'status': True}, status = 200)
+    else:
+        raise Http404
 @csrf_exempt
 def delete_row(request):
     if request.method =='POST':
@@ -630,104 +641,151 @@ def delete_row(request):
         raise Http404
         
 def get_data(request):
-    if request.method =='GET':
-        dsid = request.GET['dsid']
-        daata = data.objects.filter(dsid = dsid).values()
-        df = pd.DataFrame(daata)
-        df = df.fillna(0)
-        sets = df.to_dict('records')
-        sets = dumps(sets)
-        return JsonResponse(sets, safe=False)
+    if request.user.is_authenticated:
+        if request.method =='GET':
+            dsid = request.GET['dsid']
+            daata = data.objects.filter(dsid = dsid).values()
+            df = pd.DataFrame(daata)
+            df = df.fillna(0)
+            sets = df.to_dict('records')
+            sets = dumps(sets)
+            return JsonResponse(sets, safe=False)
+        else:
+            raise Http404
+    else:
+        raise Http404
 
 
 
 def get_table_data(request):
-    if request.method == 'GET':
-        dsid = request.GET['dsid']
-        stuff = data.objects.filter(dsid = dsid).values()
-        df = pd.DataFrame(stuff)
-        df = df.fillna(0)
-        df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
-        df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
-        df = df.sort_values(by =['accepted'], ascending=False)
-        sets = df.to_dict('records')
-        sets = dumps(sets)
-        return JsonResponse(sets, safe=False)
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            dsid = request.GET['dsid']
+            stuff = data.objects.filter(dsid = dsid).values()
+            df = pd.DataFrame(stuff)
+            df = df.fillna(0)
+            df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
+            df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
+            df = df.sort_values(by =['accepted'], ascending=False)
+            sets = df.to_dict('records')
+            sets = dumps(sets)
+            return JsonResponse(sets, safe=False)
+        else:
+            raise Http404
+    else:
+        raise Http404
+
 
 
 def get_data_details(request):
-    if request.method =="GET":
-        dsid = request.GET['dsid']
-        stuff = dataset.objects.filter(id = dsid).values()
-        stuff = list(stuff)
-        return JsonResponse(stuff, safe=False)
+    if request.user.is_authenticated:
+        if request.method =="GET":
+            dsid = request.GET['dsid']
+            stuff = dataset.objects.filter(id = dsid).values()
+            stuff = list(stuff)
+            return JsonResponse(stuff, safe=False)
+        else:
+            raise Http404
+    else:
+        raise Http404
+
 
 def get_models(request):
-    if request.method =="GET":
-        stuff = model.objects.filter(user = request.user).values()
-        stuff = list(stuff)
-        return JsonResponse(stuff, safe=False)
+    if request.user.is_authenticated:
+        if request.method =="GET":
+            stuff = model.objects.filter(user = request.user).values()
+            stuff = list(stuff)
+            return JsonResponse(stuff, safe=False)
+        else:
+            raise Http404
+    else: 
+        raise Http404
 
 
 
 
 @csrf_exempt
 def add_row(request):
-    dataset1 = dataset.objects.get(id = request.POST['dsid'])
-    instance = data(dsid = dataset1, name= request.POST['name'],TVO= request.POST['tvo'],TCO= request.POST['tco'],NET= request.POST['net'],PP= request.POST['pp'],ROI= request.POST['roi'],CapEx= request.POST['capex'],OneTime= request.POST['onetime'],OnGoing= request.POST['ongoing'],Revenue= request.POST['revenue'],Saving= request.POST['saving'],Avoid= request.POST['avoid'],CostGrade= request.POST['costgrade'],ValueScore= request.POST['valuescore'],RiskScore= request.POST['riskscore'],BlendedScore= request.POST['blendedscore'],CalcPriority= request.POST['calcpriority'],OverridedPriority= request.POST['overridedpriority'],accepted=0)
-    instance.save()
-    dataset1.save()
-    test= instance.id
-    if(test != None):
-        return JsonResponse({'status':'success'}, safe=False)
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            dataset1 = dataset.objects.get(id = request.POST['dsid'])
+            instance = data(dsid = dataset1, name= request.POST['name'],TVO= request.POST['tvo'],TCO= request.POST['tco'],NET= request.POST['net'],PP= request.POST['pp'],ROI= request.POST['roi'],CapEx= request.POST['capex'],OneTime= request.POST['onetime'],OnGoing= request.POST['ongoing'],Revenue= request.POST['revenue'],Saving= request.POST['saving'],Avoid= request.POST['avoid'],CostGrade= request.POST['costgrade'],ValueScore= request.POST['valuescore'],RiskScore= request.POST['riskscore'],BlendedScore= request.POST['blendedscore'],CalcPriority= request.POST['calcpriority'],OverridedPriority= request.POST['overridedpriority'],accepted=0)
+            instance.save()
+            dataset1.save()
+            test= instance.id
+            if(test != None):
+                return JsonResponse({'status':'success'}, safe=False)
+            else:
+                return JsonResponse({'status':'error'}, safe=False)
+        else:
+            raise Http404
     else:
-        return JsonResponse({'status':'error'}, safe=False)
+        raise Http404
 
 @csrf_exempt
 def edit_budget(request):
-    datasetid = request.POST['datasetid']
-    new_budget= request.POST['new_budget']
-    instance = dataset.objects.get(id = datasetid)
-    instance.budget = new_budget
-    instance.save()
-    if (instance.budget == new_budget):
-        return JsonResponse({'status':'success'}, safe=False)
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            datasetid = request.POST['datasetid']
+            new_budget= request.POST['new_budget']
+            instance = dataset.objects.get(id = datasetid)
+            instance.budget = new_budget
+            instance.save()
+            if (instance.budget == new_budget):
+                return JsonResponse({'status':'success'}, safe=False)
+            else:
+                return JsonResponse({'status':'error'}, safe=False)
+        else:
+            raise Http404
     else:
-        return JsonResponse({'status':'error'}, safe=False)
+        raise Http404
 
 @csrf_exempt
 def approve(request):
-    idlist = request.POST['list'].split(',')
-    for x in idlist:
-        if x =="":
-            break
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            idlist = request.POST['list'].split(',')
+            for x in idlist:
+                if x =="":
+                    break
+                else:
+                    instance = data.objects.get(id = x)
+                    instance.accepted = 1
+                    instance.save()
+            datasetid = instance.dsid.id
+            raw_data = data.objects.filter(dsid = datasetid).values()
+            dinstance = dataset.objects.get(id = datasetid)
+            df = pd.DataFrame(raw_data)
+            df = df.loc[df['accepted']==1]
+            total_approved = df['TCO'].agg('sum')
+            dinstance.approved = total_approved
+            dinstance.save()
+            return JsonResponse({'status':'success'}, safe=False)
         else:
-            instance = data.objects.get(id = x)
-            instance.accepted = 1
-            instance.save()
-    datasetid = instance.dsid.id
-    raw_data = data.objects.filter(dsid = datasetid).values()
-    dinstance = dataset.objects.get(id = datasetid)
-    df = pd.DataFrame(raw_data)
-    df = df.loc[df['accepted']==1]
-    total_approved = df['TCO'].agg('sum')
-    dinstance.approved = total_approved
-    dinstance.save()
-    return JsonResponse({'status':'success'}, safe=False)
+            raise Http404
+    else:
+        raise Http404
+
 @csrf_exempt
 def unapprove(request):
-    idlist = request.POST['unlist'].split(',')
-    idlist.pop()
-    for x in idlist:
-        instance = data.objects.get(id = x)
-        instance.accepted = 0
-        instance.save()
-    datasetid = instance.dsid.id
-    raw_data = data.objects.filter(dsid = datasetid).values()
-    dinstance = dataset.objects.get(id = datasetid)
-    df = pd.DataFrame(raw_data)
-    df = df.loc[df['accepted']==1]
-    total_approved = df['TCO'].agg('sum')
-    dinstance.approved = total_approved
-    dinstance.save()
-    return JsonResponse({'status':'success'}, safe=False)
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            idlist = request.POST['unlist'].split(',')
+            idlist.pop()
+            for x in idlist:
+                instance = data.objects.get(id = x)
+                instance.accepted = 0
+                instance.save()
+            datasetid = instance.dsid.id
+            raw_data = data.objects.filter(dsid = datasetid).values()
+            dinstance = dataset.objects.get(id = datasetid)
+            df = pd.DataFrame(raw_data)
+            df = df.loc[df['accepted']==1]
+            total_approved = df['TCO'].agg('sum')
+            dinstance.approved = total_approved
+            dinstance.save()
+            return JsonResponse({'status':'success'}, safe=False)
+        else:
+            raise Http404
+    else:
+        raise Http404
