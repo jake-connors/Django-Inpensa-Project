@@ -237,10 +237,16 @@
     .toggleDisplay.in, .toggleDisplay2.in {
       display: table-cell;
     }
-  
     body {
       overflow:auto;
     }
+    /* take away the next style if you want non-monetary values to be center-aligned instead of left-aligned */
+    td:nth-child(1), td:nth-child(5), td:nth-child(6), td:nth-child(14), td:nth-child(15), td:nth-child(16), td:nth-child(17), td:nth-child(18){
+      text-align: left;
+    }
+    td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(7), td:nth-child(8),td:nth-child(9), td:nth-child(10), td:nth-child(11), td:nth-child(12), td:nth-child(13){
+      text-align: right;
+    }    
     button{
       background-color: white;
       border: none;
@@ -263,16 +269,14 @@
 		margin-bottom: 0;
 		text-align: center;
 	}
+
     /*
     .slider-selection.tick-slider-selection {
       background-image: linear-gradient(to bottom, #E5E5E5, #E9E9E9) !important;
     } */
   
-  
-  
   </style>
-  
-  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
   <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
@@ -296,7 +300,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Budget</div>
-                  <div id = "budget" class="h5 mb-0 font-weight-bold text-gray-800" contentEditable="true"><div class="budget"></div></div>
+                  <div id = "budget" class="h5 mb-0 font-weight-bold text-gray-800"><div class="budget"></div></div>
                   
                 </div>
                 <div class="col-auto">
@@ -306,7 +310,7 @@
             </div>
           </div>
         </div>
-  
+        
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-success shadow h-100 py-2">
@@ -578,25 +582,25 @@
 
 <!--start of  table writing-->
 <script type="text/javascript">
+
 //var dsid =JSON.parse("{{datasetid|escapejs}}")
+
+const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2
+      })
+      var dsid =JSON.parse("{{dataset|escapejs}}");
+      var predict = JSON.parse("{{predict|escapejs}}");
 $(document).ready(async function($)
 { 	 
-
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2
-    })
-    var dsid =JSON.parse("{{dataset|escapejs}}");
-    var predict = JSON.parse("{{predict|escapejs}}");
-
 
   var DATA_NAME = '';
   var DATA_BUDGET = 0;
   var tco_val = 0;
   var approved_tco = 0;
   
-  function create_html_table (tbl_data)
+  function create_html_table (tbl_data, data_budget)
 	{	
 
 		tbl_data = JSON.parse(tbl_data)
@@ -611,6 +615,7 @@ $(document).ready(async function($)
 			//--->create table header > start
 		tbl +='<thead>';
 		tbl +='<tr>';
+    tbl +='<th>Select</th>';
 		tbl +='<th>ID</th>';
 		tbl +='<th>TCO</th>';
 		tbl +='<th>TVO</th>';
@@ -633,20 +638,31 @@ $(document).ready(async function($)
 		tbl +='</thead>';
     //--->create table header > end
       
-			
 			//--->create table body > start
       tbl +='<tbody>';
       var last_accepted = 0
+      var curr_budget = 0
+      var printed = 0
         //--->create table body rows > start
-        
+          
           $.each(tbl_data, function(index, val) 
           {
+            curr_budget += val['TCO'];
             //you can replace with your database row id
                       var row_id = val['id'];
             //loop through ajax row data
-            if( val['accepted'] == 0   && last_accepted == 1 ){
+            if(( val['accepted'] == 0   && last_accepted == 1 ) && (curr_budget >= data_budget && printed == 0)){
+              last_accepted = 0;
+              printed = 1;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid yellow;">';
+            }
+            else if( val['accepted'] == 0   && last_accepted == 1 ){
               last_accepted =0;
               tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid green;">';
+            }
+            else if (curr_budget >= data_budget && printed == 0){
+              printed = 1;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid red;">';
             }
             else if (val['accepted'] == 1 && last_accepted ==0){
               last_accepted = 1;
@@ -655,7 +671,11 @@ $(document).ready(async function($)
             else{
               tbl +='<tr  row_id="'+row_id+'">';
             }
-            
+            if(val['accepted'] == 1){
+            tbl +='<td style="width:1vw!important background-color:red!important"><input type="checkbox" onclick="show_unapprove()" id="unselect"  name="deselect" value='+row_id+' style="width:1vw"></input></td>';
+            }else{
+            tbl +='<td style="width:1vw!important"><input type="checkbox" onclick="show_approve()" id="select" name="select" value='+row_id+' style="width:1vw"></input></td>';
+            }
             tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
             tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
             tco_val +=val['TCO'];
@@ -689,50 +709,17 @@ $(document).ready(async function($)
 		//--->create data table > end
 
     //out put table data
-    
     $(document).find('.approved_project').html(formatter.format(approved_tco));
     $(document).find('.total_tco').html(formatter.format(tco_val));
+    $(document).find('.budget').html(formatter.format(data_budget));
+    $(document).find('.remaining_budget').html(formatter.format(data_budget - approved_tco));
     $(document).find('.tbl_user_data').html(tbl);
-    gettotal(approved_tco);
 			
   }
-  
 
-   function getbudget(){
-    $.ajax({
-    type: 'get',
-    url: "/ajax/get_data_details",
-        dataType: "text",
-        data: {
-          dsid: dsid
-        },
-    error: function(xhr,textStatus,err){
-        console.log("readyState: " + xhr.readyState);
-    console.log("responseText: "+ xhr.responseText);
-    console.log("status: " + xhr.status);
-    console.log("text status: " + textStatus);
-    console.log("error: " + err);
-    },
-    success: function(data){
-            return data
-    },
-    failure: function(){
-      alert('An error occured: Please try again');
-    }
-    });
-
-  }
-
-
-
-  
   //tells if this is a prediction or just a table pullup
 	//create table on page load
 	//create_html_table(ajax_data);
-  function gettotal(approved){
-
-
-
 
     $.ajax({
     type: 'get',
@@ -752,61 +739,47 @@ $(document).ready(async function($)
             data = JSON.parse(data)
 
             DATA_NAME = data[0].name;
-            const DATA_BUDGET = data[0].budget;
+            DATA_BUDGET = data[0].budget;
             $(document).find('.data_name').html(DATA_NAME);
-            $(document).find('.budget').html(formatter.format(DATA_BUDGET));
-            $(document).find('.remaining_budget').html(formatter.format(DATA_BUDGET - approved));
+            if(predict == 0){
+              $.ajax({
+                type: 'get',
+                url: "/ajax/get_table_data",
+                dataType: "json",
+                data: {
+                  dsid: dsid
+                },
+                error: function(xhr,textStatus,err){
+                    console.log("readyState: " + xhr.readyState);
+                console.log("responseText: "+ xhr.responseText);
+                console.log("status: " + xhr.status);
+                console.log("text status: " + textStatus);
+                console.log("error: " + err);
+                },
+                success: function(data){
+                  create_html_table(data, DATA_BUDGET);
+                },
+                failure: function(){
+                  alert('An error occured: Please try again');
+                }
+                });
+              }
+              //if it's a prediction just take the data passed over
+              else{
+              
+                  var data = "{{sets|escapejs}}";
+                  create_html_table(data, DATA_BUDGET);
+
+              } 
+            
     },
     failure: function(){
       alert('An error occured: Please try again');
     }
     });
-  }
   
-  
-
-
-
-
-
-
-
-
     //--->create table via ajax call > start
-  if(predict == 0){
-    $.ajax({
-      type: 'get',
-      url: "/ajax/get_table_data",
-      dataType: "json",
-      data: {
-        dsid: dsid
-      },
-      error: function(xhr,textStatus,err){
-          console.log("readyState: " + xhr.readyState);
-      console.log("responseText: "+ xhr.responseText);
-      console.log("status: " + xhr.status);
-      console.log("text status: " + textStatus);
-      console.log("error: " + err);
-      },
-      success: function(data){
-        create_html_table(data);
-      },
-      failure: function(){
-        alert('An error occured: Please try again');
-      }
-      });
-    }
-    //if it's a prediction just take the data passed over
-    else{
-    
-         var data = "{{sets|escapejs}}";
-         create_html_table(data);
-
-    } 
   
-  
-
-
     $.ajax({
 		type: 'get',
 		url: "/ajax/get_models",
@@ -841,18 +814,338 @@ $(document).ready(async function($)
 			alert('An error occured: Please try again');
 		}
     });
-    $(document).find('.remaining_budget').html(formatter.format(DATA_BUDGET -approved_tco));
-});
-</script>
-<!-- Example single danger button -->
+
+  //--->make budget editable > start
+  $(document).on('click', '.budget', function(event) 
+  {
+    event.preventDefault(); 
+
+    if($(this).attr('edit_type') == 'button')
+    {
+      return false; 
+    }
+
+    //make div editable
+    $(this).closest('div').attr('contenteditable', 'true');
+    //add bg css
+    $(this).addClass('bg-light').css('padding','5px');
+
+    $(this).focus();
+
+    $(this).attr('original_entry', $(this).html());
+
+  })	
+  //--->make div editable > end
+
+  //--->save budget field data > start
+  $(document).on('focusout', '.budget', function(event) 
+  {
+    event.preventDefault();
+
+    if($(this).attr('edit_type') == 'button')
+    {
+      return false; 
+    }
+
+    //get the original entry
+    var original_entry = $(this).attr('original_entry');
+
+    var row_id = $(this).closest('tr').attr('row_id'); 
+    
+    var row_div = $(this)				
+    .removeClass('bg-light') //add bg css
+    .css('padding','')
+    var col_val = row_div.html(); 
+    var number = Number(col_val.replace(/[^0-9.-]+/g,""));
+
+    if(original_entry != col_val)
+    { 
+      //remove the attr so that new entry can take place
+      
+      if( col_val != "" &&  isNaN(number)){
+        alert("Please enter a numeric value for budget.");
+      }
+      else if (number < 0){
+        alert('Please enter a positive value for budget!');
+      }
+      else{
+        $(this).attr
+        if(number == ""){
+          number = 0
+        }
+
+        //ajax api json data			 
+        var data_obj = 
+        {
+          'datasetid':dsid,
+          'new_budget':number
+                  
+        };
+
+        //call ajax api to update the database record
+        $.post("/ajax/edit_budget/", data_obj, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            var msg = ''
+            + '<h3>There was an error while trying to update your entry</h3>'
+            +'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+            +'';
+
+            //$('.post_msg').html(msg);
+          }
+          else if(d1.status == "success")
+          {
+            budget = number;
+            if(predict == 0){
+                $.ajax({
+                  type: 'get',
+                  url: "/ajax/get_table_data",
+                  dataType: "json",
+                  data: {
+                    dsid: dsid
+                  },
+                  error: function(xhr,textStatus,err){
+                      console.log("readyState: " + xhr.readyState);
+                  console.log("responseText: "+ xhr.responseText);
+                  console.log("status: " + xhr.status);
+                  console.log("text status: " + textStatus);
+                  console.log("error: " + err);
+                  },
+                  success: function(data){
+                    create_html_table(data, number);
+                  },
+                  failure: function(){
+                    alert('An error occured: Please try again');
+                  }
+                  });
+                }
+                //if it's a prediction just take the data passed over
+                else{
+                
+                    var data = "{{sets|escapejs}}";
+                    create_html_table(data, number);
+
+                } 
+        
+                    //$('.post_msg').html(msg);
+                  }
+                });
+      }
+    }
+    else
+    {
+      //$('.post_msg').html('');
+    }
+    
+  })	
+  //--->save single field data > end
+  
+  //----> change projects to approved start
+  $(document).on('click', '.approve', function(event){
+    var approved = '';
+    $.each($("input[name='select']:checked"), function(){
+      approved+=($(this).val())+",";
+    });
+    approved_list = {
+      'list':approved
+    }
+    $.post("/ajax/approve/", approved_list, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            var msg = ''
+            + '<h3>There was an error while trying to update your entry</h3>'
+            +'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+            +'';
+
+            //$('.post_msg').html(msg);
+          }
+          else if(d1.status == "success")
+          {
+            $.ajax({
+            type: 'get',
+            url: "/ajax/get_data_details",
+                dataType: "text",
+                data: {
+                  dsid: dsid
+                },
+            error: function(xhr,textStatus,err){
+                console.log("readyState: " + xhr.readyState);
+            console.log("responseText: "+ xhr.responseText);
+            console.log("status: " + xhr.status);
+            console.log("text status: " + textStatus);
+            console.log("error: " + err);
+            },
+            success: function(data){
+                    document.getElementById("sexybutton").style.display = "none";
+                    data = JSON.parse(data)
+
+                    DATA_NAME = data[0].name;
+                    DATA_BUDGET = data[0].budget;
+                    $(document).find('.data_name').html(DATA_NAME);
+                    if(predict == 0){
+                      $.ajax({
+                        type: 'get',
+                        url: "/ajax/get_table_data",
+                        dataType: "json",
+                        data: {
+                          dsid: dsid
+                        },
+                        error: function(xhr,textStatus,err){
+                            console.log("readyState: " + xhr.readyState);
+                        console.log("responseText: "+ xhr.responseText);
+                        console.log("status: " + xhr.status);
+                        console.log("text status: " + textStatus);
+                        console.log("error: " + err);
+                        },
+                        success: function(data){
+                          create_html_table(data, DATA_BUDGET);
+                        },
+                        failure: function(){
+                          alert('An error occured: Please try again');
+                        }
+                        });
+                      }
+                      //if it's a prediction just take the data passed over
+                      else{
+                      
+                          var data = "{{sets|escapejs}}";
+                          create_html_table(data, DATA_BUDGET);
+
+                      } 
+                    
+            },
+            failure: function(){
+              alert('An error occured: Please try again');
+            }
+            });
+          };
+      });
+  });
+  //---> save project as approved end
+
+//---> save projects as unapproved start
+$(document).on('click', '.unapprove', function(event){
+    var unapproved = '';
+    $.each($("input[name='deselect']:checked"), function(){
+      unapproved+=($(this).val())+",";
+    });
+    unapproved_list = {
+      'unlist':unapproved
+    }
+    $.post("/ajax/unapprove/", unapproved_list, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            var msg = ''
+            + '<h3>There was an error while trying to update your entry</h3>'
+            +'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+            +'';
+
+            //$('.post_msg').html(msg);
+          }
+          else if(d1.status == "success")
+          {
+            document.getElementById("unsexybutton").style.display = "none";
+            $.ajax({
+            type: 'get',
+            url: "/ajax/get_data_details",
+                dataType: "text",
+                data: {
+                  dsid: dsid
+                },
+            error: function(xhr,textStatus,err){
+                console.log("readyState: " + xhr.readyState);
+            console.log("responseText: "+ xhr.responseText);
+            console.log("status: " + xhr.status);
+            console.log("text status: " + textStatus);
+            console.log("error: " + err);
+            },
+            success: function(data){
+                    data = JSON.parse(data)
+
+                    DATA_NAME = data[0].name;
+                    DATA_BUDGET = data[0].budget;
+                    $(document).find('.data_name').html(DATA_NAME);
+                    if(predict == 0){
+                      $.ajax({
+                        type: 'get',
+                        url: "/ajax/get_table_data",
+                        dataType: "json",
+                        data: {
+                          dsid: dsid
+                        },
+                        error: function(xhr,textStatus,err){
+                            console.log("readyState: " + xhr.readyState);
+                        console.log("responseText: "+ xhr.responseText);
+                        console.log("status: " + xhr.status);
+                        console.log("text status: " + textStatus);
+                        console.log("error: " + err);
+                        },
+                        success: function(data){
+                          create_html_table(data, DATA_BUDGET);
+                        },
+                        failure: function(){
+                          alert('An error occured: Please try again');
+                        }
+                        });
+                      }
+                      //if it's a prediction just take the data passed over
+                      else{
+                      
+                          var data = "{{sets|escapejs}}";
+                          create_html_table(data, DATA_BUDGET);
+
+                      } 
+                    
+            },
+            failure: function(){
+              alert('An error occured: Please try again');
+            }
+            });
+          };
+      });
+  });
+  //--->save projects as unapproved end
 
   
+});
 
-<div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 87vw;" >
-  <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropbtn" onclick="dropFunc()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
+</script>  
+<div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 50vw" >
+  <button class="btn btn-secondary dropdown-toggle" style="width:10vw; float:left" type="button" id="dropbtn" onclick="dropFunc()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown">
   </div>
-  
+  <div id="sexybutton" style="display:none" ><button class="approve" style="color: black; border: 1px solid black; width: 10vw; float: center; border-radius:4px;">Approve selected</button></div>
+  <div id="unsexybutton" style="display:none" ><button class="unapprove" style="color: black; border: 1px solid black; width: 10vw; float: center; border-radius:4px;">Un-approve selected</button></div>
+<script>
+  function show_approve() {
+  var x = document.getElementById("sexybutton");
+  var clicked = 0
+  $.each($("input[name='select']:checked"), function(){
+    clicked+= 1;
+  });
+  if (clicked == 0) {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }};
+  function show_unapprove() {
+  var y = document.getElementById("unsexybutton");
+  var clicked2 = 0
+  $.each($("input[name='deselect']:checked"), function(){
+    clicked2+= 1;
+  });
+  if (clicked2 == 0) {
+    y.style.display = "none";
+  } else {
+    y.style.display = "block";
+  }};
+</script>
           <div class="tbl_user_data" style="width: 88vw; padding-top:0; max-height: 61em; overflow:auto">
             
         </div>
@@ -862,7 +1155,5 @@ $("#expand2").click(function() {
     $(".table .toggleDisplay2").toggleClass("in");
 });
 </script>
-
-
 
 {% endblock %}

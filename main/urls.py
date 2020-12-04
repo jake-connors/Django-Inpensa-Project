@@ -31,7 +31,9 @@ urlpatterns = [
     url(r'^ajax/data_list/$', views.dataList),
     url(r'^ajax/get_table_data/$', views.get_table_data),
     url(r'^ajax/get_data_details/$', views.get_data_details),
-    url(r'^ajax/get_models/$', views.get_models)
-
+    url(r'^ajax/get_models/$', views.get_models),
+    url(r'^ajax/edit_budget/$', views.edit_budget),
+    url(r'^ajax/approve/$', views.approve),
+    url(r'^ajax/unapprove/$', views.unapprove),
     
 ]

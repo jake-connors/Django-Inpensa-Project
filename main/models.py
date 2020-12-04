@@ -11,6 +11,7 @@ class dataset(models.Model):
     #docfile = models.FileField(default=None)
     budget = models.FloatField(null = True)
     size = models.IntegerField(null= True)
+    approved = models.FloatField(null = True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
