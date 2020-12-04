@@ -686,30 +686,30 @@ $(document).ready(async function($)
             }else{
             tbl +='<td style="width:1vw!important"><input type="checkbox" onclick="show_approve()" id="select" name="select" value='+row_id+' style="width:1vw"></input></td>';
             }
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
-            tbl +='<td class="one"><div class="row_data" edit_type="click" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
+            tbl +='<td ><div class="row_data" style="text-align:left" col_name="name">'+val['name']+'</div></td>';
+            tbl +='<td ><div class="row_data" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            tbl +='<td class="one"><div class="row_data" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
             tco_val +=val['TCO'];
-            tbl +='<td class="two"><div class="row_data" edit_type="click" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
-            tbl +='<td class="two"><div class="row_data" edit_type="click" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
-            tbl +='<td class="two"><div class="row_data" edit_type="click" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
-            tbl +='<td class="one"><div class="row_data" edit_type="click" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
-            tbl +='<td class="three"><div class="row_data" edit_type="click" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
-            tbl +='<td class="three"><div class="row_data" edit_type="click" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
-            tbl +='<td class="three"><div class="row_data" edit_type="click" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
+            tbl +='<td class="one"><div class="row_data" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
+            tbl +='<td class="three"><div class="row_data" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
+            tbl +='<td class="three"><div class="row_data" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
+            tbl +='<td class="three"><div class="row_data" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
+            tbl +='<td ><div class="row_data" style="text-align:left" col_name="PP">'+val['PP']+'</div></td>';
+            tbl +='<td ><div class="row_data" style="text-align:left" col_name="ROI">'+val['ROI']+'</div></td>';
             
             
-            tbl +='<td ><div class="row_data" edit_type="click" style="text-align: right;"col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
-                      tbl +='<td ><div class="row_data" edit_type="click" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
-                      if(val['accepted'] ==1){
-                          approved_tco += val['TCO'];
-                      }
+            tbl +='<td ><div class="row_data"  style="text-align: right;"col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
+            tbl +='<td ><div class="row_data"  col_name="ValueScore">'+val['ValueScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  col_name="RiskScore">'+val['RiskScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
+            tbl +='<td ><div class="row_data" style="text-align:left" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
+            if(val['accepted'] ==1){
+               approved_tco += val['TCO'];
+            }
             
             tbl +='</tr>';
           });
@@ -727,9 +727,9 @@ $(document).ready(async function($)
     $(document).find('.budget').html(formatter.format(data_budget));
     $(document).find('.remaining_budget').html(formatter.format(data_budget - approved_tco));
     $(document).find('.tbl_user_data').html(tbl);
-    $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET&#43;</span>');
-    $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO&#43;</span>');
-    $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO&#43;</span>');
+    $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET  &#10010;</span>');
+    $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO  &#10010;</span>');
+    $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO  &#10010;</span>');
 			
   }
 
@@ -963,26 +963,26 @@ $(document).ready(async function($)
     if(divsToHide[0].style.display == "table-cell"){
       for(var i = 0; i < divsToHide.length; i++){
         divsToHide[i].style.display = "none"; // depending on what you're doing
-        $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET&#43;</span>');
+        $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET  &#10010;</span>');
       }
       //hide tvo column if you hide net
       var divsToHide2 = document.getElementsByClassName("two"); //divsToHide is an array
         for(var i = 0; i < divsToHide2.length; i++){
           divsToHide2[i].style.display = "none";
-          $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO&#43;</span>');
+          $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO  &#10010;</span>');
         }
       //hide tco column if you hide
       var divsToHide3 = document.getElementsByClassName("three"); //divsToHide is an array
         for(var i = 0; i < divsToHide3.length; i++){
           divsToHide3[i].style.display = "none"; // depending on what you're doing
-          $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO&#43;</span>');
+          $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO  &#10010;</span>');
         }
       
     }
     else{
       for(var i = 0; i < divsToHide.length; i++){
         divsToHide[i].style.display = "table-cell"; // depending on what you're doing
-        $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET-</span>');
+        $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET  &#9866;</span>');
         
       }
     }
@@ -992,11 +992,11 @@ $(document).ready(async function($)
     for(var i = 0; i < divsToHide.length; i++){
       if(divsToHide[i].style.display == "table-cell"){
         divsToHide[i].style.display = "none"; // depending on what you're doing
-        $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TVO&#43;</span>');
+        $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO  &#10010;</span>');
       }
       else{
         divsToHide[i].style.display = "table-cell"; // depending on what you're doing
-        $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TVO-</span>');
+        $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO  &#9866;</span>');
       }
     }
   });
@@ -1005,11 +1005,11 @@ $(document).ready(async function($)
     for(var i = 0; i < divsToHide.length; i++){
       if(divsToHide[i].style.display == "table-cell"){
         divsToHide[i].style.display = "none"; // depending on what you're doing
-        $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO&#43;</span>');
+        $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO  &#10010;</span>');
       }
       else{
         divsToHide[i].style.display = "table-cell"; // depending on what you're doing
-        $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO-</span>');
+        $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO  &#9866;</span>');
       }
     }
   });
