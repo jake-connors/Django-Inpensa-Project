@@ -458,81 +458,7 @@ def dataList(request):
     return JsonResponse(sets, safe=False)
 
 
-def edit_data(request):
-    if request.user.is_authenticated:
-        if request.method =='POST':
-            dsid = request.POST['dsid']
-            did = request.POST['dataid']
-            instance = data.objects.filter(id = did)
-            instance.name = request.POST['NAME']
-            instance.TCO = request.POST['TCO']
-            instance.TVO =request.POST['TVO']
-            instance.NET =request.POST['NET']
-            instance.PP =request.POST['PP']
-            instance.ROI =request.POST['ROI']
-            instance.CapEx =request.POST['CapEx']
-            instance.OneTime =request.POST['OneTime']
-            instance.OnGoing =request.POST['OnGoing']
-            instance.Revenue =request.POST['Revenue']
-            instance.Saving =request.POST['Saving']
-            instance.Avoid =request.POST['Avoid']
-            instance.CostGrade =request.POST['Cost Grade']
-            instance.ValueScore =request.POST['Value Score']
-            instance.RiskScore =request.POST['Risk Score']
-            instance.BlendedScore =request.POST['Blended Score']
-            instance.CalcPriority =request.POST['Calc Priority']
-            instance.OverridedPriority =request.POST['Overrided Priority']
-            instance.accepted = request.POST['accepted']
-            instance.save()
 
-
-            test = dataset.objects.get(id = dsid)
-            test.save()
-    else:
-        return redirect('login')
-
-
-def add_data(request):
-    if request.user.is_authenticated:
-        if request.method =='POST':
-            dsid = request.POST['dsid']
-            instance = data(dsid = dsid,
-            name = request.POST['NAME'],
-            TCO = request.POST['TCO'],
-            TVO =request.POST['TVO'],
-            NET =request.POST['NET'],
-            PP =request.POST['PP'],
-            ROI =request.POST['ROI'],
-            CapEx =request.POST['CapEx'],
-            OneTime =request.POST['OneTime'],
-            OnGoing =request.POST['OnGoing'],
-            Revenue =request.POST['Revenue'],
-            Saving =request.POST['Saving'],
-            Avoid =request.POST['Avoid'],
-            CostGrade =request.POST['Cost Grade'],
-            ValueScore =request.POST['Value Score'],
-            RiskScore =request.POST['Risk Score'],
-            BlendedScore =request.POST['Blended Score'],
-            CalcPriority =request.POST['Calc Priority'],
-            OverridedPriority =request.POST['Overrided Priority'],
-            accepted = request.POST['accepted'])
-    else:
-        return redirect('login')
-
-
-
-        
-def data_update( request):
-    if request.user.is_authenticated:
-        id = request.POST.get('row_id')
-        x = request.POST.get('col_name')
-        instance = data.objects.get(id = id)
-        arr = request.POST.get('arr')
-        instance.x = arr[x]
-        instance.save()
-        return JsonResponse({'data': 'worked'}, status =200)
-    else:
-        raise Http404
 
 @csrf_exempt
 def edit_single_data(request):
@@ -582,7 +508,9 @@ def edit_single_data(request):
         elif(datacolumn == "OverridedPriority"):
             instance.OverridedPriority = datavalue
         
-
+        instance.TCO = (instance.CapEx+ instance.OneTime+instance.OnGoing) 
+        instance.TVO = (instance.Revenue +instance.Saving+instance.Avoid)
+        instance.NET = (instance.TVO - instance.TCO)
         instance.save()
         dsid = instance.dsid
         instance2 = dataset.objects.get(id = dsid.id)
@@ -599,9 +527,9 @@ def edit_whole_data(request):
     if request.user.is_authenticated:
         instance = data.objects.get(id = request.POST.get('row_id'))
         instance.name = request.POST.get('name')
-        instance.TCO = request.POST.get('TCO')
-        instance.TVO = request.POST.get('TVO')
-        instance.NET = request.POST.get('NET')
+        instance.TCO = (request.POST.get('CapEx') + request.POST.get('OneTime') +request.POST.get('OnGoing')) 
+        instance.TVO = (request.POST.get('Revenue') +request.POST.get('Saving') +request.POST.get('Avoid'))
+        instance.NET = (instance.TVO - instance.TCO)
         instance.PP = request.POST.get('PP')
         instance.ROI = request.POST.get("ROI")
         instance.CapEx = request.POST.get('CapEx')
@@ -710,6 +638,11 @@ def add_row(request):
         if request.method=="POST":
             dataset1 = dataset.objects.get(id = request.POST['dsid'])
             instance = data(dsid = dataset1, name= request.POST['name'],TVO= request.POST['tvo'],TCO= request.POST['tco'],NET= request.POST['net'],PP= request.POST['pp'],ROI= request.POST['roi'],CapEx= request.POST['capex'],OneTime= request.POST['onetime'],OnGoing= request.POST['ongoing'],Revenue= request.POST['revenue'],Saving= request.POST['saving'],Avoid= request.POST['avoid'],CostGrade= request.POST['costgrade'],ValueScore= request.POST['valuescore'],RiskScore= request.POST['riskscore'],BlendedScore= request.POST['blendedscore'],CalcPriority= request.POST['calcpriority'],OverridedPriority= request.POST['overridedpriority'],accepted=0)
+            instance.TCO = (instance.CapEx+ instance.OneTime+instance.OnGoing) 
+            instance.TVO = (instance.Revenue +instance.Saving+instance.Avoid)
+            instance.NET = (instance.TVO - instance.TCO)
+            
+            
             instance.save()
             dataset1.save()
             test= instance.id
