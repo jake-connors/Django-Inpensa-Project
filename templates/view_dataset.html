@@ -1189,11 +1189,12 @@ $(document).on('click', '.unapprove', function(event){
 
 </script>  
 <div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 50vw" >
-  <button class="btn btn-secondary dropdown-toggle" style="width:10vw; float:left" type="button" id="dropbtn" onclick="dropFunc()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown">
+  <button class="btn btn-secondary dropdown-toggle" style="width:12vw; float:left; text-align: center; height: 28px" type="button" id="dropbtn" onclick="dropFunc()" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown" style="width: 12.5vw; margin-top: 3.35em">
   </div>
-  <div id="sexybutton" style="display:none" ><button class="approve" style="color: black; border: 1px solid black; width: 10vw; float: center; border-radius:4px;">Approve selected</button></div>
-  <div id="unsexybutton" style="display:none" ><button class="unapprove" style="color: black; border: 1px solid black; width: 10vw; float: center; border-radius:4px;">Un-approve selected</button></div>
+  <div id="sexybutton" style="display:none" ><button class="approve" style="color: black; background-color: lightcoral; border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Approve selected</button></div>
+  <div id="unsexybutton" style="display:none" ><button class="unapprove" style="color: black; background-color: lightcoral; border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Un-approve selected</button></div>
+
 <script>
   function show_approve() {
   var x = document.getElementById("sexybutton");
