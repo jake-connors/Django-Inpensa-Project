@@ -15,13 +15,9 @@ urlpatterns = [
     url(r'^test/$', views.test, name='test'),
     url(r'^view/$', views.view, name='view'),
     url(r'^predict/$', views.predict, name='predict'),
-    url(r'^models/$', views.models, name='models'),
     url(r'^cmodel/$', views.cmodel, name='cmodel'),
     url(r'^delete_dataset/$', views.delete_dataset, name='delete_dataset'),
     url(r'^delete_model/$', views.delete_model, name='delete_models'),
-    url(r'^add_data/$', views.add_data, name='add_data'),
-    url(r'^edit_data/$', views.edit_data, name='edit_data'),
-    url(r'^delete_data/$', views.delete_data, name='delete_data'),
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^ajax/edit_single_data/$', views.edit_single_data),
     url(r'^ajax/edit_whole_data/$', views.edit_whole_data),
@@ -34,6 +30,6 @@ urlpatterns = [
     url(r'^ajax/get_models/$', views.get_models),
     url(r'^ajax/edit_budget/$', views.edit_budget),
     url(r'^ajax/approve/$', views.approve),
-
+    url(r'^ajax/unapprove/$', views.unapprove),
     
 ]
