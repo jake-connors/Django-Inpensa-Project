@@ -70,8 +70,8 @@ def dash(request):
         sets2 =  model.objects.all().filter(user = request.user).values()
 
         return render(request, 'dashboard.html',{
-            'sets': dumps(sets),
-            'sets2': dumps(sets2)
+            'sets': sets,
+            'sets2': sets2
         })
     else:
         return redirect('login')
