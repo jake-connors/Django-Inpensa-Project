@@ -47,13 +47,16 @@
       position: absolute;
       background-color: #e6e6e6 !important;
       z-index: 1;
+      padding-top: 6px;
+      padding-bottom: 6px;
     } 
     
     .dropdown-content a {
       all:unset;
     } 
     .dropdown-item {
-      min-width: 10vw;
+      min-width: 10%;
+      text-align: center;
     }
     .show {
       display: block;
@@ -65,13 +68,21 @@
   
   
     
+<<<<<<< HEAD
     #dropbtn:hover, .dropdown a:hover, #ddForm:hover, #createNewModel:hover {
+=======
+    #dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover {
+>>>>>>> 936010adc3e62939f4d1d182b23386b43ecb7a43
       background-color: #b6b6b6 !important;
       border: 0 !important;
     }
+    #createNewModel:hover{
+      background-color: white !important;
+      cursor: pointer;
+    }
     
   
-    #ddForm, #createNewModel {
+    #ddForm{
       all:unset;
 
 
@@ -694,24 +705,39 @@ $(document).ready(async function($)
             tbl +='<td style="width:1vw!important"><input type="checkbox" onclick="show_approve()" id="select" name="select" value='+row_id+' style="width:1vw"></input></td>';
             }
             tbl +='<td ><div class="row_data" style="text-align:left" col_name="name">'+val['name']+'</div></td>';
+            if (val['NET'] < 0){
+            tbl +='<td ><div class="row_data" style="color:red" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            }
+            else if (val['NET'] > 0){
+            tbl +='<td ><div class="row_data" style="color:green" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            }
+            else {
             tbl +='<td ><div class="row_data" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            }
             tbl +='<td class="one"><div class="row_data" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
             tco_val +=val['TCO'];
-            tbl +='<td class="two"><div class="row_data" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
-            tbl +='<td class="two"><div class="row_data" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" style="text-align:right" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" style="text-align:right" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
             tbl +='<td class="two"><div class="row_data" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
             tbl +='<td class="one"><div class="row_data" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
             tbl +='<td class="three"><div class="row_data" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
             tbl +='<td class="three"><div class="row_data" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
             tbl +='<td class="three"><div class="row_data" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
             tbl +='<td ><div class="row_data" style="text-align:left" col_name="PP">'+val['PP']+'</div></td>';
-            tbl +='<td ><div class="row_data" style="text-align:left" col_name="ROI">'+val['ROI']+'</div></td>';
-            
+            if(val['ROI'] < 0){
+            tbl +='<td ><div class="row_data" style="text-align:left; color: red" col_name="ROI">'+val['ROI'].toFixed(3)+'</div></td>';
+            }
+            else if(val['ROI'] > 0){
+            tbl +='<td ><div class="row_data" style="text-align:left; color: green" col_name="ROI">'+val['ROI'].toFixed(3)+'</div></td>';  
+            }
+            else {
+            tbl +='<td ><div class="row_data" style="text-align:left" col_name="ROI">'+val['ROI'].toFixed(3)+'</div></td>';
+            }
             
             tbl +='<td ><div class="row_data"  style="text-align: right;"col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
             tbl +='<td ><div class="row_data"  col_name="ValueScore">'+val['ValueScore']+'</div></td>';
             tbl +='<td ><div class="row_data"  col_name="RiskScore">'+val['RiskScore']+'</div></td>';
-            tbl +='<td ><div class="row_data"  col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  col_name="BlendedScore">'+val['BlendedScore'].toFixed(3)+'</div></td>';
             tbl +='<td ><div class="row_data"  col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
             tbl +='<td ><div class="row_data" style="text-align:left" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
             if(val['accepted'] ==1){
@@ -880,7 +906,7 @@ $(document).ready(async function($)
                 */
             });
             
-            models+='<a class="dropdown-item" style="border:0%; margin:8%" onclick="openForm()" id="createNewModel">New Model</a>'
+            models+='<a class="dropdown-item" onclick="openForm()" id="createNewModel">Custom Scenario</a>'
             $(document).find('.dropdown-menu').html(models);
 		},
 		failure: function(){
@@ -1259,11 +1285,11 @@ $(document).on('click', '.unapprove', function(event){
 =======
 </script>  
 <div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 50vw" >
-  <button class="btn btn-secondary dropdown-toggle" style="width:12vw; float:left; text-align: center; height: 28px" type="button" id="dropbtn" onclick="dropFunc()" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown" style="width: 12.5vw; margin-top: 3.35em">
+  <button class="btn btn-secondary dropdown-toggle" style="width:12vw; float:left; text-align: center; height: 28px" type="button" id="dropbtn" onclick="dropFunc()" aria-haspopup="true" aria-expanded="false">Scenario</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown" style="width: 12.5vw; margin-top: 3.35em; text-align: center">
   </div>
-  <div id="sexybutton" style="display:none" ><button class="approve" style="color: black; background-color: lightcoral; border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Approve selected</button></div>
-  <div id="unsexybutton" style="display:none" ><button class="unapprove" style="color: black; background-color: lightcoral; border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Un-approve selected</button></div>
+  <div id="sexybutton" style="display:none" ><button class="approve" style="background-color: green; border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Approve selected</button></div>
+  <div id="unsexybutton" style="display:none" ><button class="unapprove" style="background-color: rgb(228, 62, 62); border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Un-approve selected</button></div>
 
 <script>
   function show_approve() {

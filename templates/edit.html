@@ -70,17 +70,17 @@ $(document).ready(function($)
 		tbl +='<thead>';
 		tbl +='<tr>';
 		tbl +='<th>ID</th>';
+		tbl +='<th>NET</th>';		
 		tbl +='<th>TCO</th>';
-		tbl +='<th>TVO</th>';
-		tbl +='<th>NET</th>';
-		tbl +='<th>PP</th>';
-		tbl +='<th>ROI</th>';
 		tbl +='<th>CapEx</th>';
 		tbl +='<th>OneTime</th>';
-		tbl +='<th>OnGoing</th>';
+		tbl +='<th>OnGoing</th>';		
+		tbl +='<th>TVO</th>';
 		tbl +='<th>Revenue</th>';
 		tbl +='<th>Saving</th>';
-		tbl +='<th>Avoid</th>';
+		tbl +='<th>Avoid</th>';		
+		tbl +='<th>PP</th>';
+		tbl +='<th>ROI</th>';
 		tbl +='<th>Cost Grade</th>';
 		tbl +='<th>Value Score</th>';
 		tbl +='<th>Risk Score</th>';
@@ -103,17 +103,17 @@ $(document).ready(function($)
 					//loop through ajax row data
 					tbl +='<tr row_id="'+row_id+'">';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+val['NET']+'</div></td>';					
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+val['TCO']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+val['TVO']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+val['NET']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="CapEx">'+val['CapEx']+'</div></td>';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="OneTime">'+val['OneTime']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="OnGoing">'+val['OnGoing']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="OnGoing">'+val['OnGoing']+'</div></td>';					
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+val['TVO']+'</div></td>';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="Revenue">'+val['Revenue']+'</div></td>';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="Saving">'+val['Saving']+'</div></td>';
-					tbl +='<td ><div class="row_data" edit_type="click" col_name="Avoid">'+val['Avoid']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="Avoid">'+val['Avoid']+'</div></td>';					
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
+					tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+val['CostGrade']+'</div></td>';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
 					tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
@@ -537,17 +537,17 @@ $(document).ready(function($)
 		var tbl = '';
 		tbl +='<tr row_id="'+row_id+'">';
 			tbl +='<td ><div class="new_row_data name bg-light" contenteditable="true" edit_type="click" col_name="name"></div></td>';
+			tbl +='<td ><div class="new_row_data net bg-light" contenteditable="true" edit_type="click" col_name="NET"></div></td>';			
 			tbl +='<td ><div class="new_row_data tco bg-light" contenteditable="true" edit_type="click" col_name="TCO"></div></td>';
-			tbl +='<td ><div class="new_row_data tvo bg-light" contenteditable="true" edit_type="click" col_name="TVO"></div></td>';
-			tbl +='<td ><div class="new_row_data net bg-light" contenteditable="true" edit_type="click" col_name="NET"></div></td>';
-			tbl +='<td ><div class="new_row_data pp bg-light" contenteditable="true" edit_type="click" col_name="PP"></div></td>';
-			tbl +='<td ><div class="new_row_data roi bg-light" contenteditable="true" edit_type="click" col_name="ROI"></div></td>';
 			tbl +='<td ><div class="new_row_data capex bg-light" contenteditable="true" edit_type="click" col_name="CapEx"></div></td>';
 			tbl +='<td ><div class="new_row_data onetime bg-light" contenteditable="true" edit_type="click" col_name="OneTime"></div></td>';
-			tbl +='<td ><div class="new_row_data ongoing bg-light" contenteditable="true" edit_type="click" col_name="OnGoing"></div></td>';
+			tbl +='<td ><div class="new_row_data ongoing bg-light" contenteditable="true" edit_type="click" col_name="OnGoing"></div></td>';			
+			tbl +='<td ><div class="new_row_data tvo bg-light" contenteditable="true" edit_type="click" col_name="TVO"></div></td>';
 			tbl +='<td ><div class="new_row_data revenue bg-light" contenteditable="true" edit_type="click" col_name="Revenue"></div></td>';
 			tbl +='<td ><div class="new_row_data saving bg-light" contenteditable="true" edit_type="click" col_name="Saving"></div></td>';
-			tbl +='<td ><div class="new_row_data avoid bg-light" contenteditable="true" edit_type="click" col_name="Avoid"></div></td>';
+			tbl +='<td ><div class="new_row_data avoid bg-light" contenteditable="true" edit_type="click" col_name="Avoid"></div></td>';			
+			tbl +='<td ><div class="new_row_data pp bg-light" contenteditable="true" edit_type="click" col_name="PP"></div></td>';
+			tbl +='<td ><div class="new_row_data roi bg-light" contenteditable="true" edit_type="click" col_name="ROI"></div></td>';
 			tbl +='<td ><div class="new_row_data costgrade bg-light" contenteditable="true" edit_type="click" col_name="CostGrade"></div></td>';
 			tbl +='<td ><div class="new_row_data valuescore bg-light" contenteditable="true" edit_type="click" col_name="ValueScore"></div></td>';
 			tbl +='<td ><div class="new_row_data riskscore bg-light" contenteditable="true" edit_type="click" col_name="RiskScore"></div></td>';
@@ -596,17 +596,17 @@ $(document).ready(function($)
 
 		//get field names
 		var name = ele.find('.name');
+		var net = ele.find('.net');		
 		var tco = ele.find('.tco');
-		var tvo = ele.find('.tvo');
-		var net = ele.find('.net');
-		var pp = ele.find('.pp');
-		var roi = ele.find('.roi');
 		var capex = ele.find('.capex');
 		var onetime = ele.find('.onetime');
-		var ongoing = ele.find('.ongoing');
+		var ongoing = ele.find('.ongoing');		
+		var tvo = ele.find('.tvo');
 		var revenue = ele.find('.revenue');
 		var saving = ele.find('.saving');
-		var avoid = ele.find('.avoid');
+		var avoid = ele.find('.avoid');		
+		var pp = ele.find('.pp');
+		var roi = ele.find('.roi');
 		var costgrade = ele.find('.costgrade');
 		var valuescore = ele.find('.valuescore');
 		var riskscore = ele.find('.riskscore');
@@ -636,17 +636,17 @@ $(document).ready(function($)
 				call_type:'new_row_entry',
 				row_id:row_id,
 				name:name.html(),
+				net:net.html(),				
 				tco:tco.html(),
-				tvo:tvo.html(),
-				net:net.html(),
-				pp:pp.html(),
-				roi:roi.html(),
 				capex:capex.html(),
 				onetime:onetime.html(),
-				ongoing:ongoing.html(),
+				ongoing:ongoing.html(),				
+				tvo:tvo.html(),
 				revenue:revenue.html(),
 				saving:saving.html(),
-				avoid:avoid.html(),
+				avoid:avoid.html(),				
+				pp:pp.html(),
+				roi:roi.html(),
 				costgrade:costgrade.html(),
 				valuescore:valuescore.html(),
 				riskscore:riskscore.html(),
