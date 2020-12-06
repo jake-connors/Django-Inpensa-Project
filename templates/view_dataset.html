@@ -6,278 +6,273 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <style>
-    table{
-      margin-top: 15px;
-      counter-reset: tableCount;
-      border-collapse: collapse;
-      font-size: 79%;
-    }
-    .counterCell:before {
-      content: counter(tableCount);
-      counter-increment: tableCount;
-    }
-    thead {
-      background-color: #b6b6b6;
-      border: 1px solid black;
-    }
-    tr:nth-child(even) {background-color: #e6e6e6}
-  
-    
-    #dropbtn {
-      all:unset;
-      margin-top: 15px;
-      border-radius:10px;
-      background-color: #e6e6e6 !important; 
-      color: black;
-      border: 0px!important; 
-      cursor: pointer;
-      padding:5px;
-    } 
-    .dropdown {
-      display: inline-block;
-      left: 80vw;
-    }
-    
-  
-    .dropdown-menu {
-      all:unset;
-      width: 10%;
-      border-radius:10px; 
-      display: none;
-      position: absolute;
-      background-color: #e6e6e6 !important;
-      z-index: 1;
-      padding-top: 6px;
-      padding-bottom: 6px;
-    } 
-    
-    .dropdown-content a {
-      all:unset;
-    } 
-    .dropdown-item {
-      min-width: 10%;
-      text-align: center;
-    }
-    .show {
-      display: block;
-    }
-
-    .dropdown-divider {
-      border-color: black;
-    }
-  
-  
-    
-<<<<<<< HEAD
-    #dropbtn:hover, .dropdown a:hover, #ddForm:hover, #createNewModel:hover {
-=======
-    #dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover {
->>>>>>> 936010adc3e62939f4d1d182b23386b43ecb7a43
-      background-color: #b6b6b6 !important;
-      border: 0 !important;
-    }
-    #createNewModel:hover{
-      background-color: white !important;
-      cursor: pointer;
-    }
-    
-  
-    #ddForm{
-      all:unset;
-
-
-      background-color: transparent;
-      margin: auto;
-      margin-bottom: 2px;
-      padding: 0px;
-      border: 0 !important;
-      border-radius:3px; 
-      color: rgb(24, 24, 24);
-      display:flex;
-    } 
-    
-  
-    .arrow {
-      border: solid black;
-      border-width: 0 3px 3px 0;
-      display: inline-block;
-      padding: 3px;
-      transform: rotate(45deg);
-      -webkit-transform: rotate(45deg);
-      position: relative;
-      left: 4px;
-      bottom: 3px;
-    } 
-  
-    .form-popup {
-      display: none;
-      position: fixed;
-      border: 3px solid #66666696;
-      border-radius:15px; 
-      z-index: 9;
-      height: 97%;
-      width: 70%;
-      top: 20px;
-      left: 580px;
-      margin-top:-10px;
-      margin-left:-290px;
-    }
-    .form-container {
-      border-radius:15px; 
-      padding: 12px;
-      background-color: white;
-      margin: auto;
-      width: 145%;
-      height: 96vh;
-  
-    }
-    #cancel {
-      all:unset;
-      margin-bottom: 0%;
-      border: 3px solid #ccc !important;
-      border-radius:3px !important;
-      background-color: #e6e6e6 !important;
-      color: black;
-      position: absolute;
-      bottom: 5px !important; 
-      right: 30px;
-      text-align: center;
-      width: 95%;
-    }
-    .btn {
-      all:unset;
-      margin-top: 2%;
-      border: 3px solid #ccc !important;
-      border-radius:3px !important;
-      background-color: #e6e6e6 !important;
-      color: black;
-      position: absolute;
-      bottom: 45px !important; 
-      right: 30px;
-      text-align: center;
-      width: 95%;
-    }
-    .esc {
-      all:unset;
-      border: 3px solid #ccc !important;
-      border-radius:3px !important;
-      margin-bottom: 5px !important;
-      background-color: #e6e6e6 ;
-      text-align: center;
-      height: 8%;
-      width: 5%;
-      position: absolute;
-      right: 25px;
-      top: 20px;
-    }
-    .btn:hover, #cancel:hover, .esc:hover {
-      background-color: #b6b6b6 !important;
-    }
-  
-    .configSettings {
-      /*height: 550px; */
-      width: 100%;
-      height: 50vh; 
-  
-      overflow: auto;
-      font-size: 2vh;
-      margin-bottom: 50px;
-      /*font-size: 115%; */
-      line-height: 1.2vh !important;
-  
-    }
-    .one {
-      display:none;
-    }
-    .two {
-      display:none;
-    }
-    .three {
-      display:none;
-    }
-  
-  
-    .lbs {
-      position: relative;
-      font-weight: bold;
-    }
-  
-    .slider {
-      position: sticky !important;
-      /*left: 225px; */
-      left: 30%; /**/
-    }
-    .slider.slider-horizontal {
-      width: 50% !important;
-    }
-    .slider.slider-horizontal .slider-track {
-      /*height: 18px !important; */
-      height: 105% !important;
-    }
-    .slider-handle {
-      width: 33px !important;
-      height: 33px !important;
-    }
-    .slider-tick.round.in-selection {
-      width: 30px;
-      height: 30px;
-    }
-    .slider-tick-label {
-      margin-top: 15px;
-      margin-bottom: 5px;
-    }
-  
-    .excludeBtn {
-      display: block;
-      height: 2vh;
-      width: 10%;
-      position: relative;
-      left: 15%;
-      bottom: 5vh;
-    }
-  
-    .toggleDisplay, .toggleDisplay2 {
-      display: none;
-    }
-    .toggleDisplay.in, .toggleDisplay2.in {
-      display: table-cell;
-    }
-  
-    body {
-      overflow:auto;
-    }
-    button{
-      background-color: white;
-      border: none;
-      box-shadow: none;
-    }
-    th{
-		top:0;
-		position:sticky;
-		box-shadow: inset 0 1px 1px black,
-                    inset 0 -1px 0 black;
-		text-align: center;
-		background-color: rgb(216, 216, 216);
-		border-bottom: 2px solid black;
+  table{
+    margin-top: 15px;
+    counter-reset: tableCount;
+    border-collapse: collapse;
+    font-size: 79%;
   }
-  td{
-		border-left: 1px solid black;
-		border-bottom: 1px solid black;
-		padding: 0;
-		margin-top: 0;
-		margin-bottom: 0;
-		text-align: center;
-	}
-    /*
-    .slider-selection.tick-slider-selection {
-      background-image: linear-gradient(to bottom, #E5E5E5, #E9E9E9) !important;
-    } */
+  .counterCell:before {
+    content: counter(tableCount);
+    counter-increment: tableCount;
+  }
+  thead {
+    background-color: #b6b6b6;
+    border: 1px solid black;
+  }
+  tr:nth-child(even) {background-color: #e6e6e6}
+
   
+  #dropbtn {
+    all:unset;
+    margin-top: 15px;
+    border-radius:10px;
+    background-color: #e6e6e6 !important; 
+    color: black;
+    border: 0px!important; 
+    cursor: pointer;
+    padding:5px;
+  } 
+  .dropdown {
+    display: inline-block;
+    left: 80vw;
+  }
   
+
+  .dropdown-menu {
+    all:unset;
+    width: 10%;
+    border-radius:10px; 
+    display: none;
+    position: absolute;
+    background-color: #e6e6e6 !important;
+    z-index: 1;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  } 
   
-  </style>
+  .dropdown-content a {
+    all:unset;
+  } 
+  .dropdown-item {
+    min-width: 10%;
+    text-align: center;
+  }
+  .show {
+    display: block;
+  }
+
+  .dropdown-divider {
+    border-color: black;
+  }
+
+
   
+  #dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover {
+    background-color: #b6b6b6 !important;
+    border: 0 !important;
+  }
+  #createNewModel:hover{
+    background-color: white !important;
+    cursor: pointer;
+  }
   
+
+  #ddForm{
+    all:unset;
+
+
+    background-color: transparent;
+    margin: auto;
+    margin-bottom: 2px;
+    padding: 0px;
+    border: 0 !important;
+    border-radius:3px; 
+    color: rgb(24, 24, 24);
+    display:flex;
+  } 
+  
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    position: relative;
+    left: 4px;
+    bottom: 3px;
+  } 
+
+  .form-popup {
+    display: none;
+    position: fixed;
+    border: 3px solid #66666696;
+    border-radius:15px; 
+    z-index: 9;
+    height: 97%;
+    width: 70%;
+    top: 20px;
+    left: 580px;
+    margin-top:-10px;
+    margin-left:-290px;
+  }
+  .form-container {
+    border-radius:15px; 
+    padding: 12px;
+    background-color: white;
+    margin: auto;
+    width: 145%;
+    height: 96vh;
+
+  }
+  #cancel {
+    all:unset;
+    margin-bottom: 0%;
+    border: 3px solid #ccc !important;
+    border-radius:3px !important;
+    background-color: #e6e6e6 !important;
+    color: black;
+    position: absolute;
+    bottom: 5px !important; 
+    right: 30px;
+    text-align: center;
+    width: 95%;
+  }
+  .btn {
+    all:unset;
+    margin-top: 2%;
+    border: 3px solid #ccc !important;
+    border-radius:3px !important;
+    background-color: #e6e6e6 !important;
+    color: black;
+    position: absolute;
+    bottom: 45px !important; 
+    right: 30px;
+    text-align: center;
+    width: 95%;
+  }
+  .esc {
+    all:unset;
+    border: 3px solid #ccc !important;
+    border-radius:3px !important;
+    margin-bottom: 5px !important;
+    background-color: #e6e6e6 ;
+    text-align: center;
+    height: 8%;
+    width: 5%;
+    position: absolute;
+    right: 25px;
+    top: 20px;
+  }
+  .btn:hover, #cancel:hover, .esc:hover {
+    background-color: #b6b6b6 !important;
+  }
+
+  .configSettings {
+    /*height: 550px; */
+    width: 100%;
+    height: 50vh; 
+
+    overflow: auto;
+    font-size: 2vh;
+    margin-bottom: 50px;
+    /*font-size: 115%; */
+    line-height: 1.2vh !important;
+
+  }
+  .one {
+    display:none;
+  }
+  .two {
+    display:none;
+  }
+  .three {
+    display:none;
+  }
+
+
+  .lbs {
+    position: relative;
+    font-weight: bold;
+  }
+
+  .slider {
+    position: sticky !important;
+    /*left: 225px; */
+    left: 30%; /**/
+  }
+  .slider.slider-horizontal {
+    width: 50% !important;
+  }
+  .slider.slider-horizontal .slider-track {
+    /*height: 18px !important; */
+    height: 105% !important;
+  }
+  .slider-handle {
+    width: 33px !important;
+    height: 33px !important;
+  }
+  .slider-tick.round.in-selection {
+    width: 30px;
+    height: 30px;
+  }
+  .slider-tick-label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  .excludeBtn {
+    display: block;
+    height: 2vh;
+    width: 10%;
+    position: relative;
+    left: 15%;
+    bottom: 5vh;
+  }
+
+  .toggleDisplay, .toggleDisplay2 {
+    display: none;
+  }
+  .toggleDisplay.in, .toggleDisplay2.in {
+    display: table-cell;
+  }
+
+  body {
+    overflow:auto;
+  }
+  button{
+    background-color: white;
+    border: none;
+    box-shadow: none;
+  }
+  th{
+  top:0;
+  position:sticky;
+  box-shadow: inset 0 1px 1px black,
+                  inset 0 -1px 0 black;
+  text-align: center;
+  background-color: rgb(216, 216, 216);
+  border-bottom: 2px solid black;
+}
+td{
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: center;
+}
+  /*
+  .slider-selection.tick-slider-selection {
+    background-image: linear-gradient(to bottom, #E5E5E5, #E9E9E9) !important;
+  } */
+
+
+
+</style>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
   <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
@@ -301,7 +296,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Budget</div>
-                  <div id = "budget" class="h5 mb-0 font-weight-bold text-gray-800" contentEditable="true"><div class="budget"></div></div>
+                  <div id = "budget" class="h5 mb-0 font-weight-bold text-gray-800"><div class="budget"></div></div>
                   
                 </div>
                 <div class="col-auto">
@@ -311,7 +306,7 @@
             </div>
           </div>
         </div>
-  
+        
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-success shadow h-100 py-2">
@@ -583,29 +578,24 @@
 
 <!--start of  table writing-->
 <script type="text/javascript">
+
 //var dsid =JSON.parse("{{datasetid|escapejs}}")
+
+const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2
+      })
+      var dsid =JSON.parse("{{dataset|escapejs}}");
+      var predict = JSON.parse("{{predict|escapejs}}");
 $(document).ready(async function($)
 { 	 
-
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2
-    })
-    var dsid =JSON.parse("{{dataset|escapejs}}");
-    var predict = JSON.parse("{{predict|escapejs}}");
-
 
   var DATA_NAME = '';
   var DATA_BUDGET = 0;
   var tco_val = 0;
   var approved_tco = 0;
-<<<<<<< HEAD
-  
-  function create_html_table (tbl_data)
-=======
   function create_html_table (tbl_data, data_budget)
->>>>>>> 6ca0d38d40d5b047c9e0991df342b8cc466f75d5
 	{	
 
 		tbl_data = JSON.parse(tbl_data)
@@ -620,12 +610,6 @@ $(document).ready(async function($)
 			//--->create table header > start
 		tbl +='<thead>';
 		tbl +='<tr>';
-<<<<<<< HEAD
-		tbl +='<th>ID</th>';
-		tbl +='<th>TCO</th>';
-		tbl +='<th>TVO</th>';
-		tbl +='<th>NET</th>';
-=======
     tbl +='<th>Select</th>';
     tbl +='<th>ID</th>';
     tbl +='<th ><div class="netdisplay" ></div></th>';
@@ -637,7 +621,6 @@ $(document).ready(async function($)
 		tbl +='<th class="three">Revenue</th>';
 		tbl +='<th class="three">Saving</th>';
 		tbl +='<th class="three">Avoid</th>';
->>>>>>> 6ca0d38d40d5b047c9e0991df342b8cc466f75d5
 		tbl +='<th>PP</th>';
 		tbl +='<th>ROI</th>';
 		
@@ -652,20 +635,31 @@ $(document).ready(async function($)
 		tbl +='</thead>';
     //--->create table header > end
       
-			
 			//--->create table body > start
       tbl +='<tbody>';
       var last_accepted = 0
+      var curr_budget = 0
+      var printed = 0
         //--->create table body rows > start
-        
+          
           $.each(tbl_data, function(index, val) 
           {
+            curr_budget += val['TCO'];
             //you can replace with your database row id
                       var row_id = val['id'];
             //loop through ajax row data
-            if( val['accepted'] == 0   && last_accepted == 1 ){
+            if(( val['accepted'] == 0   && last_accepted == 1 ) && (curr_budget >= data_budget && printed == 0)){
+              last_accepted = 0;
+              printed = 1;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid yellow;">';
+            }
+            else if( val['accepted'] == 0   && last_accepted == 1 ){
               last_accepted =0;
               tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid green;">';
+            }
+            else if (curr_budget >= data_budget && printed == 0){
+              printed = 1;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid red;">';
             }
             else if (val['accepted'] == 1 && last_accepted ==0){
               last_accepted = 1;
@@ -674,31 +668,6 @@ $(document).ready(async function($)
             else{
               tbl +='<tr  row_id="'+row_id+'">';
             }
-<<<<<<< HEAD
-            
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="name">'+val['name']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
-            tco_val +=val['TCO'];
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="PP">'+val['PP']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="ROI">'+val['ROI']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
-            tbl +='<td ><div class="row_data" edit_type="click" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
-                      tbl +='<td ><div class="row_data" edit_type="click" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
-                      if(val['accepted'] ==1){
-                          approved_tco += val['TCO'];
-                      }
-=======
             if(val['accepted'] == 1){
             tbl +='<td style="width:1vw!important background-color:red!important"><input type="checkbox" onclick="show_unapprove()" id="unselect"  name="deselect" value='+row_id+' style="width:1vw"></input></td>';
             }else{
@@ -706,23 +675,23 @@ $(document).ready(async function($)
             }
             tbl +='<td ><div class="row_data" style="text-align:left" col_name="name">'+val['name']+'</div></td>';
             if (val['NET'] < 0){
-            tbl +='<td ><div class="row_data" style="color:red" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            tbl +='<td ><div class="row_data" style="color:red; text-align: right" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
             }
             else if (val['NET'] > 0){
-            tbl +='<td ><div class="row_data" style="color:green" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            tbl +='<td ><div class="row_data" style="color:green; text-align: right" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
             }
             else {
-            tbl +='<td ><div class="row_data" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            tbl +='<td ><div class="row_data" style="text-align: right" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
             }
-            tbl +='<td class="one"><div class="row_data" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
+            tbl +='<td class="one"><div class="row_data" style="text-align: right" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
             tco_val +=val['TCO'];
-            tbl +='<td class="two"><div class="row_data" style="text-align:right" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
-            tbl +='<td class="two"><div class="row_data" style="text-align:right" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
-            tbl +='<td class="two"><div class="row_data" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
-            tbl +='<td class="one"><div class="row_data" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
-            tbl +='<td class="three"><div class="row_data" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
-            tbl +='<td class="three"><div class="row_data" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
-            tbl +='<td class="three"><div class="row_data" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" style="text-align: right" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" style="text-align: right" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" style="text-align: right" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
+            tbl +='<td class="one"><div class="row_data" style="text-align: right" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
+            tbl +='<td class="three"><div class="row_data" style="text-align: right" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
+            tbl +='<td class="three"><div class="row_data" style="text-align: right" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
+            tbl +='<td class="three"><div class="row_data" style="text-align: right" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
             tbl +='<td ><div class="row_data" style="text-align:left" col_name="PP">'+val['PP']+'</div></td>';
             if(val['ROI'] < 0){
             tbl +='<td ><div class="row_data" style="text-align:left; color: red" col_name="ROI">'+val['ROI'].toFixed(3)+'</div></td>';
@@ -734,16 +703,16 @@ $(document).ready(async function($)
             tbl +='<td ><div class="row_data" style="text-align:left" col_name="ROI">'+val['ROI'].toFixed(3)+'</div></td>';
             }
             
+            
             tbl +='<td ><div class="row_data"  style="text-align: right;"col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
-            tbl +='<td ><div class="row_data"  col_name="ValueScore">'+val['ValueScore']+'</div></td>';
-            tbl +='<td ><div class="row_data"  col_name="RiskScore">'+val['RiskScore']+'</div></td>';
-            tbl +='<td ><div class="row_data"  col_name="BlendedScore">'+val['BlendedScore'].toFixed(3)+'</div></td>';
-            tbl +='<td ><div class="row_data"  col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
-            tbl +='<td ><div class="row_data" style="text-align:left" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align:left" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
             if(val['accepted'] ==1){
                approved_tco += val['TCO'];
             }
->>>>>>> 6ca0d38d40d5b047c9e0991df342b8cc466f75d5
             
             tbl +='</tr>';
           });
@@ -758,53 +727,18 @@ $(document).ready(async function($)
     
     $(document).find('.approved_project').html(formatter.format(approved_tco));
     $(document).find('.total_tco').html(formatter.format(tco_val));
+    $(document).find('.budget').html(formatter.format(data_budget));
+    $(document).find('.remaining_budget').html(formatter.format(data_budget - approved_tco));
     $(document).find('.tbl_user_data').html(tbl);
-<<<<<<< HEAD
-    gettotal(approved_tco);
-=======
     $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET  &#10010;</span>');
     $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO  &#10010;</span>');
     $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO  &#10010;</span>');
->>>>>>> 6ca0d38d40d5b047c9e0991df342b8cc466f75d5
 			
   }
-  
 
-   function getbudget(){
-    $.ajax({
-    type: 'get',
-    url: "/ajax/get_data_details",
-        dataType: "text",
-        data: {
-          dsid: dsid
-        },
-    error: function(xhr,textStatus,err){
-        console.log("readyState: " + xhr.readyState);
-    console.log("responseText: "+ xhr.responseText);
-    console.log("status: " + xhr.status);
-    console.log("text status: " + textStatus);
-    console.log("error: " + err);
-    },
-    success: function(data){
-            return data
-    },
-    failure: function(){
-      alert('An error occured: Please try again');
-    }
-    });
-
-  }
-
-
-
-  
   //tells if this is a prediction or just a table pullup
 	//create table on page load
 	//create_html_table(ajax_data);
-  function gettotal(approved){
-
-
-
 
     $.ajax({
     type: 'get',
@@ -824,61 +758,47 @@ $(document).ready(async function($)
             data = JSON.parse(data)
 
             DATA_NAME = data[0].name;
-            const DATA_BUDGET = data[0].budget;
+            DATA_BUDGET = data[0].budget;
             $(document).find('.data_name').html(DATA_NAME);
-            $(document).find('.budget').html(formatter.format(DATA_BUDGET));
-            $(document).find('.remaining_budget').html(formatter.format(DATA_BUDGET - approved));
+            if(predict == 0){
+              $.ajax({
+                type: 'get',
+                url: "/ajax/get_table_data",
+                dataType: "json",
+                data: {
+                  dsid: dsid
+                },
+                error: function(xhr,textStatus,err){
+                    console.log("readyState: " + xhr.readyState);
+                console.log("responseText: "+ xhr.responseText);
+                console.log("status: " + xhr.status);
+                console.log("text status: " + textStatus);
+                console.log("error: " + err);
+                },
+                success: function(data){
+                  create_html_table(data, DATA_BUDGET);
+                },
+                failure: function(){
+                  alert('An error occured: Please try again');
+                }
+                });
+              }
+              //if it's a prediction just take the data passed over
+              else{
+              
+                  var data = "{{sets|escapejs}}";
+                  create_html_table(data, DATA_BUDGET);
+
+              } 
+            
     },
     failure: function(){
       alert('An error occured: Please try again');
     }
     });
-  }
   
-  
-
-
-
-
-
-
-
-
     //--->create table via ajax call > start
-  if(predict == 0){
-    $.ajax({
-      type: 'get',
-      url: "/ajax/get_table_data",
-      dataType: "json",
-      data: {
-        dsid: dsid
-      },
-      error: function(xhr,textStatus,err){
-          console.log("readyState: " + xhr.readyState);
-      console.log("responseText: "+ xhr.responseText);
-      console.log("status: " + xhr.status);
-      console.log("text status: " + textStatus);
-      console.log("error: " + err);
-      },
-      success: function(data){
-        create_html_table(data);
-      },
-      failure: function(){
-        alert('An error occured: Please try again');
-      }
-      });
-    }
-    //if it's a prediction just take the data passed over
-    else{
-    
-         var data = "{{sets|escapejs}}";
-         create_html_table(data);
-
-    } 
   
-  
-
-
     $.ajax({
 		type: 'get',
 		url: "/ajax/get_models",
@@ -913,12 +833,6 @@ $(document).ready(async function($)
 			alert('An error occured: Please try again');
 		}
     });
-<<<<<<< HEAD
-    $(document).find('.remaining_budget').html(formatter.format(DATA_BUDGET -approved_tco));
-});
-</script>
-<!-- Example single danger button -->
-=======
 
   //--->make budget editable > start
   $(document).on('click', '.budget', function(event) 
@@ -1272,17 +1186,10 @@ $(document).on('click', '.unapprove', function(event){
       });
   });
   //--->save projects as unapproved end
->>>>>>> 6ca0d38d40d5b047c9e0991df342b8cc466f75d5
 
   
+});
 
-<<<<<<< HEAD
-<div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 87vw;" >
-  <button class="btn btn-secondary dropdown-toggle" style="width:10vw" type="button" id="dropbtn" onclick="dropFunc()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown">
-  </div>
-  
-=======
 </script>  
 <div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 50vw" >
   <button class="btn btn-secondary dropdown-toggle" style="width:12vw; float:left; text-align: center; height: 28px" type="button" id="dropbtn" onclick="dropFunc()" aria-haspopup="true" aria-expanded="false">Scenario</button>
@@ -1290,7 +1197,6 @@ $(document).on('click', '.unapprove', function(event){
   </div>
   <div id="sexybutton" style="display:none" ><button class="approve" style="background-color: green; border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Approve selected</button></div>
   <div id="unsexybutton" style="display:none" ><button class="unapprove" style="background-color: rgb(228, 62, 62); border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Un-approve selected</button></div>
-
 <script>
   function show_approve() {
   var x = document.getElementById("sexybutton");
@@ -1326,7 +1232,6 @@ $(document).on('click', '.unapprove', function(event){
     y.style.display = "block";
   }};
 </script>
->>>>>>> 6ca0d38d40d5b047c9e0991df342b8cc466f75d5
           <div class="tbl_user_data" style="width: 88vw; padding-top:0; max-height: 61em; overflow:auto">
             
   </div>
@@ -1336,7 +1241,5 @@ $("#expand2").click(function() {
     $(".table .toggleDisplay2").toggleClass("in");
 });
 </script>
-
-
 
 {% endblock %}
