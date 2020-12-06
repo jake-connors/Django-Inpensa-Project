@@ -247,55 +247,114 @@ button{
     </div>
 
 <script>
+    var barModels = [];
+    var bar_model_data = [
+                        {'id': 1, 'user_id': 1, 'name': 'Model 1', 'kfile': 'static/data/saved_models/default.h5', 'details': "25", 'TCO': 2, 'TVO': 2, 'NET': 2, 'PP': 2, 'ROI': 2, 'CapEx': 2, 'OneTime': 2, 'OnGoing': 2, 'Revenue': 2, 'Saving': 2, 'Avoid': 2, 'CostGrade': 2, 'ValueScore': 2, 'RiskScore': 2, 'BlendedScore': 2, 'CalcPriority': 2, 'OverridedPriority': 2, 'accuracy': 50},
+                        {'id': 1, 'user_id': 1, 'name': 'Model 2', 'kfile': 'static/data/saved_models/default.h5', 'details': "25", 'TCO': 2, 'TVO': 2, 'NET': 2, 'PP': 2, 'ROI': 2, 'CapEx': 2, 'OneTime': 2, 'OnGoing': 2, 'Revenue': 2, 'Saving': 2, 'Avoid': 2, 'CostGrade': 2, 'ValueScore': 2, 'RiskScore': 2, 'BlendedScore': 2, 'CalcPriority': 2, 'OverridedPriority': 2, 'accuracy': 92.4},
+                        {'id': 1, 'user_id': 1, 'name': 'Model 3', 'kfile': 'static/data/saved_models/default.h5', 'details': "25", 'TCO': 2, 'TVO': 2, 'NET': 2, 'PP': 2, 'ROI': 2, 'CapEx': 2, 'OneTime': 2, 'OnGoing': 2, 'Revenue': 2, 'Saving': 2, 'Avoid': 2, 'CostGrade': 2, 'ValueScore': 2, 'RiskScore': 2, 'BlendedScore': 2, 'CalcPriority': 2, 'OverridedPriority': 2, 'accuracy': 73},
+                        {'id': 1, 'user_id': 1, 'name': 'Model 4', 'kfile': 'static/data/saved_models/default.h5', 'details': "25", 'TCO': 2, 'TVO': 2, 'NET': 2, 'PP': 2, 'ROI': 2, 'CapEx': 2, 'OneTime': 2, 'OnGoing': 2, 'Revenue': 2, 'Saving': 2, 'Avoid': 2, 'CostGrade': 2, 'ValueScore': 2, 'RiskScore': 2, 'BlendedScore': 2, 'CalcPriority': 2, 'OverridedPriority': 2, 'accuracy': 95.8},
+                        {'id': 1, 'user_id': 1, 'name': 'Model 5', 'kfile': 'static/data/saved_models/default.h5', 'details': "25", 'TCO': 2, 'TVO': 2, 'NET': 2, 'PP': 2, 'ROI': 2, 'CapEx': 2, 'OneTime': 2, 'OnGoing': 2, 'Revenue': 2, 'Saving': 2, 'Avoid': 2, 'CostGrade': 2, 'ValueScore': 2, 'RiskScore': 2, 'BlendedScore': 2, 'CalcPriority': 2, 'OverridedPriority': 2, 'accuracy': 83.2}
+                    ];
+    $.each(bar_model_data, function(index, val) {
+        barModels.push([val['name'], val['accuracy']]);
+    });
+    
+
+    var pieModels = [];
+    var pieModelsInner = [];
+    var pie_model_data = [
+                        {'name' : 'dataset 1 !', 'total_budget' : 100000000, 'total_approved' : 21034000.0, 'total_remaining' : 78966000, 'colorInner' : '#0000FF', 'colorOuter1' : '#0077FF', 'colorOuter2' : '#77B7FF'},
+                        {'name' : 'dataset 2', 'total_budget' : 45000000, 'total_approved' : 17400000, 'total_remaining' : 27600000, 'colorInner' : '#FF0000', 'colorOuter1' : '#FF5454', 'colorOuter2' : '#FFA0A0'},
+                        {'name' : 'dataset 2021', 'total_budget' : 190000000, 'total_approved' : 125000000, 'total_remaining' : 65000000, 'colorInner' : '#FFFF00', 'colorOuter1' : '#FFFF8D', 'colorOuter2' : '#FFFF8F'},
+                        {'name' : 'dataset XYZ', 'total_budget': 28000000, 'total_approved' : 12000000, 'total_remaining' : 16000000, 'colorInner' : ' #00FF00', 'colorOuter1' : '#61FF61', 'colorOuter2' : '#9BFF9B'},
+                        {'name' : 'dataset 5', 'total_budget' : 78000000, 'total_approved' : 39000000, 'total_remaining' : 39000000, 'colorInner' : '#FF7F00', 'colorOuter1' : '#FFAA54', 'colorOuter2' : '#FFCE9C'}
+    ];
+
+    for (i = 0; i < pie_model_data.length; i += 1) {
+        pieModels.push({
+            name: "Total Approved", 
+            y: pie_model_data[i].total_approved, 
+            color: pie_model_data[i].colorOuter1
+        },
+        {
+            name: "Total Remaining", 
+            y: pie_model_data[i].total_remaining, 
+            color: pie_model_data[i].colorOuter2
+        });
+    }
+
+    for (i = 0; i < pie_model_data.length; i += 1) {
+        pieModelsInner.push({
+            name: pie_model_data[i].name, 
+            y: pie_model_data[i].total_budget, 
+            color: pie_model_data[i].colorInner
+        });
+    }
+
+    // Create the chart
     Highcharts.chart('container', {
         chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
             type: 'pie'
         },
         title: {
-            text: 'Models'
+            text: 'Total Budgets'
         },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        accessibility: {
-            point: {
-                valueSuffix: '%'
-            }
+        subtitle: {
+            text: 'Combined Budgets'
         },
         plotOptions: {
             pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                }
+                shadow: false,
+                center: ['50%', '50%']
             }
         },
+        tooltip: {
+            valuePrefix: '$'
+        },
         series: [{
-            name: '%:',
-            colorByPoint: true,
-            data: [{
-                name: 'Chrome',
-                y: 69.2,
-                sliced: true,
-                selected: true
-            }, {
-                name: 'Internet Explorer',
-                y: 11.8
-            }, {
-                name: 'Firefox',
-                y: 10.85
-            }, {
-                name: 'Edge',
-                y: 8.1
+            name: 'Total Budget',
+            data: pieModelsInner,
+            size: '60%',
+            dataLabels: {
+                formatter: function () {
+                    return this.y > 5 ? this.point.name : null;
+                },
+                color: '#ffffff',
+                distance: -30
+            }
+        }, {
+            name: 'Amount',
+            data: pieModels,
+            size: '80%',
+            innerSize: '60%',
+            dataLabels: {
+                formatter: function () {
+                    // display only if larger than 1
+                    return this.y > 1 ? '<b>' + this.point.name + ':</b> $' +
+                        this.y : null;
+                }
+            },
+            id: 'versions'
+        }],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 400
+                },
+                chartOptions: {
+                    series: [{
+                    }, {
+                        id: 'versions',
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }]
+                }
             }]
-        }]
+        }
     });
-    
+
+
     Highcharts.chart('container2', {
         chart: {
             type: 'column'
@@ -306,7 +365,7 @@ button{
         xAxis: {
             type: 'category',
             labels: {
-                rotation: -45,
+                rotation: 0,
                 style: {
                     fontSize: '13px',
                     fontFamily: 'Verdana, sans-serif'
@@ -314,7 +373,7 @@ button{
             }
         },
         yAxis: {
-            min: 0,
+            min: 15,
             title: {
                 text: 'Accuracy %'
             }
@@ -326,14 +385,8 @@ button{
             pointFormat: 'Accuracy: <b>{point.y:.1f} %</b>'
         },
         series: [{
-            name: 'Models Name',
-            data: [
-                ['Model 1', 95.5], //['{{data.name}}', {{data.accuracy}}],
-                ['Model 2', 90.8],
-                ['Model 3', 93.9],
-                ['Model 4', 84.7],
-                ['Model 5', 89.1]
-            ],
+            name: 'Model',
+            data: barModels,
             dataLabels: {
                 enabled: true,
                 rotation: -90,
