@@ -13,6 +13,13 @@
         <link href="{% static  'css\sb-admin-2.min.css' %}" rel="stylesheet">
         <link href="{% static  'css\styles.css' %}" rel="stylesheet">
 
+            <!-- Custom fonts for this template-->
+        <link href="{% static  'css\all.min.css' %}" rel="stylesheet" type="text/css">
+        <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+
 </head>
 
 <script>
@@ -67,7 +74,6 @@
             
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/" style="padding-top: 2px">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">Welcome,<br>{{user.first_name}}</div>
             </a>
@@ -93,7 +99,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
-                    <i href="{% static 'media\folderman.png' %}" class="sidebar-brand-icon"></i>
+                    <i class="fas fa-fw fa-folder"></i>
                     <span>View Portfolios</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
@@ -115,7 +121,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1"
                     aria-expanded="true" aria-controls="collapseUtilities1">
-                    <i href="{% static 'media\folderman.png' %}" class="sidebar-brand-icon"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>Edit Portfolios</span>
                 </a>
                 <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities"
@@ -133,15 +139,21 @@
             <!-- Nav Item - Logout -->
             <li class="nav-item">
                 <a class="nav-link" href="/logout/">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span></a>
             </li>
+            
+            <!-- Sidebar collapse -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
 
 
         </ul>
         
         <!-- Makes Sidebar Dropdowns Work -->
-        <script src="{% static  'css\bootstrap.bundle.min.js' %}"></script>        
+        <script src="{% static  'css\bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static  'css\sb-admin-2.min.js' %}"></script>
         <!-- End of Sidebar -->
 
 
