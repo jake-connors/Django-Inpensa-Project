@@ -290,14 +290,6 @@ def predict(request):
         return redirect('login')
 
 
-def models(request):
-    if request.user.is_authenticated:
-        sets = model.objects.all().filter(Q(user = request.user) | Q(user_id = 1)).values()
-        return render(request, 'view_models.html',{
-            'sets': sets
-        })
-    else:
-        return redirect('login')
 
 def cmodel(request):
     if request.user.is_authenticated:
