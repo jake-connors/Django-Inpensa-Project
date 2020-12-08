@@ -54,6 +54,8 @@ button{
     text-align: left;
     box-shadow: 0px 0px white;
 }
+
+
 </style>
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -268,7 +270,7 @@ button{
     var pie_model_data = [
                         {'name' : 'dataset 1 !', 'total_budget' : 100000000, 'total_approved' : 21034000.0, 'total_remaining' : 78966000, 'colorInner' : '#0000FF', 'colorOuter1' : '#0077FF', 'colorOuter2' : '#77B7FF'},
                         {'name' : 'dataset 2', 'total_budget' : 45000000, 'total_approved' : 17400000, 'total_remaining' : 27600000, 'colorInner' : '#FF0000', 'colorOuter1' : '#FF5454', 'colorOuter2' : '#FFA0A0'},
-                        {'name' : 'dataset 2021', 'total_budget' : 190000000, 'total_approved' : 125000000, 'total_remaining' : 65000000, 'colorInner' : '#FFFF00', 'colorOuter1' : '#FFFF8D', 'colorOuter2' : '#FFFF8F'},
+                        {'name' : 'dataset 2021', 'total_budget' : 190000000, 'total_approved' : 125000000, 'total_remaining' : 65000000, 'colorInner' : '#F6F600', 'colorOuter1' : '#FFFF4D', 'colorOuter2' : '#FFFF99'},
                         {'name' : 'dataset XYZ', 'total_budget': 28000000, 'total_approved' : 12000000, 'total_remaining' : 16000000, 'colorInner' : ' #00FF00', 'colorOuter1' : '#61FF61', 'colorOuter2' : '#9BFF9B'},
                         {'name' : 'dataset 5', 'total_budget' : 78000000, 'total_approved' : 39000000, 'total_remaining' : 39000000, 'colorInner' : '#FF7F00', 'colorOuter1' : '#FFAA54', 'colorOuter2' : '#FFCE9C'}
     ];
@@ -307,6 +309,9 @@ button{
         },
         plotOptions: {
             pie: {
+                dataLabels: {
+                    enabled: false
+                },
                 shadow: false,
                 center: ['50%', '50%']
             }
@@ -319,6 +324,7 @@ button{
             data: pieModelsInner,
             size: '60%',
             dataLabels: {
+                enabled: true,
                 formatter: function () {
                     return this.y > 5 ? this.point.name : null;
                 },
