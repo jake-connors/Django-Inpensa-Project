@@ -74,7 +74,7 @@ def dash(request):
         if(df.shape[0]!= 0):
             df = df[['name', 'accuracy']]
             if(df.shape[0]>5):
-                df= df.shape()
+                df= df.head()
             df= df.sort_values(by=['accuracy'], ascending=False)
             model_info = df.to_dict('records')
         else:
