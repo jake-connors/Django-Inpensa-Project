@@ -27,11 +27,12 @@
     all:unset;
     margin-top: 15px;
     border-radius:7px !important;
-    border-color: black !important;
+    border: 0 !important;
     background-color: #e6e6e6 !important; 
     color: black;
     cursor: pointer;
     padding:5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   } 
   .dropdown {
     display: inline-block;
@@ -49,6 +50,7 @@
     z-index: 1;
     padding-top: 6px;
     padding-bottom: 6px;
+    border: 2px solid gray;
   } 
   
   .dropdown-content a {
@@ -241,20 +243,19 @@
   top:0;
   position:sticky;
   box-shadow: inset 0 1px 1px black,
-                  inset 0 -1px 0 black;
+              inset 0 -1px 0 black;
   text-align: center;
   background-color: rgb(216, 216, 216);
   border-bottom: 2px solid black;
 }
 td{
-  border-left: 1px solid black;
-  border-bottom: 1px solid black;
+  border-left: 1px solid rgb(233, 233, 233);
+  border-bottom: 1px solid white;
   padding: 0;
   margin-top: 0;
   margin-bottom: 0;
   text-align: center;
 }
-
 </style>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
@@ -833,7 +834,7 @@ $(document).ready(async function($)
                 */
             });
             
-            models+='<a class="dropdown-item" onclick="openForm()" id="createNewModel">Custom Scenario</a>'
+            models+='<a class="dropdown-item" onclick="openForm()" id="createNewModel"><b>Custom Scenario</b></a>'
             $(document).find('.dropdown-menu').html(models);
 		},
 		failure: function(){
@@ -1197,12 +1198,17 @@ $(document).on('click', '.unapprove', function(event){
 });
 
 </script>  
-<div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 50vw" >
-  <button class="btn btn-secondary dropdown-toggle" style="width:12vw; float:left; text-align: center; height: 28px" type="button" id="dropbtn" onclick="dropFunc()" aria-haspopup="true" aria-expanded="false">Scenario</button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown" style="width: 12.5vw; margin-top: 3.35em; text-align: center">
+<div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 100vw;">
+  <div style="margin-top: 1.5em; float: right; color: black; margin-right: 1em; ">
+    <span style="color: green; font-size: 20px; display: inline">⬤</span><span style="display: inline">  End of Approved Projects  |</span>
+    <span style="color: red; font-size: 20px; display: inline">⬤</span><span style="display: inline">  End of Available Budget</span>
+  </div>  
+  <button class="btn btn-secondary dropdown-toggle" style="width:12vw; float:left; text-align: center; height: 28px;" type="button" id="dropbtn" onclick="dropFunc()" aria-haspopup="true" aria-expanded="false">Scenario</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown" style="width: 12.7vw; margin-top: 3.6em; text-align: center">
   </div>
-  <div id="sexybutton" style="display:none" ><button class="approve" style="background-color: green; border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Approve selected</button></div>
-  <div id="unsexybutton" style="display:none" ><button class="unapprove" style="background-color: rgb(228, 62, 62); border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Un-approve selected</button></div>
+  <span style="display: inline"><div id="sexybutton" style="display:none" ><button class="approve" style="background-color: green; border: 1px solid black; width: 12vw; height: 37px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Approve selected</button></div></span>
+  <span style="display: inline"><div id="unsexybutton" style="display:none" ><button class="unapprove" style="background-color: rgb(228, 62, 62); border: 1px solid black; width: 12vw; height: 37px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Un-approve selected</button></div></span>
+
 <script>
   function show_approve() {
   var x = document.getElementById("sexybutton");
@@ -1239,7 +1245,7 @@ $(document).on('click', '.unapprove', function(event){
   }};
 </script>
     <!-- Change width to fix overflow x along with wrapper -->
-          <div class="tbl_user_data" style="width: 85vw; padding-top:0; max-height: 61em; overflow:auto">
+          <div class="tbl_user_data" style="width: 85vw; padding-top:0; max-height: 59em; overflow:auto">
             
   </div>
   </div>
