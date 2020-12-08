@@ -49,6 +49,7 @@
     z-index: 1;
     padding-top: 6px;
     padding-bottom: 6px;
+    border: 2px solid gray;
   } 
   
   .dropdown-content a {
@@ -833,7 +834,7 @@ $(document).ready(async function($)
                 */
             });
             
-            models+='<a class="dropdown-item" onclick="openForm()" id="createNewModel">Custom Scenario</a>'
+            models+='<a class="dropdown-item" onclick="openForm()" id="createNewModel"><b>Custom Scenario</b></a>'
             $(document).find('.dropdown-menu').html(models);
 		},
 		failure: function(){
@@ -1200,7 +1201,7 @@ $(document).on('click', '.unapprove', function(event){
 </script>  
 <div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 50vw" >
   <button class="btn btn-secondary dropdown-toggle" style="width:12vw; float:left; text-align: center; height: 28px" type="button" id="dropbtn" onclick="dropFunc()" aria-haspopup="true" aria-expanded="false">Scenario</button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown" style="width: 12.5vw; margin-top: 3.35em; text-align: center">
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown" style="width: 12.7vw; margin-top: 3.6em; text-align: center">
   </div>
   <div id="sexybutton" style="display:none" ><button class="approve" style="background-color: green; border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Approve selected</button></div>
   <div id="unsexybutton" style="display:none" ><button class="unapprove" style="background-color: rgb(228, 62, 62); border: 1px solid black; width: 12vw; height: 38px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Un-approve selected</button></div>
