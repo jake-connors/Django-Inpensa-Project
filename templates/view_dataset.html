@@ -262,8 +262,8 @@ td{
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  <!-- Content Wrapper -->
-  <div id="content-wrapper" style="width:90vw;float:center; padding-left:2vw; padding-right:2vw;" class="d-flex flex-column">
+  <!-- Content Wrapper - change vw along with tbl_user_data for fixing overflow x -->
+  <div id="content-wrapper" style="width:88vw;float:center; padding-left:2vw; padding-right:2vw;" class="d-flex flex-column">
     <!-- Begin Page Content -->
     <div class="container-fluid">
       <!-- Page Heading -->
@@ -284,7 +284,7 @@ td{
                   
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  <i class="fas fa-wallet fa-2x text-gray-300"></i>
                 </div>
               </div>
             </div>
@@ -301,7 +301,7 @@ td{
                   <div class="h5 mb-0 font-weight-bold text-gray-800"><div class="total_tco"></div></div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
                 </div>
               </div>
             </div>
@@ -329,7 +329,7 @@ td{
                   </div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                  <i class="fas fa-check-circle fa-2x text-gray-300"></i>
                 </div>
               </div>
             </div>
@@ -346,7 +346,7 @@ td{
                   <div class="h5 mb-0 font-weight-bold text-gray-800"><div class="remaining_budget"></div></div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-comments fa-2x text-gray-300"></i>
+                  <i class="fas fa-piggy-bank fa-2x text-gray-300"></i>
                 </div>
               </div>
             </div>
@@ -632,8 +632,6 @@ $(document).ready(async function($)
 		tbl +='<th class="three">Avoid</th>';
 		tbl +='<th>PP</th>';
 		tbl +='<th>ROI</th>';
-		
-		
 		tbl +='<th>Cost Grade</th>';
 		tbl +='<th>Value Score</th>';
 		tbl +='<th>Risk Score</th>';
@@ -1241,7 +1239,8 @@ $(document).on('click', '.unapprove', function(event){
     y.style.display = "block";
   }};
 </script>
-          <div class="tbl_user_data" style="width: 88vw; padding-top:0; max-height: 61em; overflow:auto">
+    <!-- Change width to fix overflow x along with wrapper -->
+          <div class="tbl_user_data" style="width: 85vw; padding-top:0; max-height: 61em; overflow:auto">
             
   </div>
   </div>
