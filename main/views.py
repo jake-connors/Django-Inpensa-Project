@@ -11,9 +11,11 @@ import pandas as pd
 from sklearn import preprocessing
 import tensorflow as tf
 from json import dumps
+import numpy as np
 from django.views.generic import View
 from django.http import JsonResponse, Http404
 from sklearn.model_selection import train_test_split
+from sklearn.utils import resample
 import os
 import json.encoder
 from django.views.decorators.csrf import csrf_exempt
@@ -68,10 +70,24 @@ def dash(request):
     if request.user.is_authenticated:
         sets = dataset.objects.all().filter(user = request.user).values()
         sets2 =  model.objects.all().filter(user = request.user).values()
+        df = pd.DataFrame(sets2)
+        df = df[['name', 'accuracy']]
+        if(df.shape[0]>5):
+            df= df.shape()
+        df= df.sort_values(by=['accuracy'], ascending=False)
+        model_info = df.to_dict('records')
+        df2 = pd.DataFrame(sets)
+        df2= df2.sort_values(by=['updated_at'], ascending=False)
+        df2 = df2[['name', 'budget', 'approved']]
+        df2 =df2.fillna(0)
+        df2 = df2.head()
+        budget_info = df2.to_dict('records')
 
         return render(request, 'dashboard.html',{
             'sets': sets,
-            'sets2': sets2
+            'sets2': sets2,
+            'budget_info':dumps(budget_info),
+            'model_info':dumps(model_info)
         })
     else:
         return redirect('login')
@@ -108,15 +124,13 @@ def upload_db(request):
                 df = pd.read_excel(f)
             except Exception:
                 df = pd.read_csv(f)
-            print(df)
             df = df.fillna(0)
             df = df.reset_index().groupby("ID", as_index=False).max()
             df['accepted'] = 0
-            print(df)
             df['TCO'] = df['CapEx'] + df['OneTime'] + df['OnGoing']
             df['TVO'] = df['Revenue'] +df['Saving']+df['Avoid']
             df['NET'] = df['TVO'] - df['TCO']
-            print(df)
+            df['ROI'] = (df['NET']/df['TCO'])*100
             instance = dataset(user = request.user, name = request.POST['name'], budget = request.POST['budget'])
             instance.save()
             df_records = df.to_dict('records')
@@ -294,7 +308,7 @@ def predict(request):
 def cmodel(request):
     if request.user.is_authenticated:
         if request.method =="POST":
-            df = pd.read_excel("static/data/training.xlsx")
+            data = pd.read_excel("static/data/fixed_data.xlsx")
             settings = {'TCO' : request.POST['TCO'],
             'TVO': request.POST['TVO'],
             'NET' : request.POST['NET'],
@@ -310,32 +324,59 @@ def cmodel(request):
             'Value Score' : request.POST['ValueScore'],
             'Risk Score' : request.POST['RiskScore'],
             'Blended Score' : request.POST['BlendedScore'],
-            'Calc Priority': request.POST['CalcPriority'],
-            'Overrided Priority' : request.POST['OverridedPriority']
+            'Calc Priority': request.POST['CalcPriority']
             }
-            df['picked'] = [1 if x==4 else 0 for x in df['Overrided Priority']]
+            data = data.fillna(0)
+            testprint = []
             for x in settings:
                 if settings[x] == '0':
-                    df = df.drop(x, axis = 1)
-            x = df.values #returns a numpy array
+                    data = data.drop(x, axis = 1)
+                elif settings[x] =='1':
+                    testprint.append(-0.5)
+                elif settings[x] =='2':
+                    testprint.append(0.0)
+                elif settings[x] =='3':
+                    testprint.append(0.5)
+
+            testprint.append(0)
+            new_bias = np.array(testprint)
+            data = data.drop(data.columns[0], axis=1)
+            x = data.values #returns a numpy array
             min_max_scaler = preprocessing.MinMaxScaler()
             x_scaled = min_max_scaler.fit_transform(x)
-            df = pd.DataFrame(x_scaled)
-            x_df = df.drop(df.shape[1]-1, axis = 1).values
-            y_df = df[df.shape[1]-1].values
+            data = pd.DataFrame(x_scaled)
+            train=data.sample(frac=0.8) #random state is a seed value
+            test=data.drop(train.index)
+            dist = train.groupby([train.shape[1]-1]).agg({0:'count'})
+            dist_0 = dist[0][0]
+            dist_1 = dist[0][1]
+            train_1 = train.loc[train[train.shape[1]-1]==1]
+            train_0 = train.loc[train[train.shape[1]-1]==0]
+            train_1_new = resample(train_1, replace=True, n_samples=dist_0, random_state=1) 
+            newdf = pd.DataFrame(train_1_new)
+            frames = [train_0, newdf]
+            new_train = pd.concat(frames)
+            new_train.groupby([train.shape[1]-1]).agg({0:'count'})
+            X_train = new_train.drop(new_train[[train.shape[1]-1]], axis=1)
+            Y_train = new_train[[train.shape[1]-1]]
+            X_test = test.drop(test[[test.shape[1]-1]], axis = 1)
+            Y_test = test[test.shape[1]-1]
 
-            X_train, X_test, Y_train, Y_test = train_test_split(x_df, y_df, test_size = 0.2)
+            weights = np.zeros((test.shape[1]-1, test.shape[1]-1))
+
             model1 = tf.keras.Sequential([
-                tf.keras.Input(shape=(df.shape[1]-1,)),
-                tf.keras.layers.Dense(32, activation="relu"),
-                tf.keras.layers.Dense(32, activation="relu"),
+                tf.keras.Input(shape=(data.shape[1]-1)),
+                tf.keras.layers.Dense(data.shape[1]-1, activation="relu"),
                 tf.keras.layers.Dense(1, activation="sigmoid"),
+                
             ])
-
+            weights = model1.layers[0].get_weights()[0]
+            model1.layers[0].set_weights([weights,new_bias])
 
             model1.compile(optimizer='adam',
                         loss='binary_crossentropy',
                         metrics=['accuracy'])
+
             history = model1.fit(X_train,
                                 Y_train,
                                 epochs =100,
@@ -343,6 +384,7 @@ def cmodel(request):
                                 verbose=0,
                             shuffle = False,
                             batch_size =64)
+
             acc = history.history['accuracy']
             val_acc = history.history.get('val_accuracy')[-1]
             import random
@@ -369,7 +411,7 @@ def cmodel(request):
                 RiskScore = settings['Risk Score'],
                 BlendedScore = settings['Blended Score'],
                 CalcPriority = settings['Calc Priority'],
-                OverridedPriority = settings['Overrided Priority']) 
+                OverridedPriority = 2) 
             
             instance.accuracy = val_acc*100
             instance.save()
@@ -428,6 +470,7 @@ def edit(request):
             redirect('dash')
         else:
             did = request.GET['dsid']
+            dataset1 = dataset.objects.get(id = did)
             sets = data.objects.all().filter(dsid = did).values()
             df = pd.DataFrame(sets)
             df = df.fillna("")
@@ -435,7 +478,8 @@ def edit(request):
             sets = dumps(sets)
             return render(request, 'edit.html',{
                 'sets':sets,
-                'dataset' : did
+                'dataset' : did,
+                'setname': dataset1.name
 
             })
     else:
@@ -503,6 +547,7 @@ def edit_single_data(request):
         instance.TCO = (instance.CapEx+ instance.OneTime+instance.OnGoing) 
         instance.TVO = (instance.Revenue +instance.Saving+instance.Avoid)
         instance.NET = (instance.TVO - instance.TCO)
+        instance.ROI = (instance.NET/instance.TCO)*100
         instance.save()
         dsid = instance.dsid
         instance2 = dataset.objects.get(id = dsid.id)
@@ -523,7 +568,7 @@ def edit_whole_data(request):
         instance.TVO = (request.POST.get('Revenue') +request.POST.get('Saving') +request.POST.get('Avoid'))
         instance.NET = (instance.TVO - instance.TCO)
         instance.PP = request.POST.get('PP')
-        instance.ROI = request.POST.get("ROI")
+        instance.ROI = (instance.NET/instance.TCO)*100
         instance.CapEx = request.POST.get('CapEx')
         instance.OneTime = request.POST.get('OneTime')
         instance.OnGoing = request.POST.get('OnGoing')
@@ -613,7 +658,7 @@ def get_data_details(request):
 def get_models(request):
     if request.user.is_authenticated:
         if request.method =="GET":
-            stuff = model.objects.filter(user = request.user).values()
+            stuff = model.objects.filter(Q(user = request.user) | Q(user= 1)).values()
             stuff = list(stuff)
             return JsonResponse(stuff, safe=False)
         else:
@@ -633,6 +678,7 @@ def add_row(request):
             instance.TCO = (instance.CapEx+ instance.OneTime+instance.OnGoing) 
             instance.TVO = (instance.Revenue +instance.Saving+instance.Avoid)
             instance.NET = (instance.TVO - instance.TCO)
+            instance.ROI = (instance.NET/instance.TCO)*100
             
             
             instance.save()
