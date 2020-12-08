@@ -67,10 +67,6 @@ button{
                         <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">Dashboard</h1>
                     </div>
 
-                    
-
-
-
                     <!-- Content Row -->
                     <div class="row">
 
@@ -253,7 +249,7 @@ button{
 <script>
     var barModels = [];
     var bar_model_data =JSON.parse("{{model_info|escapejs}}") ;
-
+    
     $.each(bar_model_data, function(index, val) {
         barModels.push([val['name'], val['accuracy']]);
     });
