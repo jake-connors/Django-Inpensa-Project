@@ -26,10 +26,10 @@
   #dropbtn {
     all:unset;
     margin-top: 15px;
-    border-radius:10px;
+    border-radius:7px !important;
+    border-color: black !important;
     background-color: #e6e6e6 !important; 
     color: black;
-    border: 0px!important; 
     cursor: pointer;
     padding:5px;
   } 
@@ -70,7 +70,6 @@
   
   #dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover {
     background-color: #b6b6b6 !important;
-    border: 0 !important;
   }
   #createNewModel:hover{
     background-color: white !important;
@@ -171,14 +170,11 @@
   }
 
   .configSettings {
-    /*height: 550px; */
     width: 100%;
     height: 50vh; 
-
     overflow: auto;
     font-size: 2vh;
     margin-bottom: 50px;
-    /*font-size: 115%; */
     line-height: 1.2vh !important;
 
   }
@@ -196,6 +192,7 @@
   .lbs {
     position: relative;
     font-weight: bold;
+    bottom: -15px;
   }
 
   .slider {
@@ -214,7 +211,7 @@
     width: 33px !important;
     height: 33px !important;
   }
-  .slider-tick.round.in-selection {
+  .slider-tick.round.in-selection, .slider-tick.round {
     width: 30px;
     height: 30px;
   }
@@ -229,14 +226,7 @@
     width: 10%;
     position: relative;
     left: 15%;
-    bottom: 5vh;
-  }
-
-  .toggleDisplay, .toggleDisplay2 {
-    display: none;
-  }
-  .toggleDisplay.in, .toggleDisplay2.in {
-    display: table-cell;
+    bottom: 7vh;
   }
 
   body {
@@ -264,12 +254,6 @@ td{
   margin-bottom: 0;
   text-align: center;
 }
-  /*
-  .slider-selection.tick-slider-selection {
-    background-image: linear-gradient(to bottom, #E5E5E5, #E9E9E9) !important;
-  } */
-
-
 
 </style>
 
@@ -396,54 +380,94 @@ td{
           <label style="font-size:115%"><b>Configuration settings:</b></label><br>
           <label for="Exclude" style="color:rgb(77, 77, 77);font-size:115%;padding-left:18%"><b>Exclude</b></label>
           <div class="configSettings">
-            <label class="lbs" for="TCO">TCO</label>
-            <input id="ex1" name="TCO" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
-            <input id="ex1-enabled" name="TCO" class="excludeBtn" type="checkbox" value=0 style="margin-top:1%;"/><br>
+            <label class="lbs" for="TCO" style="top: 15px">TCO</label>
+            <div id="slide1">
+              <input id="ex1" name="TCO" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex1-enabled" name="TCO" onclick=disableFunc() class="excludeBtn" type="checkbox" value=0 style="margin-top:1%"/><br>
             <label class="lbs" for="TVO">TVO</label>
-            <input id="ex2" name="TVO" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide2">
+              <input id="ex2" name="TVO" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex2-enabled" name="TVO" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="NET">NET</label>
-            <input id="ex3" name="NET" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide3">
+              <input id="ex3" name="NET" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex3-enabled" name="NET" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="PP">PP</label>
-            <input id="ex4" name="PP" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2"data-slider-tooltip="hide"  data-slider-enabled="true"/>
+            <div id="slide4">
+              <input id="ex4" name="PP" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2"data-slider-tooltip="hide"  data-slider-enabled="true"/>
+            </div>
             <input id="ex4-enabled" name="PP" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="ROI">ROI</label>
-            <input id="ex5" name="ROI" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide5">
+              <input id="ex5" name="ROI" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex5-enabled" name="ROI" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="CapEx">CapEx</label>
-            <input id="ex6" name="CapEx" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide6">
+              <input id="ex6" name="CapEx" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex6-enabled" name="CapEx" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="OneTime">OneTime</label>
-            <input id="ex7" name="OneTime" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide7">
+              <input id="ex7" name="OneTime" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex7-enabled" name="OneTime" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="OnGoing">OnGoing</label>
-            <input id="ex8" name="OnGoing" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide8">
+              <input id="ex8" name="OnGoing" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex8-enabled" name="OnGoing" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="Revenue">Revenue</label>
-            <input id="ex9" name="Revenue" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide9">
+              <input id="ex9" name="Revenue" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex9-enabled" name="Revenue" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="Saving">Saving</label>
-            <input id="ex10" name="Saving" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide10">
+              <input id="ex10" name="Saving" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex10-enabled" name="Saving" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="Avoid">Avoid</label>
-            <input id="ex11" name="Avoid" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide11">
+              <input id="ex11" name="Avoid" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex11-enabled" name="Avoid" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="CostGrade">Cost Grade</label>
-            <input id="ex12" name="CostGrade" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide12">
+              <input id="ex12" name="CostGrade" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex12-enabled" name="CostGrade" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="ValueScore">Value Score</label>
-            <input id="ex13" name="ValueScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide13">
+              <input id="ex13" name="ValueScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex13-enabled" name="ValueScore" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="RiskScore">Risk Score</label>
-            <input id="ex14" name="RiskScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide14">
+              <input id="ex14" name="RiskScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex14-enabled" name="RiskScore" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="BlendedScore">Blended Score</label>
-            <input id="ex15" name="BlendedScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide15">
+              <input id="ex15" name="BlendedScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex15-enabled" name="BlendedScore" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <label class="lbs" for="CalcPriority">Calc Priority</label>
-            <input id="ex16" name="CalcPriority" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            <div id="slide16">
+              <input id="ex16" name="CalcPriority" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
             <input id="ex16-enabled" name="CalcPriority" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+<<<<<<< HEAD
+            <label class="lbs" for="OverridedPriority">Overrided Priority</label>
+            <div id="slide17">
+              <input id="ex17" name="OverridedPriority" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex17-enabled" name="OverridedPriority" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+=======
+>>>>>>> e84f815922ca67e9087ed330155f666c2b386123
             <hidden id="datasetid" name="dsid", name={{dataset}}></hidden>
           </div>
         <button type="submit" class="btn" style="font-size:110%">Submit</button>
@@ -451,88 +475,97 @@ td{
       </form>
       </div>
     </div>
+
     
     <script>
       $("#ex1").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex1-enabled").click(function() {
-        if(this.checked) { $("#ex1").slider("disable");  }
-        else { $("#ex1").slider("enable");}
+        if(this.checked) { $("#ex1").slider("disable"); document.getElementById("slide1").style.display = "none"; document.getElementById("ex1-enabled").style.top = "-8px"; }
+        else { $("#ex1").slider("enable"); document.getElementById("slide1").style.display = "block"; document.getElementById("ex1-enabled").style.top = "-60px";}
       });
       $("#ex2").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex2-enabled").click(function() {
-        if(this.checked) { $("#ex2").slider("disable"); }
-        else { $("#ex2").slider("enable");}
+        if(this.checked) { $("#ex2").slider("disable"); document.getElementById("slide2").style.display = "none"; document.getElementById("ex2-enabled").style.top = "-8px"; }
+        else { $("#ex2").slider("enable"); document.getElementById("slide2").style.display = "block"; document.getElementById("ex2-enabled").style.top = "-60px"; }
       });
       $("#ex3").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex3-enabled").click(function() {
-        if(this.checked) { $("#ex3").slider("disable"); }
-        else { $("#ex3").slider("enable");}
+        if(this.checked) { $("#ex3").slider("disable"); document.getElementById("slide3").style.display = "none"; document.getElementById("ex3-enabled").style.top = "-8px"; }
+        else { $("#ex3").slider("enable"); document.getElementById("slide3").style.display = "block"; document.getElementById("ex3-enabled").style.top = "-60px"; }
       });
       $("#ex4").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex4-enabled").click(function() {
-        if(this.checked) { $("#ex4").slider("disable"); }
-        else { $("#ex4").slider("enable");}
+        if(this.checked) { $("#ex4").slider("disable"); document.getElementById("slide4").style.display = "none"; document.getElementById("ex4-enabled").style.top = "-8px"; }
+        else { $("#ex4").slider("enable"); document.getElementById("slide4").style.display = "block"; document.getElementById("ex4-enabled").style.top = "-60px"; }
       });
       $("#ex5").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex5-enabled").click(function() {
-        if(this.checked) { $("#ex5").slider("disable"); }
-        else { $("#ex5").slider("enable");}
+        if(this.checked) { $("#ex5").slider("disable"); document.getElementById("slide5").style.display = "none"; document.getElementById("ex5-enabled").style.top = "-8px"; }
+        else { $("#ex5").slider("enable"); document.getElementById("slide5").style.display = "block"; document.getElementById("ex5-enabled").style.top = "-60px"; }
       });
       $("#ex6").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex6-enabled").click(function() {
-        if(this.checked) { $("#ex6").slider("disable"); }
-        else { $("#ex6").slider("enable");}
+        if(this.checked) { $("#ex6").slider("disable"); document.getElementById("slide6").style.display = "none"; document.getElementById("ex6enabled").style.top = "-8px"; }
+        else { $("#ex6").slider("enable"); document.getElementById("slide6").style.display = "block"; document.getElementById("ex6-enabled").style.top = "-60px"; }
       });
       $("#ex7").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex7-enabled").click(function() {
-        if(this.checked) { $("#ex7").slider("disable"); }
-        else { $("#ex7").slider("enable");}
+        if(this.checked) { $("#ex7").slider("disable"); document.getElementById("slide7").style.display = "none"; document.getElementById("ex7-enabled").style.top = "-8px"; }
+        else { $("#ex7").slider("enable"); document.getElementById("slide7").style.display = "block"; document.getElementById("ex7-enabled").style.top = "-60px"; }
       });
       $("#ex8").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex8-enabled").click(function() {
-        if(this.checked) { $("#ex8").slider("disable"); }
-        else { $("#ex8").slider("enable");}
+        if(this.checked) { $("#ex8").slider("disable"); document.getElementById("slide8").style.display = "none"; document.getElementById("ex8-enabled").style.top = "-8px"; }
+        else { $("#ex8").slider("enable"); document.getElementById("slide8").style.display = "block"; document.getElementById("ex8-enabled").style.top = "-60px"; }
       });
       $("#ex9").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex9-enabled").click(function() {
-        if(this.checked) { $("#ex9").slider("disable"); }
-        else { $("#ex9").slider("enable");}
+        if(this.checked) { $("#ex9").slider("disable"); document.getElementById("slide9").style.display = "none"; document.getElementById("ex9-enabled").style.top = "-8px"; }
+        else { $("#ex9").slider("enable"); document.getElementById("slide9").style.display = "block"; document.getElementById("ex9-enabled").style.top = "-60px"; }
       });
       $("#ex10").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex10-enabled").click(function() {
-        if(this.checked) { $("#ex10").slider("disable"); }
-        else { $("#ex10").slider("enable");}
+        if(this.checked) { $("#ex10").slider("disable"); document.getElementById("slide10").style.display = "none"; document.getElementById("ex10-enabled").style.top = "-8px"; }
+        else { $("#ex10").slider("enable"); document.getElementById("slide10").style.display = "block"; document.getElementById("ex10-enabled").style.top = "-60px"; }
       });
       $("#ex11").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex11-enabled").click(function() {
-        if(this.checked) { $("#ex11").slider("disable"); }
-        else { $("#ex11").slider("enable");}
+        if(this.checked) { $("#ex11").slider("disable"); document.getElementById("slide11").style.display = "none"; document.getElementById("ex11-enabled").style.top = "-8px"; }
+        else { $("#ex11").slider("enable"); document.getElementById("slide11").style.display = "block"; document.getElementById("ex11-enabled").style.top = "-60px"; }
       });
       $("#ex12").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex12-enabled").click(function() {
-        if(this.checked) { $("#ex12").slider("disable"); }
-        else { $("#ex12").slider("enable");}
+        if(this.checked) { $("#ex12").slider("disable"); document.getElementById("slide12").style.display = "none"; document.getElementById("ex12-enabled").style.top = "-8px"; }
+        else { $("#ex12").slider("enable"); document.getElementById("slide12").style.display = "block"; document.getElementById("ex12-enabled").style.top = "-60px"; }
       });
       $("#ex13").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex13-enabled").click(function() {
-        if(this.checked) { $("#ex13").slider("disable"); }
-        else { $("#ex13").slider("enable");}
+        if(this.checked) { $("#ex13").slider("disable"); document.getElementById("slide13").style.display = "none"; document.getElementById("ex13-enabled").style.top = "-8px"; }
+        else { $("#ex13").slider("enable"); document.getElementById("slide13").style.display = "block"; document.getElementById("ex13-enabled").style.top = "-60px"; }
       });
       $("#ex14").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex14-enabled").click(function() {
-        if(this.checked) { $("#ex14").slider("disable"); }
-        else { $("#ex14").slider("enable");}
+        if(this.checked) { $("#ex14").slider("disable"); document.getElementById("slide14").style.display = "none"; document.getElementById("ex14-enabled").style.top = "-8px"; }
+        else { $("#ex14").slider("enable"); document.getElementById("slide15").style.display = "block"; document.getElementById("ex14-enabled").style.top = "-60px"; }
       });
       $("#ex15").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex15-enabled").click(function() {
-        if(this.checked) { $("#ex15").slider("disable"); }
-        else { $("#ex15").slider("enable");}
+        if(this.checked) { $("#ex15").slider("disable"); document.getElementById("slide15").style.display = "none"; document.getElementById("ex15-enabled").style.top = "-8px"; }
+        else { $("#ex15").slider("enable"); document.getElementById("slide15").style.display = "block"; document.getElementById("ex15-enabled").style.top = "-60px"; }
       });
       $("#ex16").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
-      $("#ex1-enabled").click(function() {
-        if(this.checked) { $("#ex1").slider("disable"); }
-        else { $("#ex1").slider("enable");}
+      $("#ex16-enabled").click(function() {
+        if(this.checked) { $("#ex16").slider("disable"); document.getElementById("slide16").style.display = "none"; document.getElementById("ex16-enabled").style.top = "-8px"; }
+        else { $("#ex16").slider("enable"); document.getElementById("slide16").style.display = "block"; document.getElementById("ex16-enabled").style.top = "-60px"; }
       });
+<<<<<<< HEAD
+      $("#ex17").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex17-enabled").click(function() {
+        if(this.checked) { $("#ex17").slider("disable"); document.getElementById("slide17").style.display = "none"; document.getElementById("ex17-enabled").style.top = "-8px"; }
+        else { $("#ex17").slider("enable"); document.getElementById("slide17").style.display = "block"; document.getElementById("ex17-enabled").style.top = "-60px"; }
+      }); 
+=======
+>>>>>>> e84f815922ca67e9087ed330155f666c2b386123
 </script>
 
 <script>
@@ -1228,10 +1261,6 @@ $(document).on('click', '.unapprove', function(event){
             
   </div>
   </div>
-<script type="text/javascript">
-$("#expand2").click(function() {
-    $(".table .toggleDisplay2").toggleClass("in");
-});
-</script>
+
 
 {% endblock %}
