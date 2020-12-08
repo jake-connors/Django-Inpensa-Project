@@ -71,17 +71,23 @@ def dash(request):
         sets = dataset.objects.all().filter(user = request.user).values()
         sets2 =  model.objects.all().filter(user = request.user).values()
         df = pd.DataFrame(sets2)
-        df = df[['name', 'accuracy']]
-        if(df.shape[0]>5):
-            df= df.shape()
-        df= df.sort_values(by=['accuracy'], ascending=False)
-        model_info = df.to_dict('records')
+        if(df.shape[0]!= 0):
+            df = df[['name', 'accuracy']]
+            if(df.shape[0]>5):
+                df= df.shape()
+            df= df.sort_values(by=['accuracy'], ascending=False)
+            model_info = df.to_dict('records')
+        else:
+            model_info=0
         df2 = pd.DataFrame(sets)
-        df2= df2.sort_values(by=['updated_at'], ascending=False)
-        df2 = df2[['name', 'budget', 'approved']]
-        df2 =df2.fillna(0)
-        df2 = df2.head()
-        budget_info = df2.to_dict('records')
+        if(df2.shape[0] != 0):
+            df2= df2.sort_values(by=['updated_at'], ascending=False)
+            df2 = df2[['name', 'budget', 'approved']]
+            df2 =df2.fillna(0)
+            df2 = df2.head()
+            budget_info = df2.to_dict('records')
+        else:
+            budget_info=0
 
         return render(request, 'dashboard.html',{
             'sets': sets,
@@ -756,6 +762,24 @@ def unapprove(request):
             dinstance.approved = total_approved
             dinstance.save()
             return JsonResponse({'status':'success'}, safe=False)
+        else:
+            raise Http404
+    else:
+        raise Http404
+
+@csrf_exempt
+def new_name(request):
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            datasetid = request.POST['datasetid']
+            new_name= request.POST['new_name']
+            instance = dataset.objects.get(id = datasetid)
+            instance.name = new_name
+            instance.save()
+            if (instance.name == new_name):
+                return JsonResponse({'status':'success'}, safe=False)
+            else:
+                return JsonResponse({'status':'error'}, safe=False)
         else:
             raise Http404
     else:
