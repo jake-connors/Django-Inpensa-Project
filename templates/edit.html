@@ -793,13 +793,101 @@ $(document).ready(function($)
 			}
 		});
 	});
+
+	 //--->make setname editable > start
+	 $(document).on('click', '.setname', function(event) 
+  {
+    event.preventDefault(); 
+
+    if($(this).attr('edit_type') == 'button')
+    {
+      return false; 
+    }
+
+    //make div editable
+    $(this).closest('div').attr('contenteditable', 'true');
+    //add bg css
+    $(this).addClass('bg-light').css('padding','5px');
+
+    $(this).focus();
+
+    $(this).attr('original_entry', $(this).html());
+
+  })	
+  //--->make div editable > end
+
+  //--->save budget field data > start
+  $(document).on('focusout', '.setname', function(event) 
+  {
+    event.preventDefault();
+
+    if($(this).attr('edit_type') == 'button')
+    {
+      return false; 
+    }
+
+    //get the original entry
+    var original_entry = $(this).attr('original_entry');
+
+
+    
+    var row_div = $(this)				
+    .removeClass('bg-light') //add bg css
+    .css('padding','')
+    var div_val = row_div.html(); 
+
+
+    if(original_entry != div_val)
+    { 
+      //remove the attr so that new entry can take place
+      
+      if( div_val == ""){
+        alert("Portfolio name cannot be left blank!");
+      }
+      else{
+        $(this).attr
+
+        //ajax api json data			 
+        var data_obj = 
+        {
+          'datasetid':dsid,
+          'new_name':div_val
+                  
+        };
+
+        //call ajax api to update the database record
+        $.post("/ajax/new_name/", data_obj, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            alert('There was an error while trying to update your entry');
+          }
+          else if(d1.status == "success")
+          {
+            $(document).find('.setname').html('<h6 style="font-size: 30px; float:right; margin-top: 26px; margin-right: 44.5vw">'+div_val+'</h6>');
+           }
+         });
+      }
+    }
+    else
+    {
+      //$('.post_msg').html('');
+    }
+    
+  })	
  
 	
 });
 </script>
+<script>
+	var givenname = "{{setname|escapejs}}";
+	alert(givenname); 
+	$(document).find('.setname').html('<h6 style="font-size: 30px; float:right; margin-top: 26px; margin-right: 44.5vw">'+givenname+'</h6>');
+</script>
  
 
-	<h6 style="font-size: 30px; float:right; margin-top: 26px; margin-right: 44.5vw">dataname</h6>
+	<div class="setname"></div>
 
 	<div style="padding-top: 4px; padding-bottom: 0; margin: 0"></div>
 
