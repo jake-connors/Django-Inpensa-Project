@@ -249,7 +249,7 @@ button{
 <script>
     var barModels = [];
     var bar_model_data =JSON.parse("{{model_info|escapejs}}") ;
-
+    
     $.each(bar_model_data, function(index, val) {
         barModels.push([val['name'], val['accuracy']]);
     });
