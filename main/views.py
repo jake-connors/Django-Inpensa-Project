@@ -70,7 +70,17 @@ def dash(request):
     if request.user.is_authenticated:
         sets = dataset.objects.all().filter(user = request.user).values()
         sets2 =  model.objects.all().filter(user = request.user).values()
+        df2 = pd.DataFrame(sets)
         df = pd.DataFrame(sets2)
+        df4 = df
+        df3 = df2
+        if(df3.shape[0]!= 0):
+            df3 = df3.sort_values(by=['updated_at'], ascending=False)
+
+        sorted_sets = df3.to_dict('records');
+        if(df.shape[0] != 0):
+            df4 = df4.sort_values(by=['updated_at'], ascending=False)
+        sorted_models = df4.to_dict('records');
         if(df.shape[0]!= 0):
             df = df[['name', 'accuracy']]
             if(df.shape[0]>5):
@@ -90,8 +100,8 @@ def dash(request):
             budget_info=0
 
         return render(request, 'dashboard.html',{
-            'sets': sets,
-            'sets2': sets2,
+            'sets': sorted_sets,
+            'sets2': sorted_models,
             'budget_info':dumps(budget_info),
             'model_info':dumps(model_info)
         })
@@ -494,7 +504,8 @@ def edit(request):
 def dataList(request):
     sets = dataset.objects.all().filter(user = request.user).values()
     df = pd.DataFrame(sets)
-    df = df[['id', 'name']]
+    if(df.shape[0] != 0):
+        df = df[['id', 'name']]
     sets = df.to_dict('records')
     sets = dumps(sets)
     return JsonResponse(sets, safe=False)
