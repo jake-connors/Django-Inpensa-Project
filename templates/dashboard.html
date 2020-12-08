@@ -164,7 +164,7 @@ button{
                                     </form>
                                     <form style="margin:0; padding:0; border:0">
                                         <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:67%; float:center">
-                                            <button formaction="/edit" formmethod="get" type ="submit" name="dsid" style="background-color: #f6c23e; text-align:center; padding: 2px 0; color: white" value={{data.id}}>Edit</button>
+                                            <button formaction="/edit" formmethod="get" type ="submit" name="dsid" style="background-color: #56c7e2; text-align:center; padding: 2px 0; color: white" value={{data.id}}>Edit</button>
                                                 {% csrf_token %}
                                             <button formaction="/delete_dataset/" formmethod="post" type ="submit" name="dsid" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value={{data.id}}>Delete</button>
                                         </div>   
@@ -191,7 +191,7 @@ button{
                                         <form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">
                                             {% csrf_token %}
                                             <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">
-                                                <button type ="submit" name="model" style="background-color: #b00c0c; text-align:center; padding: 2px 0; color:white" value={{data.id}}>Delete</button>
+                                                <button type ="submit" name="model" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value={{data.id}}>Delete</button>
                                             </div>   
                                         </form>   
                                         <br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br>
