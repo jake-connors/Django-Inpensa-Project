@@ -75,15 +75,19 @@ def dash(request):
         df4 = df
         df3 = df2
         if(df3.shape[0]!= 0):
+            df3 = df3.fillna(0)
             df3 = df3.sort_values(by=['updated_at'], ascending=False)
             df3['created_at'] = df3['created_at'].astype(str)
             df3['updated_at'] = df3['updated_at'].astype(str)
+            print(df3)
 
         sorted_sets = df3.to_dict('records');
-        if(df.shape[0] != 0):
+        if(df4.shape[0] != 0):
+            df4 =df4.fillna(0)
             df4 = df4.sort_values(by=['updated_at'], ascending=False)
             df4['created_at'] = df4['created_at'].astype(str)
             df4['updated_at'] = df4['updated_at'].astype(str)
+            print(df4)
 
         sorted_models = df4.to_dict('records');
         if(df.shape[0]!= 0):
