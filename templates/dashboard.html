@@ -161,13 +161,58 @@ button{
                                                 modal.style.display = "none";
                                             }
                                             }
+
                                             </script>
            <!-- End Modal -->
+                                            <script>
+                                                // for the set list
+                                                var form_add = "";
+                                                var sets_data = JSON.parse("{{sets|escapejs}}");
+                                                $.each(sets_data, function (index, val){
+                                                    form_add += '<form action = "/view" method="get" style="margin:0; padding:0; border:0">'
+                                                    form_add += '<h4 class="small font-weight-bold">Name: ' + val['name'] +'</h4>';
+                                                    form_add += '<h4 class="small font-weight-bold">Size: ' + val['size'] +'</h4>';
+                                                    form_add += '<h4 class="small font-weight-bold">Total Budget: $' + val['budget'].toLocaleString() +'</h4>';
+                                                    form_add += '<h4 class="small font-weight-bold">Approved Projects Value: $' + val['approved'].toLocaleString() +'</h4>';
+                                                    form_add += '<h4 class="small font-weight-bold">Creation Date: ' + val['created_at'] +'</h4>';
+                                                    form_add += '<h4 class="small font-weight-bold">Last Updated: ' + val['updated_at'] +'</h4>';
+                                                    form_add += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%; float:left; padding:0">';
+                                                    form_add += '<button type ="submit" name="datasetid" style="background-color: #4e73df; text-align:center; padding: 2px 0; color:white" value=' + val['id'] + '>View Data</button> </div> </form>';
+                                                    form_add += '<form style="margin:0; padding:0; border:0">';
+                                                    form_add += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:67%; float:center">';
+                                                    form_add += '<button formaction="/edit" formmethod="get" type ="submit" name="dsid" style="background-color: #56c7e2; text-align:center; padding: 2px 0; color: white" value=' + val['id'] + '>Edit</button>'
+                                                    form_add += '{% csrf_token %}'
+                                                    form_add += '<button formaction="/delete_dataset/" formmethod="post" type ="submit" name="dsid" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' + val['id'] + '>Delete</button> </div> </form>'
+                                                });
+
+                                                // for the model list
+                                                var form_add2 = "";
+                                                var sets2_data = JSON.parse("{{sets2|escapejs}}");
+                                                $.each(sets2_data, function(index, val){
+                                                    form_add2 += '<table style="border-bottom: 2px;">'
+                                                    form_add2 += '<h4 class="small font-weight-bold">Name: ' + val['name'] + '</h4>'
+                                                    form_add2 += '<h4 class="small font-weight-bold">Description: ' + val['details'] + '</h4>'
+                                                    form_add2 += '<h4 class="small font-weight-bold">Creation Date: ' + val['created_at'] + '</h4>'
+                                                    form_add2 += '<h4 class="small font-weight-bold">Accuracy: ' + val['accuracy'].toFixed(4) + '</h4>'
+                                                    form_add2 += '<form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">'
+                                                    form_add2 += '{% csrf_token %}'
+                                                    form_add2 += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">'
+                                                    form_add2 += '<button type ="submit" name="model" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' +val['id'] + '>Delete</button> </div> </form>'
+                                                    form_add2 += '<br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br> </table>'
+                                                });
+
+                                                $(document).find('.portfolio_list').html(form_add);
+                                                $(document).find('.model_list').html(form_add2);
+                                            </script>
+            <!-- End Lists JS -->
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body" style="overflow-y: auto; max-height:90vh">
-                                {% for data in sets %}
+                                    <div class="portfolio_list">
+
+                                    </div>
+ <!----                              {% for data in sets %}
                                     <form action = "/view" method="get" style="margin:0; padding:0; border:0">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
                                         <h4 class="small font-weight-bold">Size: {{data.size}}</h4>
@@ -186,7 +231,7 @@ button{
                                             <button formaction="/delete_dataset/" formmethod="post" type ="submit" name="dsid" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value={{data.id}}>Delete</button>
                                         </div>   
                                     </form>    
-                                {% endfor %}
+                                {% endfor %}                    -->
                                 </div>
                             </div>
                         </div>
@@ -199,7 +244,10 @@ button{
                                     <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Model List</h6>
                                 </div>
                                 <div class="card-body" style="overflow-y:auto; max-height: 90vh">
-                                    {% for data in sets2 %}
+                                    <div class="model_list">
+
+                                    </div>
+ <!----                                   {% for data in sets2 %}
                                     <table style="border-bottom: 2px;">
                                         <h4 class="small font-weight-bold">Name: {{data.name}}</h4>
                                         <h4 class="small font-weight-bold">Description: {{data.details}}</h4>
@@ -213,7 +261,7 @@ button{
                                         </form>   
                                         <br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br>
                                     </table>
-                                    {% endfor %}
+                                    {% endfor %}                           -->
                                 </div>
                             </div>
                         </div>
