@@ -31,6 +31,6 @@ urlpatterns = [
     url(r'^ajax/edit_budget/$', views.edit_budget),
     url(r'^ajax/approve/$', views.approve),
     url(r'^ajax/unapprove/$', views.unapprove),
-     url(r'^ajax/new_name/$', views.new_name),
-    
+    url(r'^ajax/new_name/$', views.new_name),
+    url(r'^ajax/get_pred/$', views.get_pred),
 ]

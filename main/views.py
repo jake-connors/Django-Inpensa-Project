@@ -307,6 +307,7 @@ def predict(request):
             df_records1 = df.to_dict('records')
             return render(request, 'view_dataset.html',{
                 'sets':dumps(df_records1),
+                'mid':modelid,
                 'dataset' : dsetid,
                 'predict':1
 
@@ -791,6 +792,31 @@ def new_name(request):
                 return JsonResponse({'status':'success'}, safe=False)
             else:
                 return JsonResponse({'status':'error'}, safe=False)
+        else:
+            raise Http404
+    else:
+        raise Http404
+@csrf_exempt
+def get_pred(request):
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            datasetid = request.POST['dsid']
+            modelid= request.POST['modelid']
+            datapoints = data.objects.filter(dsid = datasetid).values()
+            preds = prediction.objects.filter(dsid = datasetid, mid = modelid).values()
+            df = pd.DataFrame(datapoints)
+            df1 = pd.DataFrame(preds)
+            df['score'] = df1['score']
+            df = df.fillna(0)
+            df['CalcPriority'] = ['Low' if x== 1.0 else 'Medium' if x == 2.0 else 'High' if x==3.0 else 'Critical' for x in df['CalcPriority']]
+            df['OverridedPriority'] = ['Low' if x== 1 else 'Medium' if x == 2 else 'High' if x==3 else 'Critical' for x in df['OverridedPriority']]
+
+            df = df.sort_values(by = ['accepted','score'], ascending = False)
+            df_records1 = df.to_dict('records')
+            
+            
+
+            return JsonResponse(dumps(df_records1), safe=False)
         else:
             raise Http404
     else:

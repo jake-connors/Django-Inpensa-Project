@@ -60,7 +60,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="height: 1vh; position: sticky; top:0">
 
 
             
@@ -142,12 +142,6 @@
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span></a>
             </li>
-            
-            <!-- Sidebar collapse -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
 
         </ul>
         
@@ -160,6 +154,23 @@
 
         <!-- Main Content -->        
     <div id="fullbody">
+        <button style="margin-top: 8px; margin-left: 2px; color: gray; background-color: white; width: 2.5vw; font-size: 26px; text-align: center; padding: 2px; border-radius: 24px" onclick="hideBar()">☰</button> <!-- old blue: #4e73df -->
+
+        <script>
+            function hideBar() {
+              var x = document.getElementById("accordionSidebar");
+              if (x.style.display === "none") {
+                x.style.display = "block";
+                //document.getElementByID("content-wrapper").style.width = "96vw";
+                //document.getElementsByClassName("tbl_user_data").style.width = "94vw"
+              } else {
+                x.style.display = "none";
+                //document.getElementByID("content-wrapper").style.width = "88vw";
+                //document.getElementsByClassName("tbl_user_data").style.width="85vw";
+              }
+            }
+            </script>
+
         {% block content %}
         {% endblock %}
     </div>
