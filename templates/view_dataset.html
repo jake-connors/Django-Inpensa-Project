@@ -600,7 +600,7 @@ const formatter = new Intl.NumberFormat('en-US', {
       var predict = JSON.parse("{{predict|escapejs}}");
 $(document).ready(async function($)
 { 	 
-
+  var modelid = "{{mid|escapejs}}";
   var DATA_NAME = '';
   var DATA_BUDGET = 0;
   var tco_val = 0;
@@ -1094,10 +1094,32 @@ $(document).ready(async function($)
                       }
                       //if it's a prediction just take the data passed over
                       else{
-                          var data = "{{sets|escapejs}}";
-                          create_html_table(data, DATA_BUDGET);
+                      
+                      $.ajax({
+                      type: 'post',
+                      url: "/ajax/get_pred/",
+                      dataType: "json",
+                      data: {
+                        dsid: dsid,
+                        modelid:modelid
 
-                      } 
+                      },
+                      error: function(xhr,textStatus,err){
+                          console.log("readyState: " + xhr.readyState);
+                      console.log("responseText: "+ xhr.responseText);
+                      console.log("status: " + xhr.status);
+                      console.log("text status: " + textStatus);
+                      console.log("error: " + err);
+                      },
+                      success: function(data){
+                        create_html_table(data, DATA_BUDGET);
+                      },
+                      failure: function(){
+                        alert('An error occured: Please try again');
+                      }
+                      });
+
+                    } 
                     
             },
             failure: function(){
@@ -1110,6 +1132,7 @@ $(document).ready(async function($)
   //---> save project as approved end
 
 //---> save projects as unapproved start
+
 $(document).on('click', '.unapprove', function(event){
     var unapproved = '';
     $.each($("input[name='deselect']:checked"), function(){
@@ -1179,8 +1202,29 @@ $(document).on('click', '.unapprove', function(event){
                       //if it's a prediction just take the data passed over
                       else{
                       
-                          var data = "{{sets|escapejs}}";
+                        $.ajax({
+                        type: 'post',
+                        url: "/ajax/get_pred/",
+                        dataType: "json",
+                        data: {
+                          dsid: dsid,
+                          modelid:modelid
+
+                        },
+                        error: function(xhr,textStatus,err){
+                            console.log("readyState: " + xhr.readyState);
+                        console.log("responseText: "+ xhr.responseText);
+                        console.log("status: " + xhr.status);
+                        console.log("text status: " + textStatus);
+                        console.log("error: " + err);
+                        },
+                        success: function(data){
                           create_html_table(data, DATA_BUDGET);
+                        },
+                        failure: function(){
+                          alert('An error occured: Please try again');
+                        }
+                        });
 
                       } 
                     
