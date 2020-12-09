@@ -29,6 +29,16 @@
 .highcharts-credits{
     display:none
 }
+.highcharts-color-1 {
+  fill: rgb(0, 80, 185);
+}
+.highcharts-color-2 {
+  fill: rgb(184, 0, 53);
+}
+.highcharts-color-3 {
+  fill: rgb(0, 199, 217);
+}
+
 
 /* The Close Button */
 .close {
@@ -55,9 +65,12 @@ button{
     box-shadow: 0px 0px white;
 }
 
-#container {
-    width: 200%;
+.highcharts-figure, .highcharts-data-table table {
+    min-width:80vw; 
+    max-width: 90vw;
+    margin: 1em auto;
 }
+
 
 
 </style>
@@ -250,23 +263,23 @@ button{
         </div>
     </div>
 <script>
-    /*
-    $.each(bar_model_data, function(index, val) {
-        barModels.push([val['name'], val['accuracy']]);
-    });
-    */
 
     var pieModels = [];
     var pieModelsInner = [];
     var color_data = [
-                        {'colorInner' : '#0000FF', 'colorOuter1' : '#0077FF', 'colorOuter2' : '#77B7FF'},
-                        {'colorInner' : '#FF0000', 'colorOuter1' : '#FF5454', 'colorOuter2' : '#FFA0A0'},
-                        {'colorInner' : '#f6c23e', 'colorOuter1' : '#f8d069', 'colorOuter2' : '#ffe4a0'},
+                        {'colorInner' : '#0000FF', 'colorOuter1' : '#0050B9', 'colorOuter2' : '#77B7FF'},
+                        {'colorInner' : '#FF0000', 'colorOuter1' : '#B80035', 'colorOuter2' : '#FFA0A0'},
+                        {'colorInner' : '#f6c23e', 'colorOuter1' : '#00C7D9', 'colorOuter2' : '#ffe4a0'},
                         {'colorInner' : ' #00FF00', 'colorOuter1' : '#61FF61', 'colorOuter2' : '#9BFF9B'},
                         {'colorInner' : '#FF7F00', 'colorOuter1' : '#FFAA54', 'colorOuter2' : '#FFCE9C'}
     ];
     var bar_model_data =JSON.parse("{{model_info|escapejs}}") ;
     var budget_data = JSON.parse("{{budget_info|escapejs}}");
+    var color_data_3 = []
+
+    for (i = 0; i < budget_data.length; i += 1) {
+        color_data_3.push(color_data[i].colorInner)
+    }
     
     for (i = 0; i < budget_data.length; i += 1) {
         pieModels.push({
@@ -286,32 +299,9 @@ button{
         pieModelsInner.push({
             name: budget_data[i].name, 
             y: budget_data[i].budget, 
-            color: color_data[i].colorInner
+            color: color_data[i].colorOuter1
         });
     }
-    
-
-       /*
-
-    var barModels = [];
-
-    barModels.push({
-        type: "column", 
-        name: "Total Budget",
-        data: budget_values_total,
-    },
-    {
-        type: "column",
-        name: "Total Approved",
-        data: budget_values_approved,
-    },
-    {
-        type: "column",
-        name: "Total Remaining", 
-        data: budget_values_remaining, 
-    });
-    */
-
 
 
 
@@ -344,35 +334,37 @@ button{
             items: [{
                 html: 'pie chart name',
                 style: {
-                    left: '80px',
+                    left: '40px',
                     top: '-40px',
                     color: ( // theme
                         Highcharts.defaultOptions.title.style &&
-                        Highcharts.defaultOptions.title.style.color
+                        Highcarts.defaultOptions.title.style.color
                     ) || 'black'
                 }
             }]
         },
-        plotOptions: {
-            pie: {
-                dataLabels: {
-                    enabled: false
-                },
-                shadow: false,
-                center: ['50%', '50%']
-            }
-        },
         series: [{
+            type:'column',
+            showInLegend: false,
+            name: ''
+        },  {
+            type: 'column',
+            showInLegend: false,
+            name: ''
+        },  {
             type: 'column',
             name: "Total Budget",
+            showInLegend: false,
             data: budget_values_total
         }, {
             type: 'column',
             name: "Total Approved",
+            showInLegend: false,
             data: budget_values_approved
         }, {
             type: 'column',
             name: "Total Remaining",
+            showInLegend: false,
             data: budget_values_remaining
         },
         {
@@ -387,151 +379,12 @@ button{
                 color: '#ffffff',
                 distance: -30
             },
-            center: [100, 40],
+            center: [60, 40],
             size: 135,
-            showInLegend: false,
-        },
-        {
-        
-            type: 'pie',
-            name: 'Amount',
-            data: pieModels,
-            innerSize: '60%',
-            dataLabels: {
-                formatter: function () {
-                    // display only if larger than 1
-                    return this.y < 0 ? '<b>' + this.point.name + ':</b> $' +
-                        this.y : null;
-                }
-            },
-            center: [100, 40],
-            size: 135,
-            showInLegend: false,
+            showInLegend: true,
         }]
     });
 
 </script>
 
 {% endblock %}
-
-
-<!--
-/*
-
-// Create the chart
-Highcharts.chart('container', {
-    chart: {
-        type: 'pie'
-    },
-    title: {
-        text: 'Total Budgets'
-    },
-    subtitle: {
-        text: 'Combined Budgets'
-    },
-    plotOptions: {
-        pie: {
-            dataLabels: {
-                enabled: false
-            },
-            shadow: false,
-            center: ['50%', '50%']
-        }
-    },
-    tooltip: {
-        valuePrefix: '$'
-    },
-    series: [{
-        name: 'Total Budget',
-        data: pieModelsInner,
-        size: '60%',
-        dataLabels: {
-            enabled: true,
-            formatter: function () {
-                return this.y > 5 ? this.point.name : null;
-            },
-            color: '#ffffff',
-            distance: -30
-        }
-    }, {
-        name: 'Amount',
-        data: pieModels,
-        size: '80%',
-        innerSize: '60%',
-        dataLabels: {
-            formatter: function () {
-                // display only if larger than 1
-                return this.y < 0 ? '<b>' + this.point.name + ':</b> $' +
-                    this.y : null;
-            }
-        },
-        id: 'versions'
-    }],
-    responsive: {
-        rules: [{
-            condition: {
-                maxWidth: 400
-            },
-            chartOptions: {
-                series: [{
-                }, {
-                    id: 'versions',
-                    dataLabels: {
-                        enabled: true
-                    }
-                }]
-            }
-        }]
-    }
-});
-
-
-Highcharts.chart('container2', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Most Accurate Models'
-    },
-    xAxis: {
-        type: 'category',
-        labels: {
-            rotation: 0,
-            style: {
-                fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
-            }
-        }
-    },
-    yAxis: {
-        min: 0,
-        max: 100,
-        title: {
-            text: 'Accuracy %'
-        }
-    },
-    legend: {
-        enabled: false
-    },
-    tooltip: {
-        pointFormat: 'Accuracy: <b>{point.y:.1f} %</b>'
-    },
-    series: [{
-        name: 'Model',
-        data: barModels,
-        dataLabels: {
-            enabled: true,
-            rotation: -90,
-            color: '#FFFFFF',
-            align: 'right',
-            format: '{point.y:.1f}', // one decimal
-            y: 10, // 10 pixels down from the top
-            style: {
-                fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
-            }
-        }
-    }]
-}); */
-
--->
