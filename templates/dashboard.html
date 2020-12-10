@@ -282,7 +282,7 @@ button{
     var budget_data = JSON.parse("{{budget_info|escapejs}}");
 
 
-    var color_ary = [ '#14BDEB', '#9883E5', '#253C78', '#82C09A', '#1F2F16' ];
+    var color_ary = [ '#14BDEB', '#9883E5', '#253C78', '#7CFFC4', '#EF7A85' ];
     var pieModelsInner = [];
     var bar_model_names = []
     var budget_values_total = []
@@ -346,17 +346,17 @@ button{
         series: [{
             type: 'column',
             name: "Total Budget",
-            showInLegend: false,
+            showInLegend: true,
             data: budget_values_total
         }, {
             type: 'column',
             name: "Total Approved",
-            showInLegend: false,
+            showInLegend: true,
             data: budget_values_approved
         }, {
             type: 'column',
             name: "Total Remaining",
-            showInLegend: false,
+            showInLegend: true,
             data: budget_values_remaining
         },
         {
@@ -373,7 +373,7 @@ button{
             },
             center: [70, 50],
             size: 175,
-            showInLegend: true
+            showInLegend: false
         }]
     });
 
