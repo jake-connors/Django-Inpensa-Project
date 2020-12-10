@@ -58,23 +58,10 @@ button{
     width: 75vw; 
     height: 37vh;
 }
-.barChartContainer {
-    width: 20vw; 
-    height: 35vh;
-}
-.highcharts-figure-models, #container2 {
-    min-width: 9em; 
-    max-width: 20em;
-    margin: .5em auto;
-    position: relative;
-    bottom: 18vh;
-    margin-bottom: -20vh;
-    left: 10vw;
-    padding-top: 7vh;
-    padding-bottom: 0vh;
-}
-.barChartContainer .highcharts-point.highcharts-color-0{
-    fill: rgb(244, 91, 91);
+.highcharts-figure-scatter {
+    width: 75vw; 
+    height: 36vh;
+    margin: 1em auto;
 }
 
 
@@ -98,14 +85,15 @@ button{
 
                             <figure class="highcharts-figure">
                                 <div id="container"></div>
-
-                                
-        
                             </figure>
                         </div> 
                         <div class="col-lg-6 mb-4"></div>
-
-
+                        <div class="col-lg-6 mb-4" style="z-index: 1;">
+                            <figure class="highcharts-figure-scatter">
+                            <div id="containerScatter"></div>
+                            </figure>
+                        </div>
+                        <div class="col-lg-6 mb-4"></div>
                             <div class="col-lg-6 mb-4">
                             <!-- Set List -->
                             <div class="card shadow mb-4" style="height:90vh; width:100%">
@@ -312,6 +300,17 @@ button{
         y: 0,
         color: '#FFFFFF'
     })
+
+    var seriesScatter = [];
+    for (i =0; i < bar_model_names; i += 1) {
+        seriesScatter.push({ 
+            name : bar_model_names[i].name,
+            color: color_ary[i],
+            data: [
+                [ some_array_num_of_features[i].features, bar_model_data[i].accuracy] 
+            ]
+        });
+    }
     
     Highcharts.chart('container', {
         title: {
@@ -378,52 +377,68 @@ button{
     });
 
 
-    for (i = 0; i < bar_model_data.length; i += 1) {
-        var modName = bar_model_data[i].name;
-        Highcharts.chart('barChartContainer_' + modName, {
-            chart: {
-                type: 'column'
-            },
+    Highcharts.chart('containerScatter', {
+        chart: {
+            type: 'scatter',
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Number of Features vs Accuracy'
+        },
+        subtitle: {
+            text: 'All Models'
+        },
+        xAxis: {
             title: {
-                text: 'Model Accuracy'
+                enabled: true,
+                text: 'Number of Features'
             },
-            xAxis: {
-                type: 'category',
-                labels: {
-                    enabled: false,
-                }
-                
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Accuracy'
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            tooltip: {
-                pointFormat: 'Accuracy: <b>{point.y:.1f} %</b>'
-            },
-            series: [{
-                name: 'Models',
-                data: [ [bar_model_data[i].name, bar_model_data[i].accuracy] ],
-                dataLabels: {
-                    enabled: true,
-                    rotation: 0,
-                    color: 'Black',
-                    align: 'center',
-                    format: '{point.y:.2f}%', // one decimal
-                    y: 5, // 10 pixels down from the top
-                    style: {
-                        fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif'
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+        },
+        yAxis: {
+            title: {
+                text: 'Accuracy (%)'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 100,
+            y: 70,
+            floating: true,
+            backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
+            borderWidth: 1
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 5,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
                     }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<b>{series.name}</b><br>',
+                    pointFormat: '{point.x} cm, {point.y} kg'
                 }
-            }]
-        });
-    };
+            }
+        },
+        series: seriesScatter
+    });
+
 </script>
 
 {% endblock %}
