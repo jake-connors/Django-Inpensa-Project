@@ -26,19 +26,6 @@
   border: 1px solid #888;
   width: 30%;
 }
-.highcharts-credits{
-    display:none
-}
-.highcharts-color-1 {
-  fill: rgb(0, 80, 185);
-}
-.highcharts-color-2 {
-  fill: rgb(184, 0, 53);
-}
-.highcharts-color-3 {
-  fill: rgb(0, 199, 217);
-}
-
 
 /* The Close Button */
 .close {
@@ -64,12 +51,32 @@ button{
     text-align: left;
     box-shadow: 0px 0px white;
 }
-
-.highcharts-figure, .highcharts-data-table table {
-    min-width:80vw; 
-    max-width: 90vw;
-    margin: 1em auto;
+.highcharts-credits{
+    display:none
 }
+.highcharts-figure {
+    width: 75vw; 
+    height: 37vh;
+}
+.barChartContainer {
+    width: 20vw; 
+    height: 35vh;
+}
+.highcharts-figure-models, #container2 {
+    min-width: 9em; 
+    max-width: 20em;
+    margin: .5em auto;
+    position: relative;
+    bottom: 18vh;
+    margin-bottom: -20vh;
+    left: 10vw;
+    padding-top: 7vh;
+    padding-bottom: 0vh;
+}
+.barChartContainer .highcharts-point.highcharts-color-0{
+    fill: rgb(244, 91, 91);
+}
+
 
 
 
@@ -86,9 +93,8 @@ button{
 
                     <!-- Content Row -->
                     <div class="row">
-
                         <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-6 mb-4" style="z-index: 1;">
 
                             <figure class="highcharts-figure">
                                 <div id="container"></div>
@@ -96,12 +102,9 @@ button{
                                 
         
                             </figure>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <figure class="highcharts-figure">
-                                <div id="container2"></div>
-                            </figure>
-                        </div>
+                        </div> 
+                        <div class="col-lg-6 mb-4"></div>
+
 
                             <div class="col-lg-6 mb-4">
                             <!-- Set List -->
@@ -181,9 +184,12 @@ button{
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Model List</h6>
                                 </div>
-                                <div class="card-body" style="overflow-y:auto; max-height: 90vh">
+                                <div class="card-body" style="overflow-y:auto; max-height: 90vh; overflow-x: hidden">
                                     <div class="model_list">
                                     </div>
+                                    <figure class="highcharts-figure-models">
+                                        <div class="barChartContainer" id="barChartContainer_{{ data.name }}"></div>
+                                    </figure>
                                 </div>
                             </div>
                         </div>
@@ -200,45 +206,33 @@ button{
                                 form_add += '<h4 class="small font-weight-bold">Creation Date: ' + new Date(val['created_at']).toLocaleString() +'</h4>';
                                 form_add += '<h4 class="small font-weight-bold">Last Updated: ' + new Date(val['updated_at']).toLocaleString() +'</h4>';
                                 form_add += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%; float:left; padding:0">';
-                                form_add += '<button type ="submit" name="datasetid" style="background-color: #4e73df; text-align:center; padding: 2px 0; color:white" value=' + val['id'] + '>View Data</button> </div> </form>';
+                                form_add += '<button type ="submit" name="datasetid" style="background-color: #4e73df; text-align:center; padding: 2px 0; color:white" value=' + val['id'] + '><i class="fas fa-fw fa-folder" style="margin-right: 8px"></i>View Data</button> </div> </form>';
                                 form_add += '<form style="margin:0; padding:0; border:0">';
                                 form_add += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:67%; float:center">';
-                                form_add += '<button formaction="/edit" formmethod="get" type ="submit" name="dsid" style="background-color: #56c7e2; text-align:center; padding: 2px 0; color: white" value=' + val['id'] + '>Edit</button>'
+                                form_add += '<button formaction="/edit" formmethod="get" type ="submit" name="dsid" style="background-color: #56c7e2; text-align:center; padding: 2px 0; color: white" value=' + val['id'] + '><i class="fas fa-edit" style="margin-right: 8px"></i>Edit</button>'
                                 form_add += '{% csrf_token %}'
-                                form_add += '<button formaction="/delete_dataset/" formmethod="post" type ="submit" name="dsid" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' + val['id'] + '>Delete</button> </div> </form>'
+                                form_add += '<button formaction="/delete_dataset/" formmethod="post" type ="submit" name="dsid" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' + val['id'] + '><i class="fas fa-trash-alt" style="margin-right: 8px"></i>Delete</button> </div> </form>'
                             });
 
                             // for the model list
                             var form_add2 = "";
                             var sets2_data = JSON.parse("{{sets2|escapejs}}");
                             $.each(sets2_data, function(index, val){
-                                form_add2 += '<table style="border-bottom: 2px;">'
-                                form_add2 += '<h4 class="small font-weight-bold">Name: ' + val['name'] + '</h4>'
-                                form_add2 += '<h4 class="small font-weight-bold">Description: ' + val['details'] + '</h4>'
-                                form_add2 += '<h4 class="small font-weight-bold">Creation Date: ' + new Date(val['created_at']).toLocaleString() + '</h4>'
-                                form_add2 += '<h4 class="small font-weight-bold">Accuracy: ' + val['accuracy'].toFixed(3) + '</h4>'
-                                form_add2 += '<form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">'
-                                form_add2 += '{% csrf_token %}'
-                                form_add2 += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">'
-                                form_add2 += '<button type ="submit" name="model" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' +val['id'] + '>Delete</button> </div> </form>'
-                                form_add2 += '<br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br> </table>'
+                                form_add2 += '<table style="border-bottom: 2px;">';
+                                form_add2 += '<h4 class="small font-weight-bold">Name: ' + val['name'] + '</h4>';
+                                form_add2 += '<h4 class="small font-weight-bold">Description: ' + val['details'] + '</h4>';
+                                form_add2 += '<h4 class="small font-weight-bold">Creation Date: ' + new Date(val['created_at']).toLocaleString() + '</h4>';
+                                form_add2 += '<h4 class="small font-weight-bold">Accuracy: ' + val['accuracy'].toFixed(3) + '</h4>';
+                                form_add2 += '<form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">';
+                                form_add2 += '{% csrf_token %}';
+                                form_add2 += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">';
+                                form_add2 += '<button type ="submit" name="model" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' +val['id'] + '>Delete</button> </div> </form>';
+                                form_add2 += '<br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br> </table>';
                             });
                             $(document).find('.portfolio_list').html(form_add);
                             $(document).find('.model_list').html(form_add2);
                         </script>
-                            <!-- Approach -->
-                            <div class="card shadow mb-4" style="opacity:100;">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar with the
-                                        Bootstrap framework, especially the utility classes.</p>
-                                </div>
-                            </div>
+
 
                         </div>
 
@@ -272,57 +266,41 @@ button{
     </div>
 <script>
 
-    var pieModels = [];
-    var pieModelsInner = [];
-    var color_data = [
-                        {'colorInner' : '#0000FF', 'colorOuter1' : '#0050B9', 'colorOuter2' : '#77B7FF'},
-                        {'colorInner' : '#FF0000', 'colorOuter1' : '#B80035', 'colorOuter2' : '#FFA0A0'},
-                        {'colorInner' : '#f6c23e', 'colorOuter1' : '#00C7D9', 'colorOuter2' : '#ffe4a0'},
-                        {'colorInner' : ' #00FF00', 'colorOuter1' : '#61FF61', 'colorOuter2' : '#9BFF9B'},
-                        {'colorInner' : '#FF7F00', 'colorOuter1' : '#FFAA54', 'colorOuter2' : '#FFCE9C'}
-    ];
     var bar_model_data =JSON.parse("{{model_info|escapejs}}") ;
     var budget_data = JSON.parse("{{budget_info|escapejs}}");
-    var color_data_3 = []
-
-    for (i = 0; i < budget_data.length; i += 1) {
-        color_data_3.push(color_data[i].colorInner)
-    }
-    
-    for (i = 0; i < budget_data.length; i += 1) {
-        pieModels.push({
-            name: "Total Approved", 
-            y: budget_data[i].approved, 
-            color: color_data[i].colorOuter1
-        },
-        {
-            name: "Total Remaining", 
-            y: budget_data[i].budget - budget_data[i].approved, 
-            color: color_data[i].colorOuter2
-        });
-    }
-    
-
-    for (i = 0; i < budget_data.length; i += 1) {
-        pieModelsInner.push({
-            name: budget_data[i].name, 
-            y: budget_data[i].budget, 
-            color: color_data[i].colorOuter1
-        });
-    }
 
 
-
+    var color_ary = [ '#14BDEB', '#9883E5', '#253C78', '#7CFFC4', '#EF7A85' ];
+    var pieModelsInner = [];
     var bar_model_names = []
     var budget_values_total = []
     var budget_values_approved = []
     var budget_values_remaining = []
+
+    bar_model_names.push("");
+    budget_values_total.push(0);
+    budget_values_approved.push(0);
+    budget_values_remaining.push(0);
+
     for (i = 0; i < budget_data.length; i += 1) {
         bar_model_names.push(budget_data[i].name);
         budget_values_total.push(budget_data[i].budget);
         budget_values_approved.push(budget_data[i].approved);
         budget_values_remaining.push(budget_data[i].budget - budget_data[i].approved);
     }
+    for (i = 0; i < budget_data.length; i += 1) {
+        pieModelsInner.push({
+            name: budget_data[i].name, 
+            y: budget_data[i].budget, 
+            color: color_ary[i]
+        });
+    }
+    pieModelsInner.push({
+        name: "",
+        y: 0,
+        color: '#FFFFFF'
+    })
+    
     Highcharts.chart('container', {
         title: {
             text: "Portfolio Chart"
@@ -331,7 +309,9 @@ button{
             text: 'Approved & Remaining Budgets'
         },
         xAxis: {
-            categories: bar_model_names
+            categories: bar_model_names,
+            min: 0
+            
         },
         yAxis: {
             title: {
@@ -340,44 +320,36 @@ button{
         },
         labels: {
             items: [{
-                html: 'pie chart name',
+                html: 'Total Budgets',
                 style: {
-                    left: '40px',
+                    left: '50px',
                     top: '-40px',
                     color: ( // theme
-                        Highcharts.defaultOptions.title.style &&
-                        Highcarts.defaultOptions.title.style.color
+                    Highcharts.defaultOptions.title.style &&
+                    Highcharts.defaultOptions.title.style.color
                     ) || 'black'
                 }
             }]
         },
         series: [{
-            type:'column',
-            showInLegend: false,
-            name: ''
-        },  {
-            type: 'column',
-            showInLegend: false,
-            name: ''
-        },  {
             type: 'column',
             name: "Total Budget",
-            showInLegend: false,
+            showInLegend: true,
             data: budget_values_total
         }, {
             type: 'column',
             name: "Total Approved",
-            showInLegend: false,
+            showInLegend: true,
             data: budget_values_approved
         }, {
             type: 'column',
             name: "Total Remaining",
-            showInLegend: false,
+            showInLegend: true,
             data: budget_values_remaining
         },
         {
             type: 'pie',
-            name: 'Amount',
+            name: 'Total Budget',
             data: pieModelsInner,
             dataLabels: {
                 enabled: true,
@@ -387,12 +359,59 @@ button{
                 color: '#ffffff',
                 distance: -30
             },
-            center: [60, 40],
-            size: 135,
-            showInLegend: true,
+            center: [70, 50],
+            size: 175,
+            showInLegend: false
         }]
     });
 
+
+    for (i = 0; i < bar_model_data.length; i += 1) {
+        var modName = bar_model_data[i].name;
+        Highcharts.chart('barChartContainer_' + modName, {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Model Accuracy'
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    enabled: false,
+                }
+                
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Accuracy'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: 'Accuracy: <b>{point.y:.1f} %</b>'
+            },
+            series: [{
+                name: 'Models',
+                data: [ [bar_model_data[i].name, bar_model_data[i].accuracy] ],
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: 'Black',
+                    align: 'center',
+                    format: '{point.y:.2f}%', // one decimal
+                    y: 5, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            }]
+        });
+    };
 </script>
 
 {% endblock %}
