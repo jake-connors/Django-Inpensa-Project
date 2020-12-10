@@ -90,7 +90,7 @@ def dash(request):
 
         sorted_models = df4.to_dict('records');
         if(df.shape[0]!= 0):
-            df = df[['name', 'accuracy']]
+            df = df[['name', 'accuracy', 'features']]
             if(df.shape[0]>5):
                 df= df.head()
             df= df.sort_values(by=['accuracy'], ascending=False)
@@ -100,7 +100,6 @@ def dash(request):
         df2 = pd.DataFrame(sets)
         if(df2.shape[0] != 0):
             df2= df2.sort_values(by=['updated_at'], ascending=False)
-            print(df2)
             df2 = df2[['name', 'budget', 'approved']]
             df2 =df2.fillna(0)
             df2 = df2.head()
