@@ -84,6 +84,7 @@ def dash(request):
         if(df4.shape[0] != 0):
             df4 =df4.fillna(0)
             df4 = df4.sort_values(by=['updated_at'], ascending=False)
+            
             df4['created_at'] = df4['created_at'].astype(str)
             df4['updated_at'] = df4['updated_at'].astype(str)
 
@@ -99,6 +100,7 @@ def dash(request):
         df2 = pd.DataFrame(sets)
         if(df2.shape[0] != 0):
             df2= df2.sort_values(by=['updated_at'], ascending=False)
+            print(df2)
             df2 = df2[['name', 'budget', 'approved']]
             df2 =df2.fillna(0)
             df2 = df2.head()
@@ -351,9 +353,11 @@ def cmodel(request):
             'Calc Priority': request.POST['CalcPriority']
             }
             data = data.fillna(0)
+            features = 17
             testprint = []
             for x in settings:
                 if settings[x] == '0':
+                    features -= 1
                     data = data.drop(x, axis = 1)
                 elif settings[x] =='1':
                     testprint.append(-0.5)
@@ -419,6 +423,7 @@ def cmodel(request):
                 name = request.POST['modname'],
                 details = request.POST['description'],
                 kfile = model_location,
+                features = features,
                 TCO = settings['TCO'], 
                 TVO = settings['TVO'],
                 NET= settings['NET'],
