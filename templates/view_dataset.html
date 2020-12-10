@@ -1,0 +1,1298 @@
+{% extends 'base.html' %}
+{% block title %}Dataset{% endblock%}
+{% load static %}
+{% block content %}
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<style>
+  table{
+    margin-top: 15px;
+    counter-reset: tableCount;
+    border-collapse: collapse;
+    font-size: 79%;
+  }
+  .counterCell:before {
+    content: counter(tableCount);
+    counter-increment: tableCount;
+  }
+  thead {
+    background-color: #b6b6b6;
+    border: 1px solid black;
+  }
+  tr:nth-child(even) {background-color: #e6e6e6}
+
+  
+  #dropbtn {
+    all:unset;
+    margin-top: 15px;
+    border-radius:7px !important;
+    border: 0 !important;
+    background-color: #e6e6e6 !important; 
+    color: black;
+    cursor: pointer;
+    padding:5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  } 
+  .dropdown {
+    display: inline-block;
+    left: 80vw;
+  }
+  
+
+  .dropdown-menu {
+    all:unset;
+    width: 10%;
+    border-radius:10px; 
+    display: none;
+    position: absolute;
+    background-color: #e6e6e6 !important;
+    z-index: 1;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border: 2px solid gray;
+  } 
+  
+  .dropdown-content a {
+    all:unset;
+  } 
+  .dropdown-item {
+    min-width: 10%;
+    text-align: center;
+  }
+  .show {
+    display: block;
+  }
+
+  .dropdown-divider {
+    border-color: black;
+  }
+
+
+  
+  #dropbtn:hover, .dropdown a:hover, button[name="submit"]:hover, #ddForm:hover {
+    background-color: #b6b6b6 !important;
+  }
+  #createNewModel:hover{
+    background-color: white !important;
+    cursor: pointer;
+  }
+  
+
+  #ddForm{
+    all:unset;
+
+
+    background-color: transparent;
+    margin: auto;
+    margin-bottom: 2px;
+    padding: 0px;
+    border: 0 !important;
+    border-radius:3px; 
+    color: rgb(24, 24, 24);
+    display:flex;
+  } 
+  
+
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    position: relative;
+    left: 4px;
+    bottom: 3px;
+  } 
+
+  .form-popup {
+    display: none;
+    position: fixed;
+    border: 3px solid #66666696;
+    border-radius:15px; 
+    z-index: 9;
+    height: 97%;
+    width: 70%;
+    top: 20px;
+    left: 580px;
+    margin-top:-10px;
+    margin-left:-290px;
+  }
+  .form-container {
+    border-radius:15px; 
+    padding: 12px;
+    background-color: white;
+    margin: auto;
+    width: 145%;
+    height: 96vh;
+
+  }
+  #cancel {
+    all:unset;
+    margin-bottom: 0%;
+    border: 3px solid #ccc !important;
+    border-radius:3px !important;
+    background-color: #e6e6e6 !important;
+    color: black;
+    position: relative;
+    text-align: center;
+    width: 95%;
+    height: 8%;
+    top: 5px;
+  }
+  .btn {
+    all:unset;
+    margin-top: 2%;
+    border: 3px solid #ccc !important;
+    border-radius:3px !important;
+    background-color: #e6e6e6 !important;
+    color: black;
+    position: relative;
+    bottom: 15px !important; 
+    text-align: center;
+    width: 95%;
+    height: 8%;
+  }
+  .esc {
+    all:unset;
+    border: 3px solid #ccc !important;
+    border-radius:3px !important;
+    margin-bottom: 5px !important;
+    background-color: #e6e6e6 ;
+    text-align: center;
+    height: 8%;
+    width: 5%;
+    position: absolute;
+    right: 25px;
+    top: 20px;
+  }
+  .btn:hover, #cancel:hover, .esc:hover {
+    background-color: #b6b6b6 !important;
+  }
+
+  .configSettings {
+    width: 100%;
+    height: 50vh; 
+    overflow: auto;
+    font-size: 2vh;
+    margin-bottom: 50px;
+    line-height: 1.2vh !important;
+
+  }
+  .one {
+    display:none;
+  }
+  .two {
+    display:none;
+  }
+  .three {
+    display:none;
+  }
+
+
+  .lbs {
+    position: relative;
+    font-weight: bold;
+    bottom: -15px;
+  }
+
+  .slider {
+    position: sticky !important;
+    /*left: 225px; */
+    left: 30%; /**/
+  }
+  .slider.slider-horizontal {
+    width: 50% !important;
+  }
+  .slider.slider-horizontal .slider-track {
+    /*height: 18px !important; */
+    height: 105% !important;
+  }
+  .slider-handle {
+    width: 33px !important;
+    height: 33px !important;
+  }
+  .slider-tick.round.in-selection, .slider-tick.round {
+    width: 30px;
+    height: 30px;
+  }
+  .slider-tick-label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  .excludeBtn {
+    display: block;
+    height: 2vh;
+    width: 10%;
+    position: relative;
+    left: 15%;
+    bottom: 7vh;
+  }
+
+  body {
+    overflow:auto;
+  }
+  button{
+    background-color: white;
+    border: none;
+    box-shadow: none;
+  }
+  th{
+  top:0;
+  position:sticky;
+  box-shadow: inset 0 1px 1px black,
+              inset 0 -1px 0 black;
+  text-align: center;
+  background-color: rgb(216, 216, 216);
+  border-bottom: 2px solid black;
+}
+td{
+  border-left: 1px solid rgb(233, 233, 233);
+  border-bottom: 1px solid white;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: center;
+}
+</style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css" integrity="sha512-3q8fi8M0VS+X/3n64Ndpp6Bit7oXSiyCnzmlx6IDBLGlY5euFySyJ46RUlqIVs0DPCGOypqP8IRk/EyPvU28mQ==" crossorigin="anonymous" />
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js" integrity="sha512-f0VlzJbcEB6KiW8ZVtL+5HWPDyW1+nJEjguZ5IVnSQkvZbwBt2RfCBY0CBO1PsMAqxxrG4Di6TfsCPP3ZRwKpA==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.js" integrity="sha512-tCkLWlSXiiMsUaDl5+8bqwpGXXh0zZsgzX6pB9IQCZH+8iwXRYfcCpdxl/owoM6U4ap7QZDW4kw7djQUiQ4G2A==" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <!-- Content Wrapper - change vw along with tbl_user_data for fixing overflow x -->
+  <div id="content-wrapper" style="width:88vw;float:center; padding-left:2vw; padding-right:2vw;" class="d-flex flex-column">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 id ="name" class="h3 mb-0 text-gray-800" style="padding-top: 12px"><div class="data_name"></div></h1>
+      </div>
+  
+    <!-- Content Row -->
+      <div class="row">
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Budget</div>
+                  <div id = "budget" class="h5 mb-0 font-weight-bold text-gray-800"><div class="budget"></div></div>
+                  
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-wallet fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Current Propositions</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><div class="total_tco"></div></div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Approved Projects</div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><div class="approved_project"></div></div>
+                    </div>
+                    <div class="col">
+                                  <!--<div class="progress progress-sm mr-2">
+                                      <div class="progress-bar bg-info" role="progressbar"
+                                          style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                          aria-valuemax="100"></div>
+                                  </div>-->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Remaining Budget</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><div class="remaining_budget"></div></div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-piggy-bank fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Dropdown for Model List -->
+        <div class="col-xl-3 col-mb-6 mb-4">
+          
+        </div>
+      </div>
+    </div>
+  </div>      
+
+  <!--<div class="dropdown">
+    <button onclick="dropFunc()" class="dropbtn">Select Model<i class="arrow down"></i></button>
+    <div id="myDropdown" class="dropdown-content">
+        
+    </div>
+  </div>-->
+  <div style="display:inline-block">
+    <div class="form-popup" id="newModelForm">
+      <form action = "/cmodel/" method="POST" method="POST" enctype='multipart/form-data' class="form-container">
+        {% csrf_token %}
+        <h3 style="margin-bottom:-20px; font-size:200%">Create a New Model</h3><button type="button" class="esc" style="font-size:150% !important;color:black" onclick="closeForm()">X</button><br>
+        <label for="modname" style="font-size:115%"><b>Model Name</b></label>
+        <input type="text" placeholder="Model Name" name="modname" required style="margin-top:-1px;display:block;padding:3px 20px;line-height:20px;width:92%">
+        <label for="description" style="margin-top:0px;font-size:115%"><b>Description</b></label><br>
+        <textarea type="textarea" placeholder="Description (Optional)" name="description"
+          style="height:43px;width:92%;padding:6px 20px;margin:-3px 0;margin-bottom:1px;display:inline-block;border:1px solid #ccc;box-sizing:border-box;resize:none"></textarea>
+          <label style="font-size:115%"><b>Configuration settings:</b></label><br>
+          <label for="Exclude" style="color:rgb(77, 77, 77);font-size:115%;padding-left:18%"><b>Exclude</b></label>
+          <div class="configSettings">
+            <label class="lbs" for="TCO" style="top: 15px">TCO</label>
+            <div id="slide1">
+              <input id="ex1" name="TCO" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex1-enabled" name="TCO" onclick=disableFunc() class="excludeBtn" type="checkbox" value=0 style="margin-top:1%"/><br>
+            <label class="lbs" for="TVO">TVO</label>
+            <div id="slide2">
+              <input id="ex2" name="TVO" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex2-enabled" name="TVO" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="NET">NET</label>
+            <div id="slide3">
+              <input id="ex3" name="NET" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex3-enabled" name="NET" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="PP">PP</label>
+            <div id="slide4">
+              <input id="ex4" name="PP" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2"data-slider-tooltip="hide"  data-slider-enabled="true"/>
+            </div>
+            <input id="ex4-enabled" name="PP" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="ROI">ROI</label>
+            <div id="slide5">
+              <input id="ex5" name="ROI" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex5-enabled" name="ROI" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="CapEx">CapEx</label>
+            <div id="slide6">
+              <input id="ex6" name="CapEx" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex6-enabled" name="CapEx" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="OneTime">OneTime</label>
+            <div id="slide7">
+              <input id="ex7" name="OneTime" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex7-enabled" name="OneTime" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="OnGoing">OnGoing</label>
+            <div id="slide8">
+              <input id="ex8" name="OnGoing" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex8-enabled" name="OnGoing" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="Revenue">Revenue</label>
+            <div id="slide9">
+              <input id="ex9" name="Revenue" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex9-enabled" name="Revenue" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="Saving">Saving</label>
+            <div id="slide10">
+              <input id="ex10" name="Saving" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex10-enabled" name="Saving" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="Avoid">Avoid</label>
+            <div id="slide11">
+              <input id="ex11" name="Avoid" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex11-enabled" name="Avoid" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="CostGrade">Cost Grade</label>
+            <div id="slide12">
+              <input id="ex12" name="CostGrade" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex12-enabled" name="CostGrade" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="ValueScore">Value Score</label>
+            <div id="slide13">
+              <input id="ex13" name="ValueScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex13-enabled" name="ValueScore" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="RiskScore">Risk Score</label>
+            <div id="slide14">
+              <input id="ex14" name="RiskScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex14-enabled" name="RiskScore" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="BlendedScore">Blended Score</label>
+            <div id="slide15">
+              <input id="ex15" name="BlendedScore" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex15-enabled" name="BlendedScore" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <label class="lbs" for="CalcPriority">Calc Priority</label>
+            <div id="slide16">
+              <input id="ex16" name="CalcPriority" type="text" data-slider-ticks="[1, 2, 3]" data-slider-ticks-snap-bounds="1" data-slider-ticks-labels='["Low", "Default", "High"]' data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2" data-slider-tooltip="hide" data-slider-enabled="true"/>
+            </div>
+            <input id="ex16-enabled" name="CalcPriority" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
+            <hidden id="datasetid" name="dsid", name={{dataset}}></hidden>
+            <button type="submit" class="btn" style="font-size:110%">Submit</button>
+            <button type="button" class="btn cancel" id="cancel" style="font-size:110%" onclick="closeForm()">Close</button>
+          </div>
+      </form>
+      </div>
+    </div>
+
+    
+    <script>
+      $("#ex1").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex1-enabled").click(function() {
+        if(this.checked) { $("#ex1").slider("disable"); document.getElementById("slide1").style.opacity = "0"; }
+        else { $("#ex1").slider("enable"); document.getElementById("slide1").style.opacity = ""; }
+      });
+      $("#ex2").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex2-enabled").click(function() {
+        if(this.checked) { $("#ex2").slider("disable"); document.getElementById("slide2").style.opacity = "0"; }
+        else { $("#ex2").slider("enable"); document.getElementById("slide2").style.opacity = ""; }
+      });
+      $("#ex3").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex3-enabled").click(function() {
+        if(this.checked) { $("#ex3").slider("disable"); document.getElementById("slide3").style.opacity = "0"; }
+        else { $("#ex3").slider("enable"); document.getElementById("slide3").style.opacity = ""; }
+      });
+      $("#ex4").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex4-enabled").click(function() {
+        if(this.checked) { $("#ex4").slider("disable"); document.getElementById("slide4").style.opacity = "0"; }
+        else { $("#ex4").slider("enable"); document.getElementById("slide4").style.opacity = ""; }
+      });
+      $("#ex5").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex5-enabled").click(function() {
+        if(this.checked) { $("#ex5").slider("disable"); document.getElementById("slide5").style.opacity = "0"; }
+        else { $("#ex5").slider("enable"); document.getElementById("slide5").style.opacity = ""; }
+      });
+      $("#ex6").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex6-enabled").click(function() {
+        if(this.checked) { $("#ex6").slider("disable"); document.getElementById("slide6").style.opacity = "0"; }
+        else { $("#ex6").slider("enable"); document.getElementById("slide6").style.display = ""; }
+      });
+      $("#ex7").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex7-enabled").click(function() {
+        if(this.checked) { $("#ex7").slider("disable"); document.getElementById("slide7").style.display = "0"; }
+        else { $("#ex7").slider("enable"); document.getElementById("slide7").style.display = "opacity"; }
+      });
+      $("#ex8").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex8-enabled").click(function() {
+        if(this.checked) { $("#ex8").slider("disable"); document.getElementById("slide8").style.opacity = "0"; }
+        else { $("#ex8").slider("enable"); document.getElementById("slide8").style.opacity = ""; }
+      });
+      $("#ex9").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex9-enabled").click(function() {
+        if(this.checked) { $("#ex9").slider("disable"); document.getElementById("slide9").style.opacity = "0"; }
+        else { $("#ex9").slider("enable"); document.getElementById("slide9").style.opacity = ""; }
+      });
+      $("#ex10").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex10-enabled").click(function() {
+        if(this.checked) { $("#ex10").slider("disable"); document.getElementById("slide10").style.opacity = "0"; }
+        else { $("#ex10").slider("enable"); document.getElementById("slide10").style.opacity = ""; }
+      });
+      $("#ex11").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex11-enabled").click(function() {
+        if(this.checked) { $("#ex11").slider("disable"); document.getElementById("slide11").style.opacity = "0"; }
+        else { $("#ex11").slider("enable"); document.getElementById("slide11").style.opacity = ""; }
+      });
+      $("#ex12").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex12-enabled").click(function() {
+        if(this.checked) { $("#ex12").slider("disable"); document.getElementById("slide12").style.opacity = "0"; }
+        else { $("#ex12").slider("enable"); document.getElementById("slide12").style.opacity = ""; }
+      });
+      $("#ex13").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex13-enabled").click(function() {
+        if(this.checked) { $("#ex13").slider("disable"); document.getElementById("slide13").style.opacity = "0"; }
+        else { $("#ex13").slider("enable"); document.getElementById("slide13").style.opacity = "";  }
+      });
+      $("#ex14").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex14-enabled").click(function() {
+        if(this.checked) { $("#ex14").slider("disable"); document.getElementById("slide14").style.opacity = "0"; }
+        else { $("#ex14").slider("enable"); document.getElementById("slide15").style.opacity = ""; }
+      });
+      $("#ex15").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex15-enabled").click(function() {
+        if(this.checked) { $("#ex15").slider("disable"); document.getElementById("slide15").style.opacity = "0"; }
+        else { $("#ex15").slider("enable"); document.getElementById("slide15").style.opacity = ""; }
+      });
+      $("#ex16").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
+      $("#ex16-enabled").click(function() {
+        if(this.checked) { $("#ex16").slider("disable"); document.getElementById("slide16").style.opacity = "0"; }
+        else { $("#ex16").slider("enable"); document.getElementById("slide16").style.opacity = ""; }
+      });
+</script>
+
+<script>
+    function dropFunc() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('#dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-menu");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    
+    function openForm() {
+      document.getElementById("newModelForm").style.display = "flex";
+      var i;
+      for(i=0;i<=17;i++) {
+        $("#ex"+i).slider('refresh');
+      }
+    }
+            
+    function closeForm() {
+      document.getElementById("newModelForm").style.display = "none";
+    }
+  </script>
+
+<!--start of  table writing-->
+<script type="text/javascript">
+
+//var dsid =JSON.parse("{{datasetid|escapejs}}")
+
+const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2
+      })
+      var dsid =JSON.parse("{{dataset|escapejs}}");
+      var predict = JSON.parse("{{predict|escapejs}}");
+$(document).ready(async function($)
+{ 	 
+  var modelid = "{{mid|escapejs}}";
+  var DATA_NAME = '';
+  var DATA_BUDGET = 0;
+  var tco_val = 0;
+  var approved_tco = 0;
+  function create_html_table (tbl_data, data_budget)
+	{	
+
+		tbl_data = JSON.parse(tbl_data)
+		//--->create data table > start
+    var tbl = '';
+    var tco_val = 0;
+    var approved_tco = 0;
+		//add new table row
+		tbl +='<table class="table table-hover tbl_code_with_mark" id="table1">'
+
+
+			//--->create table header > start
+		tbl +='<thead>';
+		tbl +='<tr>';
+    tbl +='<th>Select</th>';
+    tbl +='<th>ID</th>';
+    tbl +='<th ><div class="netdisplay" ></div></th>';
+    tbl +='<th class="one"><div class="tcodisplay"</th>';
+    tbl +='<th class="two">CapEx</th>';
+		tbl +='<th class="two">OneTime</th>';
+		tbl +='<th class="two">OnGoing</th>';
+		tbl +='<th class="one"><div class="tvodisplay"></th>';
+		tbl +='<th class="three">Revenue</th>';
+		tbl +='<th class="three">Saving</th>';
+		tbl +='<th class="three">Avoid</th>';
+		tbl +='<th>PP</th>';
+		tbl +='<th>ROI</th>';
+		tbl +='<th>Cost Grade</th>';
+		tbl +='<th>Value Score</th>';
+		tbl +='<th>Risk Score</th>';
+		tbl +='<th>Blended Score</th>';
+		tbl +='<th>Calc Priority</th>';
+		tbl +='<th>Overrided Priority</th>';
+		tbl +='</tr>';
+		tbl +='</thead>';
+    //--->create table header > end
+      
+			//--->create table body > start
+      tbl +='<tbody>';
+      var last_accepted = 0
+      var curr_budget = 0
+      var printed = 0
+        //--->create table body rows > start
+          
+          $.each(tbl_data, function(index, val) 
+          {
+            curr_budget += val['TCO'];
+            //you can replace with your database row id
+                      var row_id = val['id'];
+            //loop through ajax row data
+            if(( val['accepted'] == 0   && last_accepted == 1 ) && (curr_budget >= data_budget && printed == 0)){
+              last_accepted = 0;
+              printed = 1;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid yellow;">';
+            }
+            else if( val['accepted'] == 0   && last_accepted == 1 ){
+              last_accepted =0;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid green;">';
+            }
+            else if (curr_budget >= data_budget && printed == 0){
+              printed = 1;
+              tbl +='<tr  row_id="'+row_id+'" style="border-top: 3px solid red;">';
+            }
+            else if (val['accepted'] == 1 && last_accepted ==0){
+              last_accepted = 1;
+              tbl +='<tr  row_id="'+row_id+'" >';
+            }
+            else{
+              tbl +='<tr  row_id="'+row_id+'">';
+            }
+            if(val['accepted'] == 1){
+            tbl +='<td style="width:1vw!important background-color:red!important"><input type="checkbox" onclick="show_unapprove()" id="unselect"  name="deselect" value='+row_id+' style="width:1vw"></input></td>';
+            }else{
+            tbl +='<td style="width:1vw!important"><input type="checkbox" onclick="show_approve()" id="select" name="select" value='+row_id+' style="width:1vw"></input></td>';
+            }
+            tbl +='<td ><div class="row_data" style="text-align:left" col_name="name">'+val['name']+'</div></td>';
+            if (val['NET'] < 0){
+            tbl +='<td ><div class="row_data" style="color:red; text-align: right" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            }
+            else if (val['NET'] > 0){
+            tbl +='<td ><div class="row_data" style="color:green; text-align: right" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            }
+            else {
+            tbl +='<td ><div class="row_data" style="text-align: right" col_name="NET">'+formatter.format(val['NET'])+'</div></td>';
+            }
+            tbl +='<td class="one"><div class="row_data" style="text-align: right" col_name="TCO">'+formatter.format(val['TCO'])+'</div></td>';
+            tco_val +=val['TCO'];
+            tbl +='<td class="two"><div class="row_data" style="text-align: right" col_name="CapEx">'+formatter.format(val['CapEx'])+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" style="text-align: right" col_name="OneTime">'+formatter.format(val['OneTime'])+'</div></td>';
+            tbl +='<td class="two"><div class="row_data" style="text-align: right" col_name="OnGoing">'+formatter.format(val['OnGoing'])+'</div></td>';
+            tbl +='<td class="one"><div class="row_data" style="text-align: right" col_name="TVO">'+formatter.format(val['TVO'])+'</div></td>';
+            tbl +='<td class="three"><div class="row_data" style="text-align: right" col_name="Revenue">'+formatter.format(val['Revenue'])+'</div></td>';
+            tbl +='<td class="three"><div class="row_data" style="text-align: right" col_name="Saving">'+formatter.format(val['Saving'])+'</div></td>';
+            tbl +='<td class="three"><div class="row_data" style="text-align: right" col_name="Avoid">'+formatter.format(val['Avoid'])+'</div></td>';
+            tbl +='<td ><div class="row_data" style="text-align:left" col_name="PP">'+val['PP']+'</div></td>';
+            if(val['ROI'] < 0){
+            tbl +='<td ><div class="row_data" style="text-align:left; color: red" col_name="ROI">'+val['ROI'].toFixed(3)+'</div></td>';
+            }
+            else if(val['ROI'] > 0){
+            tbl +='<td ><div class="row_data" style="text-align:left; color: green" col_name="ROI">'+val['ROI'].toFixed(3)+'</div></td>';  
+            }
+            else {
+            tbl +='<td ><div class="row_data" style="text-align:left" col_name="ROI">'+val['ROI'].toFixed(3)+'</div></td>';
+            }
+            
+            
+            tbl +='<td ><div class="row_data"  style="text-align: right;"col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align:left" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
+            if(val['accepted'] ==1){
+               approved_tco += val['TCO'];
+            }
+            
+            tbl +='</tr>';
+          });
+				//--->create table body rows > end
+			tbl +='</tbody>';
+			//--->create table body > end
+
+		tbl +='</table>';
+		//--->create data table > end
+
+    //out put table data
+    
+    $(document).find('.approved_project').html(formatter.format(approved_tco));
+    $(document).find('.total_tco').html(formatter.format(tco_val));
+    $(document).find('.budget').html(formatter.format(data_budget));
+    $(document).find('.remaining_budget').html(formatter.format(data_budget - approved_tco));
+    $(document).find('.tbl_user_data').html(tbl);
+    $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET  &#10010;</span>');
+    $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO  &#10010;</span>');
+    $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO  &#10010;</span>');
+			
+  }
+
+  //tells if this is a prediction or just a table pullup
+	//create table on page load
+	//create_html_table(ajax_data);
+
+    $.ajax({
+    type: 'get',
+    url: "/ajax/get_data_details",
+        dataType: "text",
+        data: {
+          dsid: dsid
+        },
+    error: function(xhr,textStatus,err){
+        console.log("readyState: " + xhr.readyState);
+    console.log("responseText: "+ xhr.responseText);
+    console.log("status: " + xhr.status);
+    console.log("text status: " + textStatus);
+    console.log("error: " + err);
+    },
+    success: function(data){
+            data = JSON.parse(data)
+
+            DATA_NAME = data[0].name;
+            DATA_BUDGET = data[0].budget;
+            $(document).find('.data_name').html(DATA_NAME);
+            if(predict == 0){
+              $.ajax({
+                type: 'get',
+                url: "/ajax/get_table_data",
+                dataType: "json",
+                data: {
+                  dsid: dsid
+                },
+                error: function(xhr,textStatus,err){
+                    console.log("readyState: " + xhr.readyState);
+                console.log("responseText: "+ xhr.responseText);
+                console.log("status: " + xhr.status);
+                console.log("text status: " + textStatus);
+                console.log("error: " + err);
+                },
+                success: function(data){
+                  create_html_table(data, DATA_BUDGET);
+                },
+                failure: function(){
+                  alert('An error occured: Please try again');
+                }
+                });
+              }
+              //if it's a prediction just take the data passed over
+              else{
+              
+                  var data = "{{sets|escapejs}}";
+                  create_html_table(data, DATA_BUDGET);
+
+              } 
+            
+    },
+    failure: function(){
+      alert('An error occured: Please try again');
+    }
+    });
+  
+    //--->create table via ajax call > start
+  
+    $.ajax({
+		type: 'get',
+		url: "/ajax/get_models",
+		dataType: "json",
+		error: function(xhr,textStatus,err){
+        console.log("readyState: " + xhr.readyState);
+		console.log("responseText: "+ xhr.responseText);
+		console.log("status: " + xhr.status);
+		console.log("text status: " + textStatus);
+		console.log("error: " + err);
+		},
+		success: function(data){
+            var models = '';
+            
+            $.each(data, function(index, val){
+                models+='<a class="dropdown-item" href="/predict/?model='+val["id"]+'&dataset='+dsid+'" >'+val["name"]+'</a>';
+                models+='<div class="dropdown-divider"></div>';
+                /*
+                models+= '<form action="/predict/" method="get" id="ddForm">'
+                models+= '{% csrf_token %}'
+                models+='<input type="hidden" name="model" value='+val["id"]+'>';
+                models+='<input type="hidden" name="dataset" value='+dsid+'>';
+                models+='<button name ="submit"  type="submit">'+val['name']+'</button>';
+                models+='</form>';
+                */
+            });
+            
+            models+='<a class="dropdown-item" onclick="openForm()" id="createNewModel"><b>Custom Scenario</b></a>'
+            $(document).find('.dropdown-menu').html(models);
+		},
+		failure: function(){
+			alert('An error occured: Please try again');
+		}
+    });
+
+  //--->make budget editable > start
+  $(document).on('click', '.budget', function(event) 
+  {
+    event.preventDefault(); 
+
+    if($(this).attr('edit_type') == 'button')
+    {
+      return false; 
+    }
+
+    //make div editable
+    $(this).closest('div').attr('contenteditable', 'true');
+    //add bg css
+    $(this).addClass('bg-light').css('padding','5px');
+
+    $(this).focus();
+
+    $(this).attr('original_entry', $(this).html());
+
+  })	
+  //--->make div editable > end
+
+  //--->save budget field data > start
+  $(document).on('focusout', '.budget', function(event) 
+  {
+    event.preventDefault();
+
+    if($(this).attr('edit_type') == 'button')
+    {
+      return false; 
+    }
+
+    //get the original entry
+    var original_entry = $(this).attr('original_entry');
+
+    var row_id = $(this).closest('tr').attr('row_id'); 
+    
+    var row_div = $(this)				
+    .removeClass('bg-light') //add bg css
+    .css('padding','')
+    var col_val = row_div.html(); 
+    var number = Number(col_val.replace(/[^0-9.-]+/g,""));
+
+    if(original_entry != col_val)
+    { 
+      //remove the attr so that new entry can take place
+      
+      if( col_val != "" &&  isNaN(number)){
+        alert("Please enter a numeric value for budget.");
+      }
+      else if (number < 0){
+        alert('Please enter a positive value for budget!');
+      }
+      else{
+        $(this).attr
+        if(number == ""){
+          number = 0
+        }
+
+        //ajax api json data			 
+        var data_obj = 
+        {
+          'datasetid':dsid,
+          'new_budget':number
+                  
+        };
+
+        //call ajax api to update the database record
+        $.post("/ajax/edit_budget/", data_obj, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            var msg = ''
+            + '<h3>There was an error while trying to update your entry</h3>'
+            +'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+            +'';
+
+            //$('.post_msg').html(msg);
+          }
+          else if(d1.status == "success")
+          {
+            budget = number;
+            if(predict == 0){
+                $.ajax({
+                  type: 'get',
+                  url: "/ajax/get_table_data",
+                  dataType: "json",
+                  data: {
+                    dsid: dsid
+                  },
+                  error: function(xhr,textStatus,err){
+                      console.log("readyState: " + xhr.readyState);
+                  console.log("responseText: "+ xhr.responseText);
+                  console.log("status: " + xhr.status);
+                  console.log("text status: " + textStatus);
+                  console.log("error: " + err);
+                  },
+                  success: function(data){
+                    create_html_table(data, number);
+                  },
+                  failure: function(){
+                    alert('An error occured: Please try again');
+                  }
+                  });
+                }
+                //if it's a prediction just take the data passed over
+                else{
+                    alert('yes');
+                    var data = "{{sets|escapejs}}";
+                    create_html_table(data, number);
+
+                } 
+        
+                    //$('.post_msg').html(msg);
+                  }
+                });
+      }
+    }
+    else
+    {
+      //$('.post_msg').html('');
+    }
+    
+  })	
+  //--->show net details START
+
+  $(document).on('click', '.shownet', function(event){
+    var divsToHide = document.getElementsByClassName("one"); //divsToHide is an array
+    if(divsToHide[0].style.display == "table-cell"){
+      for(var i = 0; i < divsToHide.length; i++){
+        divsToHide[i].style.display = "none"; // depending on what you're doing
+        $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET  &#10010;</span>');
+      }
+      //hide tvo column if you hide net
+      var divsToHide2 = document.getElementsByClassName("two"); //divsToHide is an array
+        for(var i = 0; i < divsToHide2.length; i++){
+          divsToHide2[i].style.display = "none";
+          $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO  &#10010;</span>');
+        }
+      //hide tco column if you hide
+      var divsToHide3 = document.getElementsByClassName("three"); //divsToHide is an array
+        for(var i = 0; i < divsToHide3.length; i++){
+          divsToHide3[i].style.display = "none"; // depending on what you're doing
+          $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO  &#10010;</span>');
+        }
+      
+    }
+    else{
+      for(var i = 0; i < divsToHide.length; i++){
+        divsToHide[i].style.display = "table-cell"; // depending on what you're doing
+        $(document).find('.netdisplay').html('<span class="shownet" style="width:1vw">NET  &#9866;</span>');
+        
+      }
+    }
+  });
+  $(document).on('click', '.showtco', function(event){
+    var divsToHide = document.getElementsByClassName("two"); //divsToHide is an array
+    for(var i = 0; i < divsToHide.length; i++){
+      if(divsToHide[i].style.display == "table-cell"){
+        divsToHide[i].style.display = "none"; // depending on what you're doing
+        $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO  &#10010;</span>');
+      }
+      else{
+        divsToHide[i].style.display = "table-cell"; // depending on what you're doing
+        $(document).find('.tcodisplay').html('<span class="showtco" style="width:1vw">TCO  &#9866;</span>');
+      }
+    }
+  });
+  $(document).on('click', '.showtvo', function(event){
+    var divsToHide = document.getElementsByClassName("three"); //divsToHide is an array
+    for(var i = 0; i < divsToHide.length; i++){
+      if(divsToHide[i].style.display == "table-cell"){
+        divsToHide[i].style.display = "none"; // depending on what you're doing
+        $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO  &#10010;</span>');
+      }
+      else{
+        divsToHide[i].style.display = "table-cell"; // depending on what you're doing
+        $(document).find('.tvodisplay').html('<span class="showtvo" style="width:1vw">TVO  &#9866;</span>');
+      }
+    }
+  });
+  //---> show net details end
+  //----> change projects to approved start
+  $(document).on('click', '.approve', function(event){
+    var approved = '';
+    $.each($("input[name='select']:checked"), function(){
+      approved+=($(this).val())+",";
+    });
+    approved_list = {
+      'list':approved
+    }
+    $.post("/ajax/approve/", approved_list, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            var msg = ''
+            + '<h3>There was an error while trying to update your entry</h3>'
+            +'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+            +'';
+
+            //$('.post_msg').html(msg);
+          }
+          else if(d1.status == "success")
+          {
+            $.ajax({
+            type: 'get',
+            url: "/ajax/get_data_details",
+                dataType: "text",
+                data: {
+                  dsid: dsid
+                },
+            error: function(xhr,textStatus,err){
+                console.log("readyState: " + xhr.readyState);
+            console.log("responseText: "+ xhr.responseText);
+            console.log("status: " + xhr.status);
+            console.log("text status: " + textStatus);
+            console.log("error: " + err);
+            },
+            success: function(data){
+                    document.getElementById("sexybutton").style.display = "none";
+                    data = JSON.parse(data)
+
+                    DATA_NAME = data[0].name;
+                    DATA_BUDGET = data[0].budget;
+                    $(document).find('.data_name').html(DATA_NAME);
+                    if(predict == 0){
+                      $.ajax({
+                        type: 'get',
+                        url: "/ajax/get_table_data",
+                        dataType: "json",
+                        data: {
+                          dsid: dsid
+                        },
+                        error: function(xhr,textStatus,err){
+                            console.log("readyState: " + xhr.readyState);
+                        console.log("responseText: "+ xhr.responseText);
+                        console.log("status: " + xhr.status);
+                        console.log("text status: " + textStatus);
+                        console.log("error: " + err);
+                        },
+                        success: function(data){
+                          create_html_table(data, DATA_BUDGET);
+                        },
+                        failure: function(){
+                          alert('An error occured: Please try again');
+                        }
+                        });
+                      }
+                      //if it's a prediction just take the data passed over
+                      else{
+                      
+                      $.ajax({
+                      type: 'post',
+                      url: "/ajax/get_pred/",
+                      dataType: "json",
+                      data: {
+                        dsid: dsid,
+                        modelid:modelid
+
+                      },
+                      error: function(xhr,textStatus,err){
+                          console.log("readyState: " + xhr.readyState);
+                      console.log("responseText: "+ xhr.responseText);
+                      console.log("status: " + xhr.status);
+                      console.log("text status: " + textStatus);
+                      console.log("error: " + err);
+                      },
+                      success: function(data){
+                        create_html_table(data, DATA_BUDGET);
+                      },
+                      failure: function(){
+                        alert('An error occured: Please try again');
+                      }
+                      });
+
+                    } 
+                    
+            },
+            failure: function(){
+              alert('An error occured: Please try again');
+            }
+            });
+          };
+      });
+  });
+  //---> save project as approved end
+
+//---> save projects as unapproved start
+
+$(document).on('click', '.unapprove', function(event){
+    var unapproved = '';
+    $.each($("input[name='deselect']:checked"), function(){
+      unapproved+=($(this).val())+",";
+    });
+    unapproved_list = {
+      'unlist':unapproved
+    }
+    $.post("/ajax/unapprove/", unapproved_list, function(data) 
+        {
+          var d1 = data;
+          if(d1.status == "error")
+          {
+            var msg = ''
+            + '<h3>There was an error while trying to update your entry</h3>'
+            +'<pre class="bg-danger">'+JSON.stringify(arr, null, 2) +'</pre>'
+            +'';
+
+            //$('.post_msg').html(msg);
+          }
+          else if(d1.status == "success")
+          {
+            document.getElementById("unsexybutton").style.display = "none";
+            $.ajax({
+            type: 'get',
+            url: "/ajax/get_data_details",
+                dataType: "text",
+                data: {
+                  dsid: dsid
+                },
+            error: function(xhr,textStatus,err){
+                console.log("readyState: " + xhr.readyState);
+            console.log("responseText: "+ xhr.responseText);
+            console.log("status: " + xhr.status);
+            console.log("text status: " + textStatus);
+            console.log("error: " + err);
+            },
+            success: function(data){
+                    data = JSON.parse(data)
+
+                    DATA_NAME = data[0].name;
+                    DATA_BUDGET = data[0].budget;
+                    $(document).find('.data_name').html(DATA_NAME);
+                    if(predict == 0){
+                      $.ajax({
+                        type: 'get',
+                        url: "/ajax/get_table_data",
+                        dataType: "json",
+                        data: {
+                          dsid: dsid
+                        },
+                        error: function(xhr,textStatus,err){
+                            console.log("readyState: " + xhr.readyState);
+                        console.log("responseText: "+ xhr.responseText);
+                        console.log("status: " + xhr.status);
+                        console.log("text status: " + textStatus);
+                        console.log("error: " + err);
+                        },
+                        success: function(data){
+                          create_html_table(data, DATA_BUDGET);
+                        },
+                        failure: function(){
+                          alert('An error occured: Please try again');
+                        }
+                        });
+                      }
+                      //if it's a prediction just take the data passed over
+                      else{
+                      
+                        $.ajax({
+                        type: 'post',
+                        url: "/ajax/get_pred/",
+                        dataType: "json",
+                        data: {
+                          dsid: dsid,
+                          modelid:modelid
+
+                        },
+                        error: function(xhr,textStatus,err){
+                            console.log("readyState: " + xhr.readyState);
+                        console.log("responseText: "+ xhr.responseText);
+                        console.log("status: " + xhr.status);
+                        console.log("text status: " + textStatus);
+                        console.log("error: " + err);
+                        },
+                        success: function(data){
+                          create_html_table(data, DATA_BUDGET);
+                        },
+                        failure: function(){
+                          alert('An error occured: Please try again');
+                        }
+                        });
+
+                      } 
+                    
+            },
+            failure: function(){
+              alert('An error occured: Please try again');
+            }
+            });
+          };
+      });
+  });
+  //--->save projects as unapproved end
+
+  
+});
+
+</script>  
+<div class="container" style="margin-left:0%; margin-right:0%; border:0; max-width: 100vw;">
+  <div style="margin-top: 1.5em; float: right; color: black; margin-right: 1em; ">
+    <span style="color: green; font-size: 20px; display: inline">⬤</span><span style="display: inline">  End of Approved Projects  |</span>
+    <span style="color: red; font-size: 20px; display: inline">⬤</span><span style="display: inline">  End of Available Budget</span>
+  </div>  
+  <button class="btn btn-secondary dropdown-toggle" style="width:12vw; float:left; text-align: center; height: 28px;" type="button" id="dropbtn" onclick="dropFunc()" aria-haspopup="true" aria-expanded="false">Scenario</button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="myDropdown" style="width: 12.7vw; margin-top: 3.6em; text-align: center">
+  </div>
+  <span style="display: inline"><div id="sexybutton" style="display:none" ><button class="approve" style="background-color: green; border: 1px solid black; width: 12vw; height: 37px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Approve selected</button></div></span>
+  <span style="display: inline"><div id="unsexybutton" style="display:none" ><button class="unapprove" style="background-color: rgb(228, 62, 62); border: 1px solid black; width: 12vw; height: 37px; margin-top: 1em; margin-left: 1em; line-height: 10px; float: center; border-radius:4px;">Un-approve selected</button></div></span>
+
+<script>
+  function show_approve() {
+  var x = document.getElementById("sexybutton");
+  var clicked = 0
+  $.each($("input[name='select']:checked"), function(){
+    clicked+= 1;
+  });
+  if (clicked == 0) {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }};
+  function show_unapprove() {
+  var y = document.getElementById("unsexybutton");
+  var clicked2 = 0
+  $.each($("input[name='deselect']:checked"), function(){
+    clicked2+= 1;
+  });
+  if (clicked2 == 0) {
+    y.style.display = "none";
+  } else {
+    y.style.display = "block";
+  }};
+  function show_unapprove() {
+  var y = document.getElementById("unsexybutton");
+  var clicked2 = 0
+  $.each($("input[name='deselect']:checked"), function(){
+    clicked2+= 1;
+  });
+  if (clicked2 == 0) {
+    y.style.display = "none";
+  } else {
+    y.style.display = "block";
+  }};
+</script>
+    <!-- Change width to fix overflow x along with wrapper -->
+          <div class="tbl_user_data" style="width: 85vw; padding-top:0; max-height: 59em; overflow:auto; box-shadow: 0 9px 10px 0 rgba(0, 0, 0, 0.2), 0 9px 8px 0 rgba(0, 0, 0, 0.19)">
+            
+  </div>
+  </div>
+
+
+{% endblock %}
