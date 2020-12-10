@@ -218,18 +218,6 @@ button{
                             var form_add2 = "";
                             var sets2_data = JSON.parse("{{sets2|escapejs}}");
                             $.each(sets2_data, function(index, val){
-<<<<<<< HEAD
-                                form_add2 += '<table style="border-bottom: 2px;">'
-                                form_add2 += '<h4 class="small font-weight-bold">Name: ' + val['name'] + '</h4>'
-                                form_add2 += '<h4 class="small font-weight-bold">Description: ' + val['details'] + '</h4>'
-                                form_add2 += '<h4 class="small font-weight-bold">Creation Date: ' + new Date(val['created_at']).toLocaleString() + '</h4>'
-                                form_add2 += '<h4 class="small font-weight-bold">Accuracy: ' + val['accuracy'].toFixed(3) + '%</h4>'
-                                form_add2 += '<form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">'
-                                form_add2 += '{% csrf_token %}'
-                                form_add2 += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">'
-                                form_add2 += '<button type ="submit" name="model" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' +val['id'] + '>Delete</button> </div> </form>'
-                                form_add2 += '<br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br> </table>'
-=======
                                 form_add2 += '<table style="border-bottom: 2px;">';
                                 form_add2 += '<h4 class="small font-weight-bold">Name: ' + val['name'] + '</h4>';
                                 form_add2 += '<h4 class="small font-weight-bold">Description: ' + val['details'] + '</h4>';
@@ -240,7 +228,6 @@ button{
                                 form_add2 += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">';
                                 form_add2 += '<button type ="submit" name="model" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' +val['id'] + '>Delete</button> </div> </form>';
                                 form_add2 += '<br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br> </table>';
->>>>>>> 24644b57a7707432e8e2f1adf68322f01fa04377
                             });
                             $(document).find('.portfolio_list').html(form_add);
                             $(document).find('.model_list').html(form_add2);
@@ -295,7 +282,7 @@ button{
     var budget_data = JSON.parse("{{budget_info|escapejs}}");
 
 
-    var color_ary = [ '#14BDEB', '#9883E5', '#253C78', '#82C09A', '#1F2F16' ];
+    var color_ary = [ '#14BDEB', '#9883E5', '#253C78', '#7CFFC4', '#EF7A85' ];
     var pieModelsInner = [];
     var bar_model_names = []
     var budget_values_total = []
@@ -359,17 +346,17 @@ button{
         series: [{
             type: 'column',
             name: "Total Budget",
-            showInLegend: false,
+            showInLegend: true,
             data: budget_values_total
         }, {
             type: 'column',
             name: "Total Approved",
-            showInLegend: false,
+            showInLegend: true,
             data: budget_values_approved
         }, {
             type: 'column',
             name: "Total Remaining",
-            showInLegend: false,
+            showInLegend: true,
             data: budget_values_remaining
         },
         {
@@ -386,7 +373,7 @@ button{
             },
             center: [70, 50],
             size: 175,
-            showInLegend: true
+            showInLegend: false
         }]
     });
 
