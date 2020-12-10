@@ -293,9 +293,9 @@ button{
     for (i =0; i < bar_model_names; i += 1) {
         seriesScatter.push({ 
             name : bar_model_names[i].name,
-            color: color_ary[i],
+            color: 'rgba(223, 83, 83, .5)',
             data: [
-                [ some_array_num_of_features[i].features, bar_model_data[i].accuracy] 
+                [ bar_model_data[i].features, bar_model_data[i].accuracy ] 
             ]
         });
     }
