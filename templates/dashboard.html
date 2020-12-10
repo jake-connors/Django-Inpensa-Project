@@ -255,6 +255,7 @@ button{
 <script>
 
     var bar_model_data =JSON.parse("{{model_info|escapejs}}") ;
+    var sets2_data = JSON.parse("{{sets2|escapejs}}");
     var budget_data = JSON.parse("{{budget_info|escapejs}}");
 
 
@@ -287,18 +288,19 @@ button{
         name: "",
         y: 0,
         color: '#FFFFFF'
-    })
+    });
 
     var seriesScatter = [];
-    for (i =0; i < bar_model_names; i += 1) {
-        seriesScatter.push({ 
-            name : bar_model_names[i].name,
-            color: 'rgba(223, 83, 83, .5)',
-            data: [
-                [ bar_model_data[i].features, bar_model_data[i].accuracy ] 
+    $.each(sets2_data, function (index, val){
+        seriesScatter.push({
+            name: val['name'],
+            color: val['color'],
+            data : [
+                [ val['features'], val['accuracy'] ]
             ]
-        });
-    }
+        })
+    });
+    
     
     Highcharts.chart('container', {
         title: {
@@ -371,7 +373,7 @@ button{
             zoomType: 'xy'
         },
         title: {
-            text: 'Number of Features vs Accuracy'
+            text: 'Features Included vs Accuracy'
         },
         subtitle: {
             text: 'All Models'
@@ -379,16 +381,20 @@ button{
         xAxis: {
             title: {
                 enabled: true,
-                text: 'Number of Features'
+                text: 'Number of Features (0-17)'
             },
             startOnTick: true,
             endOnTick: true,
-            showLastLabel: true
+            showLastLabel: true,
+            min: 0,
+            max: 17.5
         },
         yAxis: {
             title: {
                 text: 'Accuracy (%)'
-            }
+            },
+            min: 55,
+            max: 100
         },
         legend: {
             layout: 'vertical',
@@ -396,14 +402,18 @@ button{
             verticalAlign: 'top',
             x: 100,
             y: 70,
+            itemStyle: {
+                color: '#000000',
+                fontSize: 13
+            },
             floating: true,
             backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
-            borderWidth: 1
+            borderWidth: 2
         },
         plotOptions: {
             scatter: {
                 marker: {
-                    radius: 5,
+                    radius: 18,
                     states: {
                         hover: {
                             enabled: true,
@@ -420,7 +430,7 @@ button{
                 },
                 tooltip: {
                     headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: '{point.x} cm, {point.y} kg'
+                    pointFormat: '{point.x} features, {point.y:.2f} %'
                 }
             }
         },
