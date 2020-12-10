@@ -26,19 +26,6 @@
   border: 1px solid #888;
   width: 30%;
 }
-.highcharts-credits{
-    display:none
-}
-.highcharts-color-1 {
-  fill: rgb(0, 80, 185);
-}
-.highcharts-color-2 {
-  fill: rgb(184, 0, 53);
-}
-.highcharts-color-3 {
-  fill: rgb(0, 199, 217);
-}
-
 
 /* The Close Button */
 .close {
@@ -64,12 +51,32 @@ button{
     text-align: left;
     box-shadow: 0px 0px white;
 }
-
-.highcharts-figure, .highcharts-data-table table {
-    min-width:80vw; 
-    max-width: 90vw;
-    margin: 1em auto;
+.highcharts-credits{
+    display:none
 }
+.highcharts-figure {
+    width: 75vw; 
+    height: 55vh;
+}
+.barChartContainer {
+    width: 20vw; 
+    height: 35vh;
+}
+.highcharts-figure-models, #container2 {
+    min-width: 9em; 
+    max-width: 20em;
+    margin: .5em auto;
+    position: relative;
+    bottom: 18vh;
+    margin-bottom: -20vh;
+    left: 10vw;
+    padding-top: 7vh;
+    padding-bottom: 0vh;
+}
+.barChartContainer .highcharts-point.highcharts-color-0{
+    fill: rgb(244, 91, 91);
+}
+
 
 
 
@@ -86,9 +93,8 @@ button{
 
                     <!-- Content Row -->
                     <div class="row">
-
                         <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-6 mb-4" style="z-index: 1;">
 
                             <figure class="highcharts-figure">
                                 <div id="container"></div>
@@ -96,12 +102,9 @@ button{
                                 
         
                             </figure>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <figure class="highcharts-figure">
-                                <div id="container2"></div>
-                            </figure>
-                        </div>
+                        </div> 
+                        <div class="col-lg-6 mb-4"></div>
+
 
                             <div class="col-lg-6 mb-4">
                             <!-- Set List -->
@@ -205,6 +208,9 @@ button{
                                         <h4 class="small font-weight-bold">Description: {{data.details}}</h4>
                                         <h4 class="small font-weight-bold">Creation Date: {{data.created_at}}</h4>
                                         <h4 class="small font-weight-bold">Accuracy: {{data.accuracy}}%</h4>
+                                        <figure class="highcharts-figure-models">
+                                            <div class="barChartContainer" id="barChartContainer_{{ data.name }}"></div>
+                                        </figure>
                                         <form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">
                                             {% csrf_token %}
                                             <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">
@@ -264,57 +270,41 @@ button{
     </div>
 <script>
 
-    var pieModels = [];
-    var pieModelsInner = [];
-    var color_data = [
-                        {'colorInner' : '#0000FF', 'colorOuter1' : '#0050B9', 'colorOuter2' : '#77B7FF'},
-                        {'colorInner' : '#FF0000', 'colorOuter1' : '#B80035', 'colorOuter2' : '#FFA0A0'},
-                        {'colorInner' : '#f6c23e', 'colorOuter1' : '#00C7D9', 'colorOuter2' : '#ffe4a0'},
-                        {'colorInner' : ' #00FF00', 'colorOuter1' : '#61FF61', 'colorOuter2' : '#9BFF9B'},
-                        {'colorInner' : '#FF7F00', 'colorOuter1' : '#FFAA54', 'colorOuter2' : '#FFCE9C'}
-    ];
     var bar_model_data =JSON.parse("{{model_info|escapejs}}") ;
     var budget_data = JSON.parse("{{budget_info|escapejs}}");
-    var color_data_3 = []
-
-    for (i = 0; i < budget_data.length; i += 1) {
-        color_data_3.push(color_data[i].colorInner)
-    }
-    
-    for (i = 0; i < budget_data.length; i += 1) {
-        pieModels.push({
-            name: "Total Approved", 
-            y: budget_data[i].approved, 
-            color: color_data[i].colorOuter1
-        },
-        {
-            name: "Total Remaining", 
-            y: budget_data[i].budget - budget_data[i].approved, 
-            color: color_data[i].colorOuter2
-        });
-    }
-    
-
-    for (i = 0; i < budget_data.length; i += 1) {
-        pieModelsInner.push({
-            name: budget_data[i].name, 
-            y: budget_data[i].budget, 
-            color: color_data[i].colorOuter1
-        });
-    }
 
 
-
+    var color_ary = [ '#5F00A5', '#DF8A00', '#6F6F6F', '#002399', '#A50C0E' ];
+    var pieModelsInner = [];
     var bar_model_names = []
     var budget_values_total = []
     var budget_values_approved = []
     var budget_values_remaining = []
+
+    bar_model_names.push("");
+    budget_values_total.push(0);
+    budget_values_approved.push(0);
+    budget_values_remaining.push(0);
+
     for (i = 0; i < budget_data.length; i += 1) {
         bar_model_names.push(budget_data[i].name);
         budget_values_total.push(budget_data[i].budget);
         budget_values_approved.push(budget_data[i].approved);
         budget_values_remaining.push(budget_data[i].budget - budget_data[i].approved);
     }
+    for (i = 0; i < budget_data.length; i += 1) {
+        pieModelsInner.push({
+            name: budget_data[i].name, 
+            y: budget_data[i].budget, 
+            color: color_ary[i]
+        });
+    }
+    pieModelsInner.push({
+        name: "",
+        y: 0,
+        color: '#FFFFFF'
+    })
+    
     Highcharts.chart('container', {
         title: {
             text: "Portfolio Chart"
@@ -323,7 +313,9 @@ button{
             text: 'Approved & Remaining Budgets'
         },
         xAxis: {
-            categories: bar_model_names
+            categories: bar_model_names,
+            min: 0
+            
         },
         yAxis: {
             title: {
@@ -332,26 +324,18 @@ button{
         },
         labels: {
             items: [{
-                html: 'pie chart name',
+                html: 'Total Budgets',
                 style: {
-                    left: '40px',
+                    left: '50px',
                     top: '-40px',
                     color: ( // theme
-                        Highcharts.defaultOptions.title.style &&
-                        Highcarts.defaultOptions.title.style.color
+                    Highcharts.defaultOptions.title.style &&
+                    Highcharts.defaultOptions.title.style.color
                     ) || 'black'
                 }
             }]
         },
         series: [{
-            type:'column',
-            showInLegend: false,
-            name: ''
-        },  {
-            type: 'column',
-            showInLegend: false,
-            name: ''
-        },  {
             type: 'column',
             name: "Total Budget",
             showInLegend: false,
@@ -369,7 +353,7 @@ button{
         },
         {
             type: 'pie',
-            name: 'Amount',
+            name: 'Total Budget',
             data: pieModelsInner,
             dataLabels: {
                 enabled: true,
@@ -379,12 +363,57 @@ button{
                 color: '#ffffff',
                 distance: -30
             },
-            center: [60, 40],
-            size: 135,
-            showInLegend: true,
+            center: [70, 50],
+            size: 175,
+            showInLegend: true
         }]
     });
-
+    for (i = 0; i < bar_model_data.length; i += 1) {
+        var modName = '' + bar_model_data[i].name;
+        Highcharts.chart('barChartContainer_' + modName, {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Model Accuracy'
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    enabled: false,
+                }
+                
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Accuracy'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: 'Accuracy: <b>{point.y:.1f} %</b>'
+            },
+            series: [{
+                name: 'Models',
+                data: [ [bar_model_data[i].name, bar_model_data[i].accuracy] ],
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: 'Black',
+                    align: 'center',
+                    format: '{point.y:.2f}%', // one decimal
+                    y: 5, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            }]
+        });
+    };
 </script>
 
 {% endblock %}
