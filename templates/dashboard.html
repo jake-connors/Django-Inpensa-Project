@@ -211,10 +211,10 @@ button{
                                 form_add2 += '<h4 class="small font-weight-bold">Description: ' + val['details'] + '</h4>';
                                 form_add2 += '<h4 class="small font-weight-bold">Creation Date: ' + new Date(val['created_at']).toLocaleString() + '</h4>';
                                 form_add2 += '<h4 class="small font-weight-bold">Accuracy: ' + val['accuracy'].toFixed(3) + '</h4>';
-                                form_add2 += '<form action = "/delete_model/" method="POST" style="width:100%; margin:0; padding:0; border:0">';
+                                form_add2 += '<h4 class="small font-weight-bold">Number of features: ' + val['features'] + '</h4>';
                                 form_add2 += '{% csrf_token %}';
                                 form_add2 += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">';
-                                form_add2 += '<button type ="submit" name="model" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' +val['id'] + '>Delete</button> </div> </form>';
+                                form_add2 += '<button formaction="/delete_model/" formmethod="post" type ="submit" name="model" style="background-color: #c93325; text-align:center; padding: 2px 0; color:white" value=' +val['id'] + '>Delete</button> </div>';
                                 form_add2 += '<br><hr class="sidebar-divider my-0" style="border-bottom:1px solid black"><br> </table>';
                             });
                             $(document).find('.portfolio_list').html(form_add);
