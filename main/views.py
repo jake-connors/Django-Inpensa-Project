@@ -75,11 +75,18 @@ def dash(request):
         df4 = df
         df3 = df2
         if(df3.shape[0]!= 0):
+            df3 = df3.fillna(0)
             df3 = df3.sort_values(by=['updated_at'], ascending=False)
+            df3['created_at'] = df3['created_at'].astype(str)
+            df3['updated_at'] = df3['updated_at'].astype(str)
 
         sorted_sets = df3.to_dict('records');
-        if(df.shape[0] != 0):
+        if(df4.shape[0] != 0):
+            df4 =df4.fillna(0)
             df4 = df4.sort_values(by=['updated_at'], ascending=False)
+            df4['created_at'] = df4['created_at'].astype(str)
+            df4['updated_at'] = df4['updated_at'].astype(str)
+
         sorted_models = df4.to_dict('records');
         if(df.shape[0]!= 0):
             df = df[['name', 'accuracy']]
@@ -100,8 +107,8 @@ def dash(request):
             budget_info=0
 
         return render(request, 'dashboard.html',{
-            'sets': sorted_sets,
-            'sets2': sorted_models,
+            'sets': dumps(sorted_sets),
+            'sets2': dumps(sorted_models),
             'budget_info':dumps(budget_info),
             'model_info':dumps(model_info)
         })
