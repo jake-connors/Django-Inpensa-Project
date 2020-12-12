@@ -54,14 +54,14 @@ button{
 .highcharts-credits{
     display:none
 }
-.highcharts-figure {
+.highcharts-figure-combo {
     width: 75vw; 
     height: 37vh;
 }
 .highcharts-figure-scatter {
     width: 75vw; 
-    height: 36vh;
-    margin: 1em auto;
+    height: 40vh;
+    margin: 6em auto;
 }
 
 
@@ -82,19 +82,18 @@ button{
                     <div class="row">
                         <!-- Content Column -->
                         <div class="col-lg-6 mb-4" style="z-index: 1;">
-
-                            <figure class="highcharts-figure">
+                            <figure class="highcharts-figure-combo" id="highcharts-figure-c">
                                 <div id="container"></div>
                             </figure>
                         </div> 
-                        <div class="col-lg-6 mb-4"></div>
+                        <div class="col-lg-6 mb-4" style="z-index: 2"></div>
                         <div class="col-lg-6 mb-4" style="z-index: 1;">
-                            <figure class="highcharts-figure-scatter">
-                            <div id="containerScatter"></div>
+                            <figure class="highcharts-figure-scatter" id="highcharts-figure-s">
+                                <div id="containerScatter"></div>
                             </figure>
                         </div>
                         <div class="col-lg-6 mb-4"></div>
-                            <div class="col-lg-6 mb-4">
+                            <div class="col-lg-6 mb-4" style="z-index: 5">
                             <!-- Set List -->
                             <div class="card shadow mb-4" style="height:90vh; width:100%">
                                 <div class="card-header py-3">
@@ -165,7 +164,7 @@ button{
                             </div>
                         </div>
 
-                        <div class="col-lg-6 mb-4" style="float:left">
+                        <div class="col-lg-6 mb-4" style="z-index: 4;float:left">
 
                             <!-- Model List -->
                             <div class="card shadow mb-4" style="height: 90vh">
@@ -175,9 +174,6 @@ button{
                                 <div class="card-body" style="overflow-y:auto; max-height: 90vh; overflow-x: hidden">
                                     <div class="model_list">
                                     </div>
-                                    <figure class="highcharts-figure-models">
-                                        <div class="barChartContainer" id="barChartContainer_{{ data.name }}"></div>
-                                    </figure>
                                 </div>
                             </div>
                         </div>
@@ -210,7 +206,7 @@ button{
                                 form_add2 += '<h4 class="small font-weight-bold">Name: ' + val['name'] + '</h4>';
                                 form_add2 += '<h4 class="small font-weight-bold">Description: ' + val['details'] + '</h4>';
                                 form_add2 += '<h4 class="small font-weight-bold">Creation Date: ' + new Date(val['created_at']).toLocaleString() + '</h4>';
-                                form_add2 += '<h4 class="small font-weight-bold">Accuracy: ' + val['accuracy'].toFixed(3) + '</h4>';
+                                form_add2 += '<h4 class="small font-weight-bold">Accuracy: ' + val['accuracy'].toFixed(3) + '%</h4>';
                                 form_add2 += '<h4 class="small font-weight-bold">Number of features: ' + val['features'] + '</h4>';
                                 form_add2 += '{% csrf_token %}';
                                 form_add2 += '<div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 8px; width:33%">';
@@ -253,12 +249,20 @@ button{
         </div>
     </div>
 <script>
+    // Sends a 0 when no datasets or models (sets2, model_info, budget_data... make the charts not show up)
 
-    var bar_model_data =JSON.parse("{{model_info|escapejs}}") ;
+    // if (JSON.parse("{{sets2|escapejs}}")[0].dsid == 0)
+
+
+
+
+    var bar_model_data =JSON.parse("{{model_info|escapejs}}");
     var sets2_data = JSON.parse("{{sets2|escapejs}}");
     var budget_data = JSON.parse("{{budget_info|escapejs}}");
 
 
+
+    
     var color_ary = [ '#14BDEB', '#9883E5', '#253C78', '#7CFFC4', '#EF7A85' ];
     var pieModelsInner = [];
     var bar_model_names = []
@@ -303,6 +307,9 @@ button{
     
     
     Highcharts.chart('container', {
+        chart: {
+            type: 'pie'
+        },
         title: {
             text: "Portfolio Chart"
         },
@@ -312,7 +319,6 @@ button{
         xAxis: {
             categories: bar_model_names,
             min: 0
-            
         },
         yAxis: {
             title: {
@@ -321,14 +327,13 @@ button{
         },
         labels: {
             items: [{
-                html: 'Total Budgets',
+                html: 'Dataset Budgets:',
                 style: {
-                    left: '50px',
-                    top: '-40px',
-                    color: ( // theme
-                    Highcharts.defaultOptions.title.style &&
-                    Highcharts.defaultOptions.title.style.color
-                    ) || 'black'
+                    position: 'relative',
+                    left: '115vw',
+                    top: '0%',
+                    fontSize: '115%',
+                    fontWeight: 'bold'
                 }
             }]
         },
@@ -357,15 +362,14 @@ button{
                 formatter: function () {
                     return this.y > 5 ? this.point.name : null;
                 },
-                color: '#ffffff',
-                distance: -30
+                color: 'black'
             },
-            center: [70, 50],
-            size: 175,
-            showInLegend: false
+            center: ['16%', '40%'],
+            size: '60%',
+            showInLegend: false,
         }]
     });
-
+    
 
     Highcharts.chart('containerScatter', {
         chart: {
@@ -414,7 +418,7 @@ button{
             scatter: {
                 marker: {
                     symbol: 'circle',
-                    radius: 18,
+                    radius: 15,
                     states: {
                         hover: {
                             enabled: true,
@@ -437,6 +441,16 @@ button{
         },
         series: seriesScatter
     });
+
+    if (budget_values_total.length == 1) {
+        document.getElementById('highcharts-figure-c').style.display = 'none';
+    }
+    if (sets2_data.length == 0) {
+        document.getElementById('highcharts-figure-s').style.display = 'none';
+    }
+
+
+    
 
 </script>
 
