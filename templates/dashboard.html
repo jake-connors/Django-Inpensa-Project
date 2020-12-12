@@ -59,16 +59,10 @@ button{
     height: 100%;
 }
 .highcharts-figure-scatter {
-<<<<<<< HEAD
-    width: 40vw; 
-    height: 40vh;
-    margin: 3em auto;
-=======
-    width: 85vw; 
+    width: 30vw; 
     height: 37vh;
     margin-left: 6em auto;
     margin-right: 6em auto;
->>>>>>> 948090167359538593625af1a00b13704edfd593
 }
 
 
@@ -88,14 +82,6 @@ button{
                     <!-- Content Row -->
                     <div class="row">
                         <!-- Content Column -->
-<<<<<<< HEAD
-                        <div class="col-lg-6 mb-4" style="z-index: 2;">
-                            <figure class="highcharts-figure-combo" id="highcharts-figure-c">
-                                <div id="container"></div>
-                            </figure>
-                        </div> 
-                        <div class="col-lg-6 mb-4" style="z-index: 1"></div>
-=======
 
                         <div class="card shadow mb-4" style="height: 38vh; min-width: 85vw">
                             <div class="card-header py-3">
@@ -111,22 +97,16 @@ button{
 
                     </div>
                     <div class="row"> 
->>>>>>> 948090167359538593625af1a00b13704edfd593
                         <div class="col-lg-6 mb-4" style="z-index: 1;">
                             <figure class="highcharts-figure-scatter" id="highcharts-figure-s">
                                 <div id="containerScatter"></div>
                             </figure>
-                        </div>
-<<<<<<< HEAD
-                        <div class="col-lg-6 mb-4">
-                            <figure class="highcharts-figure-bar" id="highcharts-figure-b">
+                            <figure class="highcharts-figure" id="highcharts-figure-b">
                                 <div id="containerAccuracy"></div>
                             </figure>
                         </div>
-=======
                     </div>
                     <div class="row">
->>>>>>> 948090167359538593625af1a00b13704edfd593
                             <div class="col-lg-6 mb-4" style="z-index: 5">
                             <!-- Set List -->
                             <div class="card shadow mb-4" style="height:90vh; width:100%">
@@ -498,7 +478,7 @@ button{
             pointFormat: 'Accuracy: <b>{point.y:.2f} %</b>'
         },
         series: [{
-            name: 'Population',
+            name: 'Model Accuracy',
             data: [
                 bar_chart_data
             ],
