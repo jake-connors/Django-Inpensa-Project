@@ -294,7 +294,6 @@ button{
     var budget_values_remaining = [];
     var bar_chart_data = [];
 
-    bar_model_names.push("");
     budget_values_total.push(0);
     budget_values_approved.push(0);
     budget_values_remaining.push(0);
@@ -330,7 +329,7 @@ button{
     });
 
     for (i = 0; i < bar_model_data.length; i += 1) {
-        bar_chart_data.push([bar_model_data[i].name, bar_model_data[i].accuracy]);
+        bar_chart_data.push([''+bar_model_data[i].name, bar_model_data[i].accuracy]);
     }
 
     Highcharts.chart('container', {
@@ -458,9 +457,9 @@ button{
             text: 'Most Accuracte Models'
         },
         xAxis: {
-            type: 'Models',
+            type: 'category',
             labels: {
-                rotation: -45,
+                rotation: 0,
                 style: {
                     fontSize: '13px',
                     fontFamily: 'Verdana, sans-serif'
