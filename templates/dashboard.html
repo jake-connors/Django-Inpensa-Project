@@ -79,47 +79,43 @@ button{
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800" style="padding-top: 12px">Dashboard</h1>
-                    </div>
-
                     <!-- Content Row -->
                     <div class="row">
                         <!-- Content Column -->
-
-                        <div class="card shadow mb-4" style="height: 42vh; min-width: 85vw">
+                        <!-- top figure -->
+                        <div class="card shadow mb-4" style="height: 42vh; min-width: 85.5vw; margin-left: auto; margin-right: auto">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Portfolios</h6>
                             </div>
                             <div class="card-body">
                             <figure class="highcharts-figure-combo" id="highcharts-figure-c">
-                                <div id="container" style="height: 10% !important"></div>
+                                <div id="container" style="height: 100% !important"></div>
                             </figure>
                             </div>
                         </div>
 
                     </div>
-                    <div class="row"> 
-                        <div class="card shadow mb-4" style="height: 42vh; min-width: 42vw">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Models</h6>
-                            </div>
-                            <div class="card-body">
-                                <figure class="highcharts-figure-scatter" id="highcharts-figure-s">
-                                    <div id="containerScatter"></div>
-                                </figure>
+                    <!--Other two figures -->
+                    <div class="row" style="margin-left: -.5vw">
+                        <div class="col-lg-6 mb-4" style="margin-bottom: 0 !important">
+                            <div class="card shadow mb-4" style="height: 42vh; min-width: 85.5vw">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Models</h6>
+                                </div>
+                                <div class="card-body" style="width: 40vw; float:left">
+                                    <figure class="highcharts-figure-scatter" id="highcharts-figure-s">
+                                        <div id="containerScatter"></div>
+                                    </figure>
+                                </div>
                             </div>
                         </div>
-                        <div class="card shadow mb-4" style="height: 42vh; min-width: 42vw">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Accuracy</h6>
-                            </div>
-                                <figure class="highcharts-figure-bar" id="highcharts-figure-b">
-                                    <div id="containerAccuracy"></div>
-                                </figure>
+                        <div class="col-lg-6 mb-4" style="margin-top: 8.6vh; float: right; margin-bottom: 0 !important">
+                                    <figure class="highcharts-figure-bar" id="highcharts-figure-b">
+                                        <div id="containerAccuracy"></div>
+                                    </figure>
                         </div>
-                    </div>
+                </div>
+
                     <div class="row">
                             <div class="col-lg-6 mb-4" style="z-index: 5">
                             <!-- Set List -->
@@ -338,10 +334,7 @@ button{
             type: 'pie'
         },
         title: {
-            text: "Portfolio Chart"
-        },
-        subtitle: {
-            text: 'Approved & Remaining Budgets'
+            text: " "
         },
         xAxis: {
             categories: bar_model_names,
