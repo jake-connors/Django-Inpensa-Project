@@ -59,9 +59,9 @@ button{
     height: 37vh;
 }
 .highcharts-figure-scatter {
-    width: 75vw; 
+    width: 40vw; 
     height: 40vh;
-    margin: 6em auto;
+    margin: 3em auto;
 }
 
 
@@ -81,18 +81,22 @@ button{
                     <!-- Content Row -->
                     <div class="row">
                         <!-- Content Column -->
-                        <div class="col-lg-6 mb-4" style="z-index: 1;">
+                        <div class="col-lg-6 mb-4" style="z-index: 2;">
                             <figure class="highcharts-figure-combo" id="highcharts-figure-c">
                                 <div id="container"></div>
                             </figure>
                         </div> 
-                        <div class="col-lg-6 mb-4" style="z-index: 2"></div>
+                        <div class="col-lg-6 mb-4" style="z-index: 1"></div>
                         <div class="col-lg-6 mb-4" style="z-index: 1;">
                             <figure class="highcharts-figure-scatter" id="highcharts-figure-s">
                                 <div id="containerScatter"></div>
                             </figure>
                         </div>
-                        <div class="col-lg-6 mb-4"></div>
+                        <div class="col-lg-6 mb-4">
+                            <figure class="highcharts-figure-bar" id="highcharts-figure-b">
+                                <div id="containerAccuracy"></div>
+                            </figure>
+                        </div>
                             <div class="col-lg-6 mb-4" style="z-index: 5">
                             <!-- Set List -->
                             <div class="card shadow mb-4" style="height:90vh; width:100%">
@@ -261,14 +265,14 @@ button{
     var budget_data = JSON.parse("{{budget_info|escapejs}}");
 
 
-
     
     var color_ary = [ '#14BDEB', '#9883E5', '#253C78', '#7CFFC4', '#EF7A85' ];
     var pieModelsInner = [];
-    var bar_model_names = []
-    var budget_values_total = []
-    var budget_values_approved = []
-    var budget_values_remaining = []
+    var bar_model_names = [];
+    var budget_values_total = [];
+    var budget_values_approved = [];
+    var budget_values_remaining = [];
+    var bar_chart_data = [];
 
     bar_model_names.push("");
     budget_values_total.push(0);
@@ -304,8 +308,11 @@ button{
             ]
         })
     });
-    
-    
+
+    for (i = 0; i < bar_model_data.length; i += 1) {
+        bar_chart_data.push(bar_model_data[i].name, bar_model_data[i].accuracy);
+    }
+
     Highcharts.chart('container', {
         chart: {
             type: 'pie'
@@ -330,8 +337,8 @@ button{
                 html: 'Dataset Budgets:',
                 style: {
                     position: 'relative',
-                    left: '115vw',
-                    top: '0%',
+                    left: '20vw',
+                    top: '-15%',
                     fontSize: '115%',
                     fontWeight: 'bold'
                 }
@@ -364,7 +371,7 @@ button{
                 },
                 color: 'black'
             },
-            center: ['16%', '40%'],
+            center: ['8%', '40%'],
             size: '60%',
             showInLegend: false,
         }]
@@ -391,7 +398,7 @@ button{
             endOnTick: true,
             showLastLabel: true,
             min: 0,
-            max: 17.5
+            max: 17
         },
         yAxis: {
             title: {
@@ -401,18 +408,11 @@ button{
             max: 100
         },
         legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 100,
-            y: 70,
             itemStyle: {
                 color: '#000000',
                 fontSize: 13
             },
-            floating: true,
-            backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
-            borderWidth: 2
+            backgroundColor: Highcharts.defaultOptions.chart.backgroundColor
         },
         plotOptions: {
             scatter: {
@@ -442,11 +442,61 @@ button{
         series: seriesScatter
     });
 
+    Highcharts.chart('containerAccuracy', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Most Accuracte Models'
+        },
+        xAxis: {
+            type: 'Models',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Accuracy (%)'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Accuracy: <b>{point.y:.2f} %</b>'
+        },
+        series: [{
+            name: 'Population',
+            data: [
+                bar_chart_data
+            ],
+            dataLabels: {
+                enabled: true,
+                rotation: 0,
+                color: 'black',
+                align: 'center',
+                format: '{point.y:.2f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
+
     if (budget_values_total.length == 1) {
         document.getElementById('highcharts-figure-c').style.display = 'none';
     }
     if (sets2_data.length == 0) {
         document.getElementById('highcharts-figure-s').style.display = 'none';
+        document.getElementById('highcharts-figure-b').style.display = 'none';
     }
 </script>
 
