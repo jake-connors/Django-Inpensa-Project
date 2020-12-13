@@ -4,8 +4,7 @@ __pycache__/
 *.log
 *.manifest
 *.spec
-db.sqlite3
-  ##
+
 
 # Soda is bad for you
 # Elastic Beanstalk Files

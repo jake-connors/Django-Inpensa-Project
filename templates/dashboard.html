@@ -80,7 +80,7 @@ button{
                 <div class="container-fluid">
 
                     <!-- Content Row -->
-                    <div class="row">
+                    <div class="row" id="row1">
                         <!-- Content Column -->
                         <!-- top figure -->
                         <div class="card shadow mb-4" style="height: 42vh; min-width: 85.5vw; margin-left: auto; margin-right: auto">
@@ -96,7 +96,7 @@ button{
 
                     </div>
                     <!--Other two figures -->
-                    <div class="row" style="margin-left: -.5vw">
+                    <div class="row" id="row2" style="margin-left: -.5vw">
                         <div class="col-lg-6 mb-4" style="margin-bottom: 0 !important">
                             <div class="card shadow mb-4" style="height: 42vh; min-width: 85.5vw">
                                 <div class="card-header py-3">
@@ -492,10 +492,12 @@ button{
 
     if (budget_values_total.length == 1) {
         document.getElementById('highcharts-figure-c').style.display = 'none';
+        document.getElementById('row1').style.display = 'none';
     }
     if (sets2_data.length == 0) {
         document.getElementById('highcharts-figure-s').style.display = 'none';
         document.getElementById('highcharts-figure-b').style.display = 'none';
+        document.getElementById('row2').style.display = 'none';
     }
 </script>
 <script>
