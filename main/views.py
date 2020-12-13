@@ -539,39 +539,39 @@ def edit_single_data(request):
         if(datacolumn == "name"):
             instance.name = datavalue
         elif(datacolumn == "TCO"):
-            instance.TCO = datavalue
+            instance.TCO = float(datavalue)
         elif(datacolumn == "TVO"):
-            instance.TVO = datavalue
+            instance.TVO = float(datavalue)
         elif(datacolumn == "NET"):
-            instance.NET = datavalue
+            instance.NET = float(datavalue)
         elif(datacolumn == "PP"):
-            instance.PP = datavalue
+            instance.PP = float(datavalue)
         elif(datacolumn == "ROI"):
-            instance.ROI = datavalue
+            instance.ROI = float(datavalue)
         elif(datacolumn == "CapEx"):
-            instance.CapEx = datavalue
+            instance.CapEx = float(datavalue)
         elif(datacolumn == "OneTime"):
-            instance.OneTime = datavalue
+            instance.OneTime = float(datavalue)
         elif(datacolumn == "OnGoing"):
-            instance.OnGoing = datavalue
+            instance.OnGoing = float(datavalue)
         elif(datacolumn == "Revenue"):
-            instance.Revenue = datavalue
+            instance.Revenue = float(datavalue)
         elif(datacolumn == "Saving"):
-            instance.Saving = datavalue
+            instance.Saving = float(datavalue)
         elif(datacolumn == "Avoid"):
-            instance.Avoid = datavalue
+            instance.Avoid = float(datavalue)
         elif(datacolumn == "CostGrade"):
-            instance.CostGrade = datavalue
+            instance.CostGrade = float(datavalue)
         elif(datacolumn == "ValueScore"):
-            instance.ValueScore = datavalue
+            instance.ValueScore = float(datavalue)
         elif(datacolumn == "RiskScore"):
-            instance.RiskScore = datavalue
+            instance.RiskScore = float(datavalue)
         elif(datacolumn == "BlendedScore"):
-            instance.BlendedScore = datavalue
+            instance.BlendedScore = float(datavalue)
         elif(datacolumn == "CalcPriority"):
-            instance.CalcPriority = datavalue
+            instance.CalcPriority = float(datavalue)
         elif(datacolumn == "OverridedPriority"):
-            instance.OverridedPriority = datavalue
+            instance.OverridedPriority = int(datavalue)
         
         instance.TCO = (instance.CapEx+ instance.OneTime+instance.OnGoing) 
         instance.TVO = (instance.Revenue +instance.Saving+instance.Avoid)
@@ -593,23 +593,23 @@ def edit_whole_data(request):
     if request.user.is_authenticated:
         instance = data.objects.get(id = request.POST.get('row_id'))
         instance.name = request.POST.get('name')
-        instance.TCO = (request.POST.get('CapEx') + request.POST.get('OneTime') +request.POST.get('OnGoing')) 
-        instance.TVO = (request.POST.get('Revenue') +request.POST.get('Saving') +request.POST.get('Avoid'))
+        instance.TCO = (float(request.POST.get('CapEx')) + float(request.POST.get('OneTime')) +float(request.POST.get('OnGoing'))) 
+        instance.TVO = (float(request.POST.get('Revenue')) +float(request.POST.get('Saving')) +float(request.POST.get('Avoid')))
         instance.NET = (instance.TVO - instance.TCO)
-        instance.PP = request.POST.get('PP')
+        instance.PP = float(request.POST.get('PP'))
         instance.ROI = (instance.NET/instance.TCO)*100
-        instance.CapEx = request.POST.get('CapEx')
-        instance.OneTime = request.POST.get('OneTime')
-        instance.OnGoing = request.POST.get('OnGoing')
-        instance.Revenue = request.POST.get('Revenue')
-        instance.Saving = request.POST.get('Saving')
-        instance.Avoid = request.POST.get('Avoid')
-        instance.CostGrade = request.POST.get('CostGrade')
-        instance.ValueScore = request.POST.get('ValueScore')
-        instance.RiskScore = request.POST.get('RiskScore')
-        instance.BlendedScore = request.POST.get('BlendedScore')
-        instance.CalcPriority = request.POST.get('CalcPriority')
-        instance.OverridedPriority = request.POST.get('OverridedPriority')
+        instance.CapEx = float(request.POST.get('CapEx'))
+        instance.OneTime = float(request.POST.get('OneTime'))
+        instance.OnGoing = float(request.POST.get('OnGoing'))
+        instance.Revenue = float(request.POST.get('Revenue'))
+        instance.Saving = float(request.POST.get('Saving'))
+        instance.Avoid = float(request.POST.get('Avoid'))
+        instance.CostGrade = float(request.POST.get('CostGrade'))
+        instance.ValueScore = float(request.POST.get('ValueScore'))
+        instance.RiskScore = float(request.POST.get('RiskScore'))
+        instance.BlendedScore = float(request.POST.get('BlendedScore'))
+        instance.CalcPriority = float(request.POST.get('CalcPriority'))
+        instance.OverridedPriority = int(request.POST.get('OverridedPriority'))
         
         instance.save()
         dsid = instance.dsid
@@ -703,11 +703,11 @@ def add_row(request):
     if request.user.is_authenticated:
         if request.method=="POST":
             dataset1 = dataset.objects.get(id = request.POST['dsid'])
-            instance = data(dsid = dataset1, name= request.POST['name'],TVO= request.POST['tvo'],TCO= request.POST['tco'],NET= request.POST['net'],PP= request.POST['pp'],ROI= request.POST['roi'],CapEx= request.POST['capex'],OneTime= request.POST['onetime'],OnGoing= request.POST['ongoing'],Revenue= request.POST['revenue'],Saving= request.POST['saving'],Avoid= request.POST['avoid'],CostGrade= request.POST['costgrade'],ValueScore= request.POST['valuescore'],RiskScore= request.POST['riskscore'],BlendedScore= request.POST['blendedscore'],CalcPriority= request.POST['calcpriority'],OverridedPriority= request.POST['overridedpriority'],accepted=0)
+            instance = data(dsid = dataset1, name= request.POST['name'],TVO= float(request.POST['tvo']),TCO= float(request.POST['tco']),NET= float(request.POST['net']),PP= float(request.POST['pp']),ROI= float(request.POST['roi']),CapEx= float(request.POST['capex']),OneTime= float(request.POST['onetime']),OnGoing= float(request.POST['ongoing']),Revenue= float(request.POST['revenue']),Saving= float(request.POST['saving']),Avoid= float(request.POST['avoid']),CostGrade= float(request.POST['costgrade']),ValueScore= float(request.POST['valuescore']),RiskScore= float(request.POST['riskscore']),BlendedScore= float(request.POST['blendedscore']),CalcPriority= float(request.POST['calcpriority']),OverridedPriority= int(request.POST['overridedpriority']),accepted=0)
             instance.TCO = (instance.CapEx+ instance.OneTime+instance.OnGoing) 
             instance.TVO = (instance.Revenue +instance.Saving+instance.Avoid)
             instance.NET = (instance.TVO - instance.TCO)
-            instance.ROI = (instance.NET/instance.TCO)*100
+            instance.ROI = (instance.NET/float(instance.TCO))*100
             
             
             instance.save()
