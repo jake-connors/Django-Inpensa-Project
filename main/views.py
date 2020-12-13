@@ -19,6 +19,7 @@ from sklearn.utils import resample
 import os
 import json.encoder
 from django.views.decorators.csrf import csrf_exempt
+import random
 # Create your views here.
 
 def login(request):
@@ -414,7 +415,7 @@ def cmodel(request):
 
             acc = history.history['accuracy']
             val_acc = history.history.get('val_accuracy')[-1]
-            import random
+            
             model_location = "static/data/saved_models/"+str(request.user.username)+"_"+str(request.POST['modname'])+"_"+str(random.randrange(100,999,3))+".h5"
             model_location = model_location.replace(" ", "")
             model1.save(model_location)
@@ -434,11 +435,11 @@ def cmodel(request):
                 Revenue = settings['Revenue'],
                 Saving = settings['Saving'],
                 Avoid = settings['Avoid'],
-                CostGrade = settings['Cost Grade'],
-                ValueScore = settings['Value Score'],
-                RiskScore = settings['Risk Score'],
-                BlendedScore = settings['Blended Score'],
-                CalcPriority = settings['Calc Priority'],
+                CostGrade = settings['CostGrade'],
+                ValueScore = settings['ValueScore'],
+                RiskScore = settings['RiskScore'],
+                BlendedScore = settings['BlendedScore'],
+                CalcPriority = settings['CalcPriority'],
                 OverridedPriority = 2) 
             
             instance.accuracy = val_acc*100
