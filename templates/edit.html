@@ -624,9 +624,61 @@ $(document).ready(function($)
 			name.focus();
 			name.after(alert_msg('Enter ID'));
 		}
-		else if(isNaN(tco.html())){
+		else if(isNaN(tco.html()) && tco.html()!= ''){
 			tco.focus();
-			tco.after(alert_msg('Enter numeric value'))
+			tco.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(tvo.html()) && tvo.html()!= ''){
+			tvo.focus();
+			tvo.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(capex.html()) && capex.html()!= ''){
+			capex.focus();
+			capex.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(onetime.html()) && onetime.html()!= ''){
+			onetime.focus();
+			onetime.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(revenue.html()) && revenue.html()!= ''){
+			revenue.focus();
+			revenue.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(saving.html()) && saving.html()!= ''){
+			saving.focus();
+			saving.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(avoid.html()) && avoid.html()!= ''){
+			avoid.focus();
+			avoid.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(pp.html()) && pp.html()!= ''){
+			pp.focus();
+			pp.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(roi.html()) && roi.html()!= ''){
+			roi.focus();
+			roi.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(costgrade.html()) && costgrade.html()!= ''){
+			costgrade.focus();
+			costgrade.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(valuescore.html()) && valuescore.html()!= ''){
+			valuescore.focus();
+			valuescore.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(riskscore.html()) && riskscore.html()!= ''){
+			riskscore.focus();
+			riskscore.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(blendedscore.html()) && blendedscore.html()!= ''){
+			blendedscore.focus();
+			blendedscore.after(alert_msg('Enter a numeric value'))
+		}
+		else if(isNaN(calcpriority.html()) && calcpriority.html()!= ''){
+			calcpriority.focus();
+			calcpriority.after(alert_msg('Enter a numeric value'))
 		}
 		else if(overridedpriority.html() == "")
 		{
