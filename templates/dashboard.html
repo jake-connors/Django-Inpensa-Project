@@ -116,7 +116,7 @@ button{
                         </div>
                 </div>
 
-                    <div class="row">
+                    <div class="row" id="row3">
                             <div class="col-lg-6 mb-4" style="z-index: 5">
                             <!-- Set List -->
                             <div class="card shadow mb-4" style="height:90vh; width:100%">
@@ -498,6 +498,9 @@ button{
         document.getElementById('highcharts-figure-s').style.display = 'none';
         document.getElementById('highcharts-figure-b').style.display = 'none';
         document.getElementById('row2').style.display = 'none';
+    }
+    if (budget_values_total.length == 1 && sets2_data.length == 0){
+        document.getElementById('row3').style.width = '85vw';
     }
 </script>
 <script>
