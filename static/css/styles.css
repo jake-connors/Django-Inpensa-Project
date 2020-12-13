@@ -29,7 +29,7 @@ h3 {
 	font-size: 26px;
 	color: #636363;
 }
-input[type=text], input[type=password], input[type=email]{
+input[type=text], input[type=password], input[type=email], input[type=number]{
 	width: 100%;
 	padding: 12px 20px;
 	margin: 5px 0;
