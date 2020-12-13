@@ -125,7 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATICFILES_DIRS = [
-    "repo-django/static"
+    "/Users/jakeconnors/DJANGO/eb/ebdjango/static"
 ]
 
 
