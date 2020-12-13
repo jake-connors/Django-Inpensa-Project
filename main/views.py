@@ -271,12 +271,12 @@ def predict(request):
                 'Revenue' : model1.Revenue,
                 'Saving' : model1.Saving,
                 'Avoid' : model1.Avoid,
-                'Cost Grade' : model1.CostGrade,
-                'Value Score' : model1.ValueScore,
-                'Risk Score' : model1.RiskScore,
-                'Blended Score' : model1.BlendedScore,
-                'Calc Priority': model1.CalcPriority,
-                'Overrided Priority' : model1.OverridedPriority
+                'CostGrade' : model1.CostGrade,
+                'ValueScore' : model1.ValueScore,
+                'RiskScore' : model1.RiskScore,
+                'BlendedScore' : model1.BlendedScore,
+                'CalcPriority': model1.CalcPriority,
+                'OverridedPriority' : model1.OverridedPriority
                 }
 
                 df = pd.DataFrame(datapoints)
@@ -345,11 +345,11 @@ def cmodel(request):
             'Revenue' : request.POST['Revenue'],
             'Saving' : request.POST['Saving'],
             'Avoid' : request.POST['Avoid'],
-            'Cost Grade' : request.POST['CostGrade'],
-            'Value Score' : request.POST['ValueScore'],
-            'Risk Score' : request.POST['RiskScore'],
-            'Blended Score' : request.POST['BlendedScore'],
-            'Calc Priority': request.POST['CalcPriority']
+            'CostGrade' : request.POST['CostGrade'],
+            'ValueScore' : request.POST['ValueScore'],
+            'RiskScore' : request.POST['RiskScore'],
+            'BlendedScore' : request.POST['BlendedScore'],
+            'CalcPriority': request.POST['CalcPriority']
             }
             data = data.fillna(0)
             features = 17
