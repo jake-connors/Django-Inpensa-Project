@@ -70,7 +70,10 @@ button{
     height: 50% !important;
     width: 100% !important;
 }
-
+.row{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
 
 
 </style>
@@ -83,7 +86,7 @@ button{
                     <div class="row" id="row1">
                         <!-- Content Column -->
                         <!-- top figure -->
-                        <div class="card shadow mb-4" style="height: 42vh; min-width: 85.5vw; margin-left: auto; margin-right: auto">
+                        <div class="card shadow mb-4" style="height: 42vh; min-width: 84.4vw; margin-left: auto; margin-right: auto">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Portfolios</h6>
                             </div>
@@ -96,9 +99,13 @@ button{
 
                     </div>
                     <!--Other two figures -->
+<<<<<<< HEAD
                     <div class="row" id="row2" style="margin-left: -.5vw">
+=======
+                    <div class="row" id='row2' style="margin-left: -.5vw">
+>>>>>>> 454f99a8b1c8dd962a0a8248c184b584e611ddb1
                         <div class="col-lg-6 mb-4" style="margin-bottom: 0 !important">
-                            <div class="card shadow mb-4" style="height: 42vh; min-width: 85.5vw">
+                            <div class="card shadow mb-4" style="height: 42vh; min-width: 84.5vw">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Models</h6>
                                 </div>
@@ -109,20 +116,20 @@ button{
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 mb-4" style="margin-top: 8.6vh; float: right; margin-bottom: 0 !important">
+                        <div class="col-lg-6 mb-4" style="margin-top: 8.4vh; float: right; margin-bottom: 0 !important">
                                     <figure class="highcharts-figure-bar" id="highcharts-figure-b">
                                         <div id="containerAccuracy"></div>
                                     </figure>
                         </div>
                 </div>
 
-                    <div class="row">
+                    <div class="row" id="row3">
                             <div class="col-lg-6 mb-4" style="z-index: 5">
                             <!-- Set List -->
                             <div class="card shadow mb-4" style="height:90vh; width:100%">
                                 <div class="card-header py-3">
                                     <div style="float:left">
-                                        <h6 class="m-0 font-weight-bold text-primary">My Portfolios</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Portfolio Overview</h6>
                                     </div>
                                     <div style="float:right" style="margin:0 auto; padding:0; border:0">
                                         <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 4px; width:100%">
@@ -141,7 +148,7 @@ button{
                                                         <label style="width:33%; font-size: 15px; margin-left: -5%" for="dataname">Portfolio Name:</label>
                                                         <input style="width:65%; height:10px; size:50; padding:4; margin-top:0; float:right" type="text" name="name" required><br><br>
                                                         <label style="width:33%; font-size: 15px; margin-left: -5%" for="dataname">Available Budget:</label>
-                                                        <input style="width:65%; height:10px; size:50; padding:4; margin-top:0; float:right" type="text" name="budget" required><br><br>
+                                                        <input style="width:65%; height:27px; size:50; padding:4; margin-top:0; float:right; border: 1px solid #ccc; " type="number" name="budget" required><br><br>
                                                         <input type="file" id="dataFile" name="Project Data" accept=".csv, .xlsx" style="float: left;  margin-bottom:-10%">
                                                         <input type="submit" value="Submit File" style="float:right;  padding-bottom: 0px">
                                                     </form>
@@ -188,12 +195,12 @@ button{
                             </div>
                         </div>
 
-                        <div class="col-lg-6 mb-4" style="z-index: 4;float:left">
+                        <div class="col-lg-6 mb-4" id = "modelblock" style="z-index: 4;float:left">
 
                             <!-- Model List -->
                             <div class="card shadow mb-4" style="height: 90vh">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Model List</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Model Overview</h6>
                                 </div>
                                 <div class="card-body" style="overflow-y:auto; max-height: 90vh; overflow-x: hidden">
                                     <div class="model_list">
@@ -494,11 +501,23 @@ button{
     if (budget_values_total.length == 1) {
         document.getElementById('highcharts-figure-c').style.display = 'none';
         document.getElementById('row1').style.display = 'none';
+<<<<<<< HEAD
+=======
+        $(document).find('.portfolio_list').html('You currently have no portfolio to work with. To begin please upload your portfolio using the "Upload Portfolio" on the top right.');
+>>>>>>> 454f99a8b1c8dd962a0a8248c184b584e611ddb1
     }
     if (sets2_data.length == 0) {
         document.getElementById('highcharts-figure-s').style.display = 'none';
         document.getElementById('highcharts-figure-b').style.display = 'none';
         document.getElementById('row2').style.display = 'none';
+<<<<<<< HEAD
+=======
+        document.getElementById('modelblock').style.display = 'none';
+
+    }
+    if (budget_values_total.length == 1 && sets2_data.length == 0){
+        document.getElementById('row3').style.width = '84.4vw';
+>>>>>>> 454f99a8b1c8dd962a0a8248c184b584e611ddb1
     }
 </script>
 <script>
