@@ -191,7 +191,7 @@ button{
                             </div>
                         </div>
 
-                        <div class="col-lg-6 mb-4" style="z-index: 4;float:left">
+                        <div class="col-lg-6 mb-4" id = "modelblock" style="z-index: 4;float:left">
 
                             <!-- Model List -->
                             <div class="card shadow mb-4" style="height: 90vh">
@@ -496,11 +496,14 @@ button{
     if (budget_values_total.length == 1) {
         document.getElementById('highcharts-figure-c').style.display = 'none';
         document.getElementById('row1').style.display = 'none';
+        $(document).find('.portfolio_list').html('You currently have no portfolio to work with. To begin please upload your portfolio using the "Upload Portfolio" on the top right.');
     }
     if (sets2_data.length == 0) {
         document.getElementById('highcharts-figure-s').style.display = 'none';
         document.getElementById('highcharts-figure-b').style.display = 'none';
         document.getElementById('row2').style.display = 'none';
+        document.getElementById('modelblock').style.display = 'none';
+
     }
     if (budget_values_total.length == 1 && sets2_data.length == 0){
         document.getElementById('row3').style.width = '84.4vw';
