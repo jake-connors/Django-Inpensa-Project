@@ -19,7 +19,6 @@ from sklearn.utils import resample
 import os
 import json.encoder
 from django.views.decorators.csrf import csrf_exempt
-import random
 # Create your views here.
 
 def login(request):
@@ -415,7 +414,7 @@ def cmodel(request):
 
             acc = history.history['accuracy']
             val_acc = history.history.get('val_accuracy')[-1]
-            
+            import random
             model_location = "static/data/saved_models/"+str(request.user.username)+"_"+str(request.POST['modname'])+"_"+str(random.randrange(100,999,3))+".h5"
             model_location = model_location.replace(" ", "")
             model1.save(model_location)
@@ -577,7 +576,11 @@ def edit_single_data(request):
         instance.TCO = (instance.CapEx+ instance.OneTime+instance.OnGoing) 
         instance.TVO = (instance.Revenue +instance.Saving+instance.Avoid)
         instance.NET = (instance.TVO - instance.TCO)
-        instance.ROI = (instance.NET/instance.TCO)*100
+        try:
+            instance.ROI = (float(instance.NET)/float(instance.TCO))*100
+        except Exception:
+            instance.ROI = instance.ROI
+        
         instance.save()
         dsid = instance.dsid
         instance2 = dataset.objects.get(id = dsid.id)
@@ -598,7 +601,10 @@ def edit_whole_data(request):
         instance.TVO = (float(request.POST.get('Revenue')) +float(request.POST.get('Saving')) +float(request.POST.get('Avoid')))
         instance.NET = (instance.TVO - instance.TCO)
         instance.PP = float(request.POST.get('PP'))
-        instance.ROI = (instance.NET/instance.TCO)*100
+        try:
+            instance.ROI = (instance.NET/float(instance.TCO))*100
+        except Exception:
+            instance.ROI = float(request.POST['ROI'])
         instance.CapEx = float(request.POST.get('CapEx'))
         instance.OneTime = float(request.POST.get('OneTime'))
         instance.OnGoing = float(request.POST.get('OnGoing'))
@@ -708,7 +714,11 @@ def add_row(request):
             instance.TCO = (instance.CapEx+ instance.OneTime+instance.OnGoing) 
             instance.TVO = (instance.Revenue +instance.Saving+instance.Avoid)
             instance.NET = (instance.TVO - instance.TCO)
-            instance.ROI = (instance.NET/float(instance.TCO))*100
+            try:
+                instance.ROI = (instance.NET/float(instance.TCO))*100
+            except Exception:
+                instance.ROI = float(request.POST['roi'])
+            
             
             
             instance.save()
