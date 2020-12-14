@@ -345,11 +345,11 @@ def cmodel(request):
             'Revenue' : request.POST['Revenue'],
             'Saving' : request.POST['Saving'],
             'Avoid' : request.POST['Avoid'],
-            'CostGrade' : request.POST['CostGrade'],
-            'ValueScore' : request.POST['ValueScore'],
-            'RiskScore' : request.POST['RiskScore'],
-            'BlendedScore' : request.POST['BlendedScore'],
-            'CalcPriority': request.POST['CalcPriority']
+            'Cost Grade' : request.POST['CostGrade'],
+            'Value Score' : request.POST['ValueScore'],
+            'Risk Score' : request.POST['RiskScore'],
+            'Blended Score' : request.POST['BlendedScore'],
+            'Calc Priority': request.POST['CalcPriority']
             }
             data = data.fillna(0)
             features = 17
@@ -434,11 +434,11 @@ def cmodel(request):
                 Revenue = settings['Revenue'],
                 Saving = settings['Saving'],
                 Avoid = settings['Avoid'],
-                CostGrade = settings['CostGrade'],
-                ValueScore = settings['ValueScore'],
-                RiskScore = settings['RiskScore'],
-                BlendedScore = settings['BlendedScore'],
-                CalcPriority = settings['CalcPriority'],
+                CostGrade = settings['Cost Grade'],
+                ValueScore = settings['Value Score'],
+                RiskScore = settings['Risk Score'],
+                BlendedScore = settings['Blended Score'],
+                CalcPriority = settings['Calc Priority'],
                 OverridedPriority = 2) 
             
             instance.accuracy = val_acc*100
