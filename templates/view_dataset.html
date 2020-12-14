@@ -135,11 +135,13 @@
     border-radius:3px !important;
     background-color: #e6e6e6 !important;
     color: black;
-    position: relative;
+    position: absolute;
     text-align: center;
     width: 95%;
-    height: 8%;
-    top: 5px;
+    height: 4%;
+    bottom: 3vh !important;
+    left: 1vw;
+    display: inline-block;
   }
   .btn {
     all:unset;
@@ -148,11 +150,13 @@
     border-radius:3px !important;
     background-color: #e6e6e6 !important;
     color: black;
-    position: relative;
-    bottom: 15px !important; 
+    position: absolute;
+    bottom: 8vh !important; 
+    left: 1vw;
     text-align: center;
     width: 95%;
-    height: 8%;
+    height: 4%;
+    display: inline-block;
   }
   .esc {
     all:unset;
@@ -462,9 +466,9 @@ td{
             </div>
             <input id="ex16-enabled" name="CalcPriority" class="excludeBtn" type="checkbox" value=0 style="margin-top:2%;"/><br>
             <hidden id="datasetid" name="dsid", name={{dataset}}></hidden>
-            <button type="submit" class="btn" style="font-size:110%">Submit</button>
-            <button type="button" class="btn cancel" id="cancel" style="font-size:110%" onclick="closeForm()">Close</button>
           </div>
+          <button type="submit" class="btn" style="font-size:110%">Submit</button>
+          <button type="button" class="btn cancel" id="cancel" style="font-size:110%" onclick="closeForm()">Close</button>
       </form>
       </div>
     </div>
