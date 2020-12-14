@@ -507,7 +507,7 @@ td{
       });
       $("#ex7").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
       $("#ex7-enabled").click(function() {
-        if(this.checked) { $("#ex7").slider("disable"); document.getElementById("slide7").style.display = "0.1"; }
+        if(this.checked) { $("#ex7").slider("disable"); document.getElementById("slide7").style.opacity = "0.1"; }
         else { $("#ex7").slider("enable"); document.getElementById("slide7").style.opacity = ""; }
       });
       $("#ex8").slider({ticks: [1, 2, 3], ticks_labels: ["Low", "Default", "High"], ticks_snap_bounds: 1});
