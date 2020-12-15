@@ -110,7 +110,7 @@ button{
                                     <div class="col-lg-6 mb-4" style="float:left; margin-bottom: 0 !important">
 
                                     <figure class="highcharts-figure-scatter" id="highcharts-figure-s">
-                                        <div id="containerScatter"></div>
+                                        <div id="containerScatter" class="containScatter"></div>
                                     </figure>
                                     </div>
                                     <div class="col-lg-6 mb-4" style="float: right; margin-bottom: 0 !important">
@@ -330,7 +330,7 @@ button{
     }
     
 
-    Highcharts.chart('container', {
+    var chartCombo = Highcharts.chart('container', {
         chart: {
             type: 'pie'
         },
@@ -383,7 +383,7 @@ button{
     if (sets2_data.length > 7) {
         condition = false;
     }
-    Highcharts.chart('containerScatter', {
+    var chartScatter = Highcharts.chart('containerScatter', {
         chart: {
             type: 'scatter',
             zoomType: 'xy'
@@ -445,7 +445,7 @@ button{
         series: seriesScatter
     });
 
-    Highcharts.chart('containerAccuracy', {
+    var chartBars = Highcharts.chart('containerAccuracy', {
         chart: {
             type: 'column'
         },
@@ -508,20 +508,18 @@ button{
     if (budget_values_total.length == 1 && sets2_data.length == 0){
         document.getElementById('row3').style.width = '84.4vw';
     }
-    if (sets2_data.length > 7) {
-        /*
-        var test = document.getElementsByClassName("highcharts-legend");
-        for(var i = 0; i < test.length; i++) {
-            test[i].style.display = 'none';
-        } */
 
-    }
 </script>
 <script>
+    //$('#containerScatter').load(document.URL +  '#containerScatter');
+    //chart.setSize(['80%']);
     document.getElementById('container').style.height = '100%';
     var test = document.getElementsByClassName('highcharts-root');
     for(var i = 0; i < test.length; i++){
         test[i].style.height = "32vh";
     }
+    chartScatter.reflow();
+    chartBars.reflow();
+    chartCombo.reflow();
 </script>
 {% endblock %}
