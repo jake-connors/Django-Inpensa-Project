@@ -88,7 +88,7 @@ button{
                         <!-- top figure -->
                         <div class="card shadow mb-4" style="height: 42vh; min-width: 84.4vw; margin-left: auto; margin-right: auto">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Portfolios</h6>
+                                <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Portfolio Overview</h6>
                             </div>
                             <div class="card-body">
                             <figure class="highcharts-figure-combo" id="highcharts-figure-c">
@@ -100,23 +100,28 @@ button{
                     </div>
                     <!--Other two figures -->
                     <div class="row" id='row2' style="margin-left: -.5vw">
-                        <div class="col-lg-6 mb-4" style="margin-bottom: 0 !important">
-                            <div class="card shadow mb-4" style="height: 42vh; min-width: 84.5vw">
+                        
+                        
+                             <div class="card shadow mb-4" style="height: 42vh; min-width: 84.5vw">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Models</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Model Overview</h6>
                                 </div>
-                                <div class="card-body" style="width: 40vw; float:left">
+                                <div class="card-body" style="height: 42vh; min-width: 84.5vw" >
+                                    <div class="col-lg-6 mb-4" style="float:left; margin-bottom: 0 !important">
+
                                     <figure class="highcharts-figure-scatter" id="highcharts-figure-s">
                                         <div id="containerScatter"></div>
                                     </figure>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4" style="margin-top: 8.4vh; float: right; margin-bottom: 0 !important">
+                                    </div>
+                                    <div class="col-lg-6 mb-4" style="float: right; margin-bottom: 0 !important">
                                     <figure class="highcharts-figure-bar" id="highcharts-figure-b">
                                         <div id="containerAccuracy"></div>
                                     </figure>
-                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        
                 </div>
 
                     <div class="row" id="row3">
@@ -125,7 +130,7 @@ button{
                             <div class="card shadow mb-4" style="height:90vh; width:100%">
                                 <div class="card-header py-3">
                                     <div style="float:left">
-                                        <h6 class="m-0 font-weight-bold text-primary">Portfolio Overview</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Portfolio List</h6>
                                     </div>
                                     <div style="float:right" style="margin:0 auto; padding:0; border:0">
                                         <div class="btn btn-primary btn-icon-split" style="height:30px; margin-bottom: 4px; width:100%">
@@ -145,7 +150,7 @@ button{
                                                         <input style="width:65%; height:10px; size:50; padding:4; margin-top:0; float:right" type="text" name="name" required><br><br>
                                                         <label style="width:33%; font-size: 15px; margin-left: -5%" for="dataname">Available Budget:</label>
                                                         <input style="width:65%; height:27px; size:50; padding:4; margin-top:0; float:right; border: 1px solid #ccc; " type="number" name="budget" required><br><br>
-                                                        <input type="file" id="dataFile" name="Project Data" accept=".csv, .xlsx" style="float: left;  margin-bottom:-10%">
+                                                        <input type="file" id="dataFile" name="Project Data" accept=".csv, .xlsx" style="float: left;  margin-bottom:-10%" required>
                                                         <input type="submit" value="Submit File" style="float:right;  padding-bottom: 0px">
                                                     </form>
                                             </div>
@@ -196,7 +201,7 @@ button{
                             <!-- Model List -->
                             <div class="card shadow mb-4" style="height: 90vh">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Model Overview</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="padding-bottom: 15px">Model List</h6>
                                 </div>
                                 <div class="card-body" style="overflow-y:auto; max-height: 90vh; overflow-x: hidden">
                                     <div class="model_list">

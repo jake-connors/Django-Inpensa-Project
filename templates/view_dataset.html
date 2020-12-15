@@ -717,9 +717,9 @@ $(document).ready(async function($)
             
             
             tbl +='<td ><div class="row_data"  style="text-align: right;"col_name="CostGrade">'+formatter.format(val['CostGrade'])+'</div></td>';
-            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="ValueScore">'+val['ValueScore']+'</div></td>';
-            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="RiskScore">'+val['RiskScore']+'</div></td>';
-            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="BlendedScore">'+val['BlendedScore']+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="ValueScore">'+val['ValueScore'].toFixed(2)+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="RiskScore">'+val['RiskScore'].toFixed(2)+'</div></td>';
+            tbl +='<td ><div class="row_data"  style="text-align: left" col_name="BlendedScore">'+val['BlendedScore'].toFixed(3)+'</div></td>';
             tbl +='<td ><div class="row_data"  style="text-align: left" col_name="CalcPriority">'+val['CalcPriority']+'</div></td>';
             tbl +='<td ><div class="row_data"  style="text-align:left" col_name="OverridedPriority">'+val['OverridedPriority']+'</div></td>';
             if(val['accepted'] ==1){

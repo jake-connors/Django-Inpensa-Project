@@ -91,9 +91,10 @@ def dash(request):
         sorted_models = df4.to_dict('records');
         if(df.shape[0]!= 0):
             df = df[['name', 'accuracy', 'features']]
+            df= df.sort_values(by=['accuracy'], ascending=False)
             if(df.shape[0]>5):
                 df= df.head()
-            df= df.sort_values(by=['accuracy'], ascending=False)
+            
             model_info = df.to_dict('records')
         else:
             model_info=0
