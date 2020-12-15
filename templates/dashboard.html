@@ -272,19 +272,10 @@ button{
         </div>
     </div>
 <script>
-    // Sends a 0 when no datasets or models (sets2, model_info, budget_data... make the charts not show up)
-
-    // if (JSON.parse("{{sets2|escapejs}}")[0].dsid == 0)
-
-
-
-
     var bar_model_data =JSON.parse("{{model_info|escapejs}}");
     var sets2_data = JSON.parse("{{sets2|escapejs}}");
     var budget_data = JSON.parse("{{budget_info|escapejs}}");
 
-
-    
     var color_ary = [ '#14BDEB', '#9883E5', '#253C78', '#7CFFC4', '#EF7A85' ];
     var pieModelsInner = [];
     var bar_model_names = [];
@@ -292,6 +283,7 @@ button{
     var budget_values_approved = [];
     var budget_values_remaining = [];
     var bar_chart_data = [];
+    var seriesScatter = [];
 
     bar_model_names.push('');
     budget_values_total.push(0);
@@ -317,7 +309,7 @@ button{
         color: '#FFFFFF'
     });
 
-    var seriesScatter = [];
+
     $.each(sets2_data, function (index, val){
         seriesScatter.push({
             name: val['name'],
@@ -331,6 +323,7 @@ button{
     for (i = 0; i < bar_model_data.length; i += 1) {
         bar_chart_data.push([''+bar_model_data[i].name, bar_model_data[i].accuracy]);
     }
+    
 
     Highcharts.chart('container', {
         chart: {
@@ -381,7 +374,10 @@ button{
         }]
     });
     
-
+    var condition = true;
+    if (sets2_data.length > 7) {
+        condition = false;
+    }
     Highcharts.chart('containerScatter', {
         chart: {
             type: 'scatter',
@@ -406,12 +402,13 @@ button{
         },
         yAxis: {
             title: {
-                text: 'Accuracy %'
+                text: 'Accuracy (%)'
             },
-            min: 55,
+            min: 45,
             max: 100
         },
         legend: {
+            enabled: condition,
             itemStyle: {
                 color: '#000000',
                 fontSize: 13
@@ -427,19 +424,16 @@ button{
                         hover: {
                             enabled: true,
                             lineColor: 'rgb(100,100,100)'
-                        }
-                    }
-                },
-                states: {
-                    hover: {
-                        marker: {
-                            enabled: false
+                        },
+                        normal: {
+                            radius: 0
                         }
                     }
                 },
                 tooltip: {
                     headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: '{point.x} features, {point.y:.2f} %'
+                    pointFormat: '{point.x} features, {point.y:.2f} %',
+                    snap: 1
                 }
             }
         },
@@ -508,6 +502,14 @@ button{
     }
     if (budget_values_total.length == 1 && sets2_data.length == 0){
         document.getElementById('row3').style.width = '84.4vw';
+    }
+    if (sets2_data.length > 7) {
+        /*
+        var test = document.getElementsByClassName("highcharts-legend");
+        for(var i = 0; i < test.length; i++) {
+            test[i].style.display = 'none';
+        } */
+
     }
 </script>
 <script>
